@@ -143,7 +143,14 @@
         </div>
 
 
+        <div class="container-fluid divider">
 
+            <div class="container">
+                <div class="row">
+                    <h2>Browse:</h2>
+                </div>
+            </div>
+        </div>
 
 
 
@@ -151,27 +158,17 @@
 
 
         <div class="container">
-            <!-- Example row of columns -->
+            <!-- search results -->
+            <div class="row" id="results">
+
+                <!-- THUMBNAILS HERE -->
+
+            </div>
+
             <div class="row">
-                <div class="col-md-4">
-                    <h2>Heading</h2>
-                    <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-                    </p>
-                    <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-                </div>
-                <div class="col-md-4">
-                    <h2>Heading</h2>
-                    <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-                    </p>
-                    <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-                </div>
-                <div class="col-md-4">
-                    <h2>Heading</h2>
-                    <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit
-                        amet risus.
-                    </p>
-                    <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-                </div>
+                <p align="center">
+                    <a href="#"><button class="btn btn-primary btn-lg bigcenter">View All</button></a>
+                </p>
             </div>
 
             <hr />
@@ -180,9 +177,9 @@
                 <div class="nsf-logo-footer pull-left">
                     <img src="img/nsf.png" height="80" width="80" />
                 </div>
-                <span class="pull-left nsf-info"><a href="#">Award # XXXXXXXX</a>
+                <span class="pull-left nsf-info"><a href="https://www.nsf.gov/awardsearch/showAward?AWD_ID=1349111&HistoricalAwards=false" target="_blank">Award #1349111</a>
                 <br />
-                <h6>Lazo-Wasem, Drew</h6></span>
+                <h6>(Buss, Lazo-Wasem, Drew)</h6></span>
 
             </div>
 
@@ -193,11 +190,38 @@
         <!--<p>&copy; Company 2015</p>-->
     </footer>
     <!-- /container -->
+
+
+    <!-- Thumbnail content template -->
+
+    <script type="text/content" id="thumbnail-template">
+        <div class="col-md-3 col-sm-4 col-xs-6">
+            <a href="%%URL%%">
+                <div class="thumbnail" id="%%GUID%%" style="background-image:url('%%IMG%%')">
+                    <img class="thumbnail-hoverimg" src="%%HOVERIMGTYPE%%" />
+                    <div class="thumbnail-label">
+                        <p class="thumbnail-label-id">%%ID%%</p>
+                        <p class="thumbnail-label-scientificname">%%SCINAME%%</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </script>
+
+
+
+
+
+
+
+
+
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script>
         window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')
     </script>
 
+    <script src="js/vendor/lodash.min.js"></script>
     <script src="js/vendor/bootstrap.min.js"></script>
     <script src="js/vendor/jqcloud.js"></script>
 
