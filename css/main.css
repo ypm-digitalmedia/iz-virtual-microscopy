@@ -1,22 +1,350 @@
+/*--------------------------------------------------------------
+MALLORY FONTS (Mallory normal) - AM
+--------------------------------------------------------------*/
+
+@font-face {
+    font-family: 'Mallory Thin';
+    src: url('../fonts/MalloryWebFinal/mallory-thin-webfont.woff2') format('woff2'), url('../fonts/MalloryWebFinal/mallory-thin-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Mallory Thin Italic';
+    src: url('../fonts/MalloryWebFinal/mallory-thinitalic-webfont.woff2') format('woff2'), url('../fonts/MalloryWebFinal/mallory-thinitalic-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Mallory Extra Light';
+    src: url('../fonts/MalloryWebFinal/mallory-extralight-webfont.woff2') format('woff2'), url('../fonts/MalloryWebFinal/mallory-extralight-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Mallory Extra Light Italic';
+    src: url('../fonts/MalloryWebFinal/mallory-extralightitalic-webfont.woff2') format('woff2'), url('../fonts/MalloryWebFinal/mallory-extralightitalic-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Mallory Light';
+    src: url('../fonts/MalloryWebFinal/mallory-light-webfont.woff2') format('woff2'), url('../fonts/MalloryWebFinal/mallory-light-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Mallory Light Italic';
+    src: url('../fonts/MalloryWebFinal/mallory-lightitalic-webfont.woff2') format('woff2'), url('../fonts/MalloryWebFinal/mallory-lightitalic-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Mallory Book';
+    src: url('../fonts/MalloryWebFinal/mallory-book-webfont.woff2') format('woff2'), url('../fonts/MalloryWebFinal/mallory-book-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Mallory Book Italic';
+    src: url('../fonts/MalloryWebFinal/mallory-bookitalic-webfont.woff2') format('woff2'), url('../fonts/MalloryWebFinal/mallory-bookitalic-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Mallory Medium';
+    src: url('../fonts/MalloryWebFinal/mallory-medium-webfont.woff2') format('woff2'), url('../fonts/MalloryWebFinal/mallory-medium-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Mallory Medium Italic';
+    src: url('../fonts/MalloryWebFinal/mallory-mediumitalic-webfont.woff2') format('woff2'), url('../fonts/MalloryWebFinal/mallory-mediumitalic-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Mallory Bold';
+    src: url('../fonts/MalloryWebFinal/mallory-bold-webfont.woff2') format('woff2'), url('../fonts/MalloryWebFinal/mallory-bold-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Mallory Bold Italic';
+    src: url('../fonts/MalloryWebFinal/mallory-bolditalic-webfont.woff2') format('woff2'), url('../fonts/MalloryWebFinal/mallory-bolditalic-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Mallory Black';
+    src: url('../fonts/MalloryWebFinal/mallory-black-webfont.woff2') format('woff2'), url('../fonts/MalloryWebFinal/mallory-black-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Mallory Black Italic';
+    src: url('../fonts/MalloryWebFinal/mallory-blackitalic-webfont.woff2') format('woff2'), url('../fonts/MalloryWebFinal/mallory-blackitalic-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Mallory Ultra';
+    src: url('../fonts/MalloryWebFinal/mallory-ultra-webfont.woff2') format('woff2'), url('../fonts/MalloryWebFinal/mallory-ultra-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Mallory Ultra Italic';
+    src: url('../fonts/MalloryWebFinal/mallory-ultraitalic-webfont.woff2') format('woff2'), url('../fonts/MalloryWebFinal/mallory-ultraitalic-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
 
 
-/* ==========================================================================
-   Author's custom styles
-   ========================================================================== */
+/*--------------------------------------------------------------
+MALLORY FONTS (Mallory microplus) - AM
+--------------------------------------------------------------*/
+
+@font-face {
+    font-family: 'Mallory MP Light';
+    src: url('../fonts/MalloryWebFinal/mallorymp-light-webfont.woff2') format('woff2'), url('../fonts/MalloryWebFinal/mallorymp-light-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Mallory MP Light Italic';
+    src: url('../fonts/MalloryWebFinal/mallorymp-lightitalic-webfont.woff2') format('woff2'), url('../fonts/MalloryWebFinal/mallorymp-lightitalic-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Mallory MP Book';
+    src: url('../fonts/MalloryWebFinal/mallorymp-book-webfont.woff2') format('woff2'), url('../fonts/MalloryWebFinal/mallorymp-book-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Mallory MP Book Italic';
+    src: url('../fonts/MalloryWebFinal/mallorymp-bookitalic-webfont.woff2') format('woff2'), url('../fonts/MalloryWebFinal/mallorymp-bookitalic-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Mallory MP Medium';
+    src: url('../fonts/MalloryWebFinal/mallorymp-medium-webfont.woff2') format('woff2'), url('../fonts/MalloryWebFinal/mallorymp-medium-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Mallory MP Medium Italic';
+    src: url('../fonts/MalloryWebFinal/mallorymp-mediumitalic-webfont.woff2') format('woff2'), url('../fonts/MalloryWebFinal/mallorymp-mediumitalic-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Mallory MP Bold';
+    src: url('../fonts/MalloryWebFinal/mallorymp-bold-webfont.woff2') format('woff2'), url('../fonts/MalloryWebFinal/mallorymp-bold-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Mallory MP Bold Italic';
+    src: url('../fonts/MalloryWebFinal/mallorymp-bolditalic-webfont.woff2') format('woff2'), url('../fonts/MalloryWebFinal/mallorymp-bolditalic-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Mallory MP Black';
+    src: url('../fonts/MalloryWebFinal/mallorymp-black-webfont.woff2') format('woff2'), url('../fonts/MalloryWebFinal/mallorymp-black-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Mallory MP Black Italic';
+    src: url('../fonts/MalloryWebFinal/mallorymp-blackitalic-webfont.woff2') format('woff2'), url('../fonts/MalloryWebFinal/mallorymp-blackitalic-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
 
 
+/* -----------------------------------------------------------*/
+
+body {
+    padding-top: 70px;
+    font-family: "Mallory MP Light";
+    font-weight: normal;
+}
+
+a {
+    color: #0071bc;
+    font-family: "Mallory MP Bold";
+}
+
+header {
+    /*background-color: #dde6ee!important;
+    margin-top: -50px;
+    margin-bottom: -51px;*/
+}
+
+.navbar {
+    min-height: 70px!important;
+    background-color: #0071bc !important;
+    background-image: none !important;
+    filter: none !important;
+}
+
+footer {
+    background-color: #0071bc !important;
+    color: white;
+    padding: 1em;
+}
+
+.navbar-brand {
+    height: 70px!important;
+}
+
+#tagcloud {
+    width: 100%;
+    min-height: 200px;
+}
+
+hr {
+    color: #444!important;
+    border: none;
+    border-bottom: 1px #999 solid;
+}
+
+h1,
+h2 {
+    font-family: "Mallory Bold";
+    /*text-transform: uppercase;*/
+}
+
+h3,
+h4,
+h5,
+h6,
+strong {
+    font-family: "Mallory Book";
+}
+
+.title h1 {
+    margin-bottom: 5px;
+}
+
+.title h3 {
+    margin-top: 5px;
+    margin-bottom: 20px;
+}
+
+.nsf-logo {
+    margin-top: 16px;
+    margin-right: 10px;
+}
+
+.nsf-logo-footer {
+    margin-top: 0;
+    margin-right: 20px;
+    margin-bottom: 20px;
+}
+
+.nsf-info {
+    padding-top: 1.25em;
+}
 
 
+/* ========================================================= */
 
 
+/*                    BOOTSTRAP SEARCH FORM                  */
 
 
+/* ========================================================= */
+
+#adv-search {
+    float: left;
+}
+
+.searchlabel {
+    text-align: right;
+    margin: 0;
+}
+
+.dropdown.dropdown-lg .dropdown-menu {
+    margin-top: -1px;
+    padding: 6px 20px;
+}
+
+.input-group-btn .btn-group {
+    display: flex !important;
+}
+
+.btn-group .btn {
+    border-radius: 0;
+    margin-left: -1px;
+}
+
+.btn-group .btn:last-child {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+.btn-group .form-horizontal .btn[type="submit"] {
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
+
+.form-horizontal .form-group {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.form-group .form-control:last-child {
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
+
+@media screen and (min-width: 768px) {
+    #adv-search {
+        width: 500px;
+        margin: 0 auto;
+    }
+    .dropdown.dropdown-lg {
+        position: static !important;
+    }
+    .dropdown.dropdown-lg .dropdown-menu {
+        min-width: 500px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .searchlabel {
+        text-align: left;
+    }
+}
 
 
-
-
-
-
-
-
-
+/* ========================================================= */
