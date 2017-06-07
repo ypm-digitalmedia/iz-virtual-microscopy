@@ -40,7 +40,7 @@ $(document).ready(function() {
     ];
 
     _.forEach(tags, function(t) {
-        t.weight = _.random(5, 20);
+        t.weight = _.random(5, 15);
     })
 
     $('#tagcloud').jQCloud(tags, {
@@ -64,18 +64,18 @@ $(document).ready(function() {
     ];
 
     test_data = [
-        { sciName: "Phyllopodopsyllus sp.", id: "IZ.198151", guid: 6516516984961621, type: "zoomify", url: "#" },
-        { sciName: "Aedes sollicitans", id: "IZ.994751", guid: 658490165191651, type: "slider", url: "#" },
-        { sciName: "Cyathura polita", id: "IZ.984523", guid: 68794605494650, type: "zoomify", url: "#" },
-        { sciName: "Scottolana canadensis", id: "IZ.012672", guid: 97906519849801, type: "slider", url: "#" },
-        { sciName: "Gammarus palustrus", id: "IZ.123456", guid: 5665191849810, type: "slider", url: "#" },
-        { sciName: "Argiope sp.", id: "IZ.561987", guid: 44132104561, type: "zoomify", url: "#" },
-        { sciName: "Tubificoides wasselli", id: "IZ.317811", guid: 654104602619540, type: "zoomify", url: "#" },
-        { sciName: "Tubificoides benedeni", id: "IZ.884165", guid: 5108965189489040, type: "zoomify", url: "#" },
-        { sciName: "Gammarus sp.", id: "IZ.068465", guid: 103213134849890, type: "zoomify", url: "#" },
-        { sciName: "Aedes sp.", id: "IZ.884165", guid: 5695498498108940, type: "slider", url: "#" },
-        { sciName: "Cyathura sp.", id: "IZ.655872", guid: 4984891981980, type: "slider", url: "#" },
-        { sciName: "Tubificoides sp.", id: "IZ.108946", guid: 98798409598498049, type: "zoomify", url: "#" }
+        { title: "?", commonName: "Salty Clam", sciName: "Phyllopodopsyllus sp.", id: "IZ.198151", guid: 6516516984961621, type: "zoomify", url: "#" },
+        { title: "?", commonName: "Dereticulated Clownworm", sciName: "Aedes sollicitans", id: "IZ.994751", guid: 658490165191651, type: "slider", url: "#" },
+        { title: "?", commonName: "Common Sea Sponge", sciName: "Cyathura polita", id: "IZ.984523", guid: 68794605494650, type: "zoomify", url: "#" },
+        { title: "?", commonName: "Knifeworm", sciName: "Scottolana canadensis", id: "IZ.012672", guid: 97906519849801, type: "slider", url: "#" },
+        { title: "?", commonName: "Atlantic Horror of the Deep", sciName: "Gammarus palustrus", id: "IZ.123456", guid: 5665191849810, type: "slider", url: "#" },
+        { title: "?", commonName: "Greater Bloodsponge", sciName: "Argiope sp.", id: "IZ.561987", guid: 44132104561, type: "zoomify", url: "#" },
+        { title: "Sponge Spicules", commonName: "Some Kind of Crab", sciName: "Tubificoides wasselli", id: "IZ.317811", guid: 654104602619540, type: "zoomify", url: "#" },
+        { title: "?", commonName: "Sea Pickle", sciName: "Tubificoides benedeni", id: "IZ.884165", guid: 5108965189489040, type: "zoomify", url: "#" },
+        { title: "?", commonName: "Giant Barnacle", sciName: "Gammarus sp.", id: "IZ.068465", guid: 103213134849890, type: "zoomify", url: "#" },
+        { title: "?", commonName: "Praying Mantis Shrimp", sciName: "Aedes sp.", id: "IZ.884165", guid: 5695498498108940, type: "slider", url: "#" },
+        { title: "?", commonName: "Painted Sillyworm", sciName: "Cyathura sp.", id: "IZ.655872", guid: 4984891981980, type: "slider", url: "#" },
+        { title: "?", commonName: "False Crab", sciName: "Tubificoides sp.", id: "IZ.108946", guid: 98798409598498049, type: "zoomify", url: "#" }
     ];
 
     // var img = _.sample(test_images);
@@ -86,10 +86,12 @@ $(document).ready(function() {
         thumb = thumb.replace("%%GUID%%", "thumb_" + d.guid);
         thumb = thumb.replace("%%HOVERIMGTYPE%%", "img/thumbhover_" + d.type + ".png");
         thumb = thumb.replace("%%ID%%", d.id);
+        thumb = thumb.replace("%%COMNAME%%", d.commonName);
+        thumb = thumb.replace("%%TITLE%%", d.title == "?" ? d.commonName : d.title); // if title is blank, use common name
         thumb = thumb.replace("%%SCINAME%%", d.sciName);
         thumb = thumb.replace("%%URL%%", d.url);
 
-        console.log(thumb);
+        // console.log(thumb);
 
         $("#results").append(thumb);
     });
@@ -97,6 +99,15 @@ $(document).ready(function() {
     var cw = $('.thumbnail').eq(0).width();
     $('.thumbnail').css({ 'height': cw + 'px' });
 
+
+
+
+
+
+
+
+
+    // ==================================== EVENT LISTENERS ==================================== //
 
     $(window).resize(function() {
         var cw = $('.thumbnail').eq(0).width();

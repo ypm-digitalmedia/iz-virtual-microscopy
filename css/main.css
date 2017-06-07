@@ -209,17 +209,25 @@ header {
     margin-bottom: -51px;*/
 }
 
+.header-and-button {
+    display: inline-block;
+    width: 100%;
+}
+
 .navbar {
     min-height: 70px!important;
     background-color: #0071bc !important;
     background-image: none !important;
     filter: none !important;
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);
+    border-bottom: none;
 }
 
 footer {
     background-color: #0071bc !important;
     color: white;
     padding: 1em;
+    margin-bottom: -30px;
 }
 
 .divider {
@@ -294,6 +302,10 @@ strong {
     padding-top: 1.25em;
 }
 
+#pagination {
+    padding: 40px 0;
+}
+
 
 /* ========================================================= */
 
@@ -316,7 +328,7 @@ strong {
     background-repeat: no-repeat;
     background-size: cover;
     padding: 0;
-    margin-bottom: 4em;
+    margin-bottom: 6em;
 }
 
 .thumbnail-label {
@@ -339,6 +351,22 @@ strong {
     text-align: center;
     font-family: "Mallory MP Light";
     font-size: 14px;
+    color: black;
+}
+
+.thumbnail-label-commonname {
+    text-align: center;
+    font-family: "Mallory MP Light";
+    font-size: 11px;
+    font-style: italic;
+    color: black;
+}
+
+.thumbnail-label-title {
+    text-align: center;
+    font-family: "Mallory MP Book";
+    font-weight: 700;
+    font-size: 12px;
     color: black;
 }
 

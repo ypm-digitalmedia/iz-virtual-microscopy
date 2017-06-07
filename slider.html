@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+    <title>Microscope Demo</title>
+    <link rel="stylesheet" type="text/css" media="screen" href="files/jq.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="files/cycle.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="files/jquery-ui.structure.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="files/jquery-ui-slider-pips.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="files/roundslider.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="files/microscope.css">
+    <script type="text/javascript">
+        /* URL grabber function */
+
+        function qs(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            var results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        };
+
+        /* Configuration values */
+        // File location of images
+        var imageloadmessage = "";
+        var folderName = qs('slide');
+        var slide;
+
+        if (folderName) {
+            console.log(folderName);
+            slide = folderName
+            imageloadmessage = "<h1>Please wait while we load the microscope...</h1>";
+        } else {
+            console.log("no folder name");
+            imageloadmessage = "<h1>Invalid parameter.</h1>";
+        }
+
+
+        var docRoot = document.URL.substr(0, document.URL.lastIndexOf('/'));
+        var imagefolderlocation = docRoot + "/_photos/slider/" + slide;
+        // Name of the image
+        var imagename = "Plane";
+        // File type of the image
+        var imagetype = ".jpg";
+        // Set the maxmium height of the image
+        var imageheight = "800";
+        // Message to show the user while loading the images
+    </script>
+</head>
+
+<body>
+    <div id="main">
+        <div style="position: relative;" id="slideshow"></div>
+        <div id="slider" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all ui-slider-pips">
+            <div class="ui-slider-range ui-widget-header ui-corner-all ui-slider-range-min" style="width: 0%;"></div>
+            <span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0" style="left: 0%;"></span>
+            <span class="ui-slider-pip ui-slider-pip-first ui-slider-pip-label ui-slider-pip-0 ui-slider-pip-initial ui-slider-pip-selected" style="left: 0%"></span>
+        </div>
+
+        <div id="knob" class="rslider"></div>
+        <div id="precision_knob" class="rslider"></div>
+
+    </div>
+
+
+    <script src="files/jquery-1.10.2.js"></script>
+    <script src="files/jquery-ui.js"></script>
+    <script type="text/javascript" src="files/jquery.cycle.js"></script>
+    <script type="text/javascript" src="files/jquery-ui-slider-pips.js"></script>
+    <script type="text/javascript" src="files/jquery.blockUI.js"></script>
+    <script type="text/javascript" src="files/jquery.mousewheel.min.js"></script>
+    <script type="text/javascript" src="files/roundslider.min.js"></script>
+    <script type="text/javascript" src="files/microscope.js"></script>
+
+
+</body>
+
+</html>
