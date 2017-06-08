@@ -57,23 +57,25 @@
 </head>
 
 <body>
+    <div id="everything">
 
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <div id="top">
+            <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
             <span class="sr-only">Toggle navigation</span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-                <a class="navbar-brand" href="http://peabody.yale.edu" target="_blank">
-                    <img src="img/ypm_wordmark_single_small_white.png" />
-                </a>
-            </div>
-            <div id="navbar" class="navbar-collapse collapse">
-                <form class="navbar-form navbar-right" role="form">
-                    <!--<div class="form-group">
+                        <a class="navbar-brand" href="http://peabody.yale.edu" target="_blank">
+                            <img src="img/ypm_wordmark_single_small_white.png" />
+                        </a>
+                    </div>
+                    <div id="navbar" class="navbar-collapse collapse">
+                        <form class="navbar-form navbar-right" role="form">
+                            <!--<div class="form-group">
                         <input type="text" placeholder="Email" class="form-control">
                     </div>
                     <div class="form-group">
@@ -81,48 +83,51 @@
                     </div>
                     <button type="submit" class="btn btn-success">Sign in</button>-->
 
-                    <div class="form-group">
-                        <strong>Sliders: </strong>
-                        <select id="validSliders">
-                            <option value="#">select one...</option>
-                            <option value="">420984</option>
-                            <option value="">424789</option>
-                            <option value="">425809</option>
-                            <option value="">425816</option>
-                            <option value="">425817</option>
-                            <option value="">426566</option>
-                            <option value="">426909</option>
-                            <option value="">426910</option>
-                            <option value="">426911</option>
-                            <option value="">426912</option>
-                            <option value="">426913</option>
-                            <option value="">426915</option>
-                        </select>
+                            <div class="form-group">
+                                <strong>Sliders: </strong>
+                                <select id="validSliders">
+                                    <option value="#">select one...</option>
+                                    <option value="">420984</option>
+                                    <option value="">424789</option>
+                                    <option value="">425809</option>
+                                    <option value="">425816</option>
+                                    <option value="">425817</option>
+                                    <option value="">426566</option>
+                                    <option value="">426909</option>
+                                    <option value="">426910</option>
+                                    <option value="">426911</option>
+                                    <option value="">426912</option>
+                                    <option value="">426913</option>
+                                    <option value="">426915</option>
+                                </select>
+                                <!--<a href="./index.html"><button class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span>&nbsp;Back to Search</button></a>-->
+                            </div>
+
+                        </form>
                     </div>
+                    <!--/.navbar-collapse -->
+                </div>
+            </nav>
 
-                </form>
+            <!-- Top logo -->
+
+            <div class="container" class="toplogo">
+                <div class="nsf-logo pull-left">
+                    <img src="img/nsf.png" height="80" width="80" />
+                </div>
+                <div class="title pull-left">
+                    <h1>Invertebrate Zoology</h1>
+                    <h3>Virtual Microscopy</h3>
+                </div>
             </div>
-            <!--/.navbar-collapse -->
+
         </div>
-    </nav>
-
-    <main>
-
-        <!-- Top logo -->
-
-        <div class="container" class="toplogo">
-            <div class="nsf-logo pull-left">
-                <img src="img/nsf.png" height="80" width="80" />
-            </div>
-            <div class="title pull-left">
-                <h1>Invertebrate Zoology</h1>
-                <h3>Virtual Microscopy</h3>
-            </div>
-        </div>
+        <!-- /top -->
 
 
-        <div id="main">
-            <div style="position: relative;" id="slideshow"></div>
+        <div id="slideshow"></div>
+
+        <div id="controls">
             <div id="slider" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all ui-slider-pips">
                 <div class="ui-slider-range ui-widget-header ui-corner-all ui-slider-range-min" style="width: 0%;"></div>
                 <span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0" style="left: 0%;"></span>
@@ -131,13 +136,12 @@
 
             <div id="knob" class="rslider"></div>
             <div id="precision_knob" class="rslider"></div>
-
         </div>
 
-    </main>
-    <!--<footer>
-        &nbsp;
-    </footer>-->
+        <footer>&nbsp;</footer>
+
+    </div>
+
 
     <script type="text/javascript" src="js/vendor/jquery-1.10.2.js"></script>
     <script type="text/javascript" src="js/vendor/jquery-ui.js"></script>

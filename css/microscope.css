@@ -1,14 +1,35 @@
 @charset "utf-8";
+#everything {
+    height: calc(100vh-50px);
+    max-height: calc(100vh-50px);
+    overflow-y: hidden;
+    background-color: oldlace;
+}
 
-/* CSS Document */
+#controls {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    padding: 0 20px;
+    height: 220px;
+}
+
+#top {
+    width: 100%;
+    position: absolute;
+    height: 110px;
+}
 
 #slideshow {
-    margin: 0 auto;
-    margin-bottom: 15px;
+    position: absolute;
+    margin: 0 auto 15px 100px;
+    top: 160px;
+    bottom: 240px;
+    height: auto!important;
 }
 
 #main {
-    margin: 0 100px;
+    margin: 0;
     padding: 0;
 }
 
@@ -18,10 +39,12 @@ ui-slider-line {
 
 #slideshow img {
     display: none;
-    position: absolute;
-    top: 0px;
-    left: 0px;
+    /*position: absolute;*/
+    /*top: 0px;*/
+    /*left: 0px;*/
     opacity: 1;
+    height: 100%!important;
+    width: auto!important;
 }
 
 #slideshow img.first {
@@ -45,4 +68,17 @@ form {
 h1,
 h2 {
     padding: 0!important;
+}
+
+footer {
+    background-color: #0071bc !important;
+    color: white;
+    padding: 0!important;
+    margin-bottom: 0!important;
+    height: 20px!important;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    /*margin-left: -20px;
+    margin-right: -20px;*/
 }

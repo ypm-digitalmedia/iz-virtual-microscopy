@@ -96,7 +96,8 @@ function loadImages() {
         // console.log(url);
         code = urlExists(url);
         if (code == 200) {
-            $("#slideshow").append('<img style="position: absolute; top: 0px; left: 0px; z-index: ' + (x + 1) + '; opacity: 1;" src="' + url + '" height="' + imageheight + '">');
+            // $("#slideshow").append('<img style="position: absolute; top: 0px; left: 0px; z-index: ' + (x + 1) + '; opacity: 1;" src="' + url + '" height="' + imageheight + '">');
+            $("#slideshow").append('<img style="position: absolute; z-index: ' + (x + 1) + '; opacity: 1;" src="' + url + '">');
             maxFrames = parseInt(filenum);
             console.log("new image found: #" + maxFrames);
         }
