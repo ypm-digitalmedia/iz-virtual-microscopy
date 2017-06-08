@@ -4,13 +4,20 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
     <title>Microscope Demo</title>
-    <link rel="stylesheet" type="text/css" media="screen" href="files/jq.css">
-    <link rel="stylesheet" type="text/css" media="screen" href="files/cycle.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/jq.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/cycle.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/jquery-ui.css">
     <link rel="stylesheet" type="text/css" media="screen" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-    <link rel="stylesheet" type="text/css" media="screen" href="files/jquery-ui.structure.css">
-    <link rel="stylesheet" type="text/css" media="screen" href="files/jquery-ui-slider-pips.css">
-    <link rel="stylesheet" type="text/css" media="screen" href="files/roundslider.min.css">
-    <link rel="stylesheet" type="text/css" media="screen" href="files/microscope.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/jquery-ui.structure.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/jquery-ui-slider-pips.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/roundslider.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="css/mallory.css">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="css/main.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/microscope.css">
+
     <script type="text/javascript">
         /* URL grabber function */
 
@@ -30,10 +37,10 @@
         if (folderName) {
             console.log(folderName);
             slide = folderName
-            imageloadmessage = "<h1>Please wait while we load the microscope...</h1>";
+            imageloadmessage = "<h2>Please wait&hellip;<br />Microscope is loading.</h2>";
         } else {
             console.log("no folder name");
-            imageloadmessage = "<h1>Invalid parameter.</h1>";
+            imageloadmessage = "<h2>Invalid parameter.</h2>";
         }
 
 
@@ -50,28 +57,96 @@
 </head>
 
 <body>
-    <div id="main">
-        <div style="position: relative;" id="slideshow"></div>
-        <div id="slider" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all ui-slider-pips">
-            <div class="ui-slider-range ui-widget-header ui-corner-all ui-slider-range-min" style="width: 0%;"></div>
-            <span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0" style="left: 0%;"></span>
-            <span class="ui-slider-pip ui-slider-pip-first ui-slider-pip-label ui-slider-pip-0 ui-slider-pip-initial ui-slider-pip-selected" style="left: 0%"></span>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+                <a class="navbar-brand" href="http://peabody.yale.edu" target="_blank">
+                    <img src="img/ypm_wordmark_single_small_white.png" />
+                </a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <form class="navbar-form navbar-right" role="form">
+                    <!--<div class="form-group">
+                        <input type="text" placeholder="Email" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" placeholder="Password" class="form-control">
+                    </div>
+                    <button type="submit" class="btn btn-success">Sign in</button>-->
+
+                    <div class="form-group">
+                        <strong>Sliders: </strong>
+                        <select id="validSliders">
+                            <option value="#">select one...</option>
+                            <option value="">420984</option>
+                            <option value="">424789</option>
+                            <option value="">425809</option>
+                            <option value="">425816</option>
+                            <option value="">425817</option>
+                            <option value="">426566</option>
+                            <option value="">426909</option>
+                            <option value="">426910</option>
+                            <option value="">426911</option>
+                            <option value="">426912</option>
+                            <option value="">426913</option>
+                            <option value="">426915</option>
+                        </select>
+                    </div>
+
+                </form>
+            </div>
+            <!--/.navbar-collapse -->
+        </div>
+    </nav>
+
+    <main>
+
+        <!-- Top logo -->
+
+        <div class="container" class="toplogo">
+            <div class="nsf-logo pull-left">
+                <img src="img/nsf.png" height="80" width="80" />
+            </div>
+            <div class="title pull-left">
+                <h1>Invertebrate Zoology</h1>
+                <h3>Virtual Microscopy</h3>
+            </div>
         </div>
 
-        <div id="knob" class="rslider"></div>
-        <div id="precision_knob" class="rslider"></div>
 
-    </div>
+        <div id="main">
+            <div style="position: relative;" id="slideshow"></div>
+            <div id="slider" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all ui-slider-pips">
+                <div class="ui-slider-range ui-widget-header ui-corner-all ui-slider-range-min" style="width: 0%;"></div>
+                <span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0" style="left: 0%;"></span>
+                <span class="ui-slider-pip ui-slider-pip-first ui-slider-pip-label ui-slider-pip-0 ui-slider-pip-initial ui-slider-pip-selected" style="left: 0%"></span>
+            </div>
 
+            <div id="knob" class="rslider"></div>
+            <div id="precision_knob" class="rslider"></div>
 
-    <script src="files/jquery-1.10.2.js"></script>
-    <script src="files/jquery-ui.js"></script>
-    <script type="text/javascript" src="files/jquery.cycle.js"></script>
-    <script type="text/javascript" src="files/jquery-ui-slider-pips.js"></script>
-    <script type="text/javascript" src="files/jquery.blockUI.js"></script>
-    <script type="text/javascript" src="files/jquery.mousewheel.min.js"></script>
-    <script type="text/javascript" src="files/roundslider.min.js"></script>
-    <script type="text/javascript" src="files/microscope.js"></script>
+        </div>
+
+    </main>
+    <!--<footer>
+        &nbsp;
+    </footer>-->
+
+    <script type="text/javascript" src="js/vendor/jquery-1.10.2.js"></script>
+    <script type="text/javascript" src="js/vendor/jquery-ui.js"></script>
+    <script type="text/javascript" src="js/vendor/jquery.cycle.js"></script>
+    <script type="text/javascript" src="js/vendor/jquery-ui-slider-pips.js"></script>
+    <script type="text/javascript" src="js/vendor/jquery.blockUI.js"></script>
+    <script type="text/javascript" src="js/vendor/jquery.mousewheel.min.js"></script>
+    <script type="text/javascript" src="js/vendor/roundslider.min.js"></script>
+    <script type="text/javascript" src="js/microscope.js"></script>
 
 
 </body>

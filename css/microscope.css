@@ -3,12 +3,13 @@
 /* CSS Document */
 
 #slideshow {
-    margin: 30px auto
+    margin: 0 auto;
+    margin-bottom: 15px;
 }
 
 #main {
-    margin: auto 100px;
-    padding: 20px
+    margin: 0 100px;
+    padding: 0;
 }
 
 ui-slider-line {
@@ -33,6 +34,15 @@ ui-slider-line {
 
 .rslider {
     display: inline-block;
-    margin-top: 20px;
+    margin-top: 0;
     margin-left: 20px;
+}
+
+form {
+    background-color: transparent!important;
+}
+
+h1,
+h2 {
+    padding: 0!important;
 }

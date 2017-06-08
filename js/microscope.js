@@ -5,7 +5,17 @@ var mouseScrollFactor = 0.5;
 
 $(window).load(function() {
 
+    $("#validSliders > option").each(function() {
+        if ($(this).val() != "#") {
+            $(this).val($(this).text());
+        }
+    });
 
+    $("#validSliders").on("change", function() {
+        if ($(this).val() != "#") {
+            document.location = "slider.html?slide=" + $(this).val();
+        }
+    })
 
     $.blockUI({
         css: { 'opacity': '0.9' },
@@ -29,7 +39,13 @@ $(window).load(function() {
     $("#precision_knob").on("change", function(e) {
         console.log("setting precision to " + e.value);
         mouseScrollFactor = e.value;
+
     });
+
+    $("#knob").on("change", function(e) {
+        changeSlideValueInstant(e.value);
+    });
+
 
 
     $('#slideshow').on('mousewheel', function(event) {
@@ -51,7 +67,7 @@ $(window).load(function() {
         step: 0.05,
         min: 0.05,
         max: 1.0,
-        editableTooltip: true
+        editableTooltip: true,
     });
 
 });
@@ -66,7 +82,7 @@ function makeKnob(maximum) {
         step: 1,
         min: 0,
         max: maximum,
-        editableTooltip: false
+        editableTooltip: false,
     });
     knob = $("#knob").data("roundSlider");
 }
