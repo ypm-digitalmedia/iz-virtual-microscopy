@@ -1,0 +1,137 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="">
+<!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Invertebrate Zoology | Virtual Microscopy</title>
+    <link rel="shortcut icon" href="http://peabody.yale.edu/sites/default/files/favicon.ico" type="image/x-icon">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="css/mallory.css">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="css/main.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/microscope.css">
+
+
+    <style type="text/css">
+        #myContainer {
+            width: 900px;
+            height: 550px;
+            margin: auto;
+            border: 1px;
+            border-style: solid;
+            border-color: #696969;
+        }
+    </style>
+
+
+    <script type="text/javascript" src="js/vendor/ZoomifyImageViewer.js"></script>
+    <script type="text/javascript">
+        /* URL grabber function */
+
+        function qs(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            var results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        };
+
+        /* Configuration values */
+        // File location of images
+        var imageloadmessage = "";
+        var folderName = qs('slide');
+        var slide;
+
+        if (folderName) {
+            console.log(folderName);
+            slide = folderName
+            imageloadmessage = "<h2>Please wait&hellip;<br />Microscope is loading.</h2>";
+        } else {
+            console.log("no folder name");
+            imageloadmessage = "<h2>Invalid parameter.</h2>";
+        }
+
+
+        var docRoot = document.URL.substr(0, document.URL.lastIndexOf('/'));
+        var imagefolderlocation = docRoot + "/_photos/zoomify/" + slide;
+
+        Z.showImage("myContainer", imagefolderlocation);
+    </script>
+
+</head>
+
+<body>
+    <div id="top">
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+                    <a class="navbar-brand" href="http://peabody.yale.edu" target="_blank">
+                        <img src="img/ypm_wordmark_single_small_white.png" />
+                    </a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <form class="navbar-form navbar-right" role="form">
+                        <!--<div class="form-group">
+                        <input type="text" placeholder="Email" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" placeholder="Password" class="form-control">
+                    </div>
+                    <button type="submit" class="btn btn-success">Sign in</button>-->
+
+                        <div class="form-group">
+                            <strong>Zoomify: </strong>
+                            <select id="validZoomify">
+                                    <option value="#">select one...</option>
+                                    <option value="">420983</option>
+                                    <option value="">420985</option>
+                                    <option value="">425809</option>
+                                    <option value="">429851</option>
+                                    <option value="">484904</option>
+                                    <option value="">542943</option>
+                                </select>
+                            <!--<a href="./index.html"><button class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span>&nbsp;Back to Search</button></a>-->
+                        </div>
+
+                    </form>
+                </div>
+                <!--/.navbar-collapse -->
+            </div>
+        </nav>
+
+        <!-- Top logo -->
+
+        <div class="container" class="toplogo">
+            <div class="nsf-logo pull-left">
+                <img src="img/nsf.png" height="80" width="80" />
+            </div>
+            <div class="title pull-left">
+                <h1>Invertebrate Zoology</h1>
+                <h3>Virtual Microscopy</h3>
+            </div>
+        </div>
+
+    </div>
+    <!-- /top -->
+    <div id="myContainer"></div>
+
+    <script type="text/javascript" src="js/vendor/jquery-1.10.2.js"></script>
+    <script type="text/javascript" src="js/zoomify.js"></script>
+
+</body>
+
+</html>
