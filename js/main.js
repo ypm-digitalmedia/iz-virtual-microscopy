@@ -100,6 +100,18 @@ $(document).ready(function() {
     $('.thumbnail').css({ 'height': cw + 'px' });
 
 
+    $("#validZoomify > option").each(function() {
+        if ($(this).val() != "#") {
+            $(this).val($(this).text());
+        }
+    });
+
+    $("#validZoomify").on("change", function() {
+        if ($(this).val() != "#") {
+            document.location = "zoomify.html?slide=" + $(this).val();
+        }
+    });
+
     $("#validSliders > option").each(function() {
         if ($(this).val() != "#") {
             $(this).val($(this).text());
@@ -110,7 +122,8 @@ $(document).ready(function() {
         if ($(this).val() != "#") {
             document.location = "slider.html?slide=" + $(this).val();
         }
-    })
+    });
+
 
 
 

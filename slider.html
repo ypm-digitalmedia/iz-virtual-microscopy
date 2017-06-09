@@ -50,7 +50,8 @@
             imageloadmessage = "<h2>Please wait&hellip;<br />Microscope is loading.</h2>";
         } else {
             console.log("no folder name");
-            imageloadmessage = "<h2>Invalid parameter.</h2>";
+            // imageloadmessage = "<h2>Invalid parameter.</h2>";
+            document.location = "index.html";
         }
 
 
@@ -94,6 +95,16 @@
                     <button type="submit" class="btn btn-success">Sign in</button>-->
 
                             <div class="form-group">
+                                <strong>Zoomify: </strong>
+                                <select id="validZoomify">
+                                    <option value="#">select one...</option>
+                                    <option value="">420983</option>
+                                    <option value="">420985</option>
+                                    <option value="">425809</option>
+                                    <option value="">429851</option>
+                                    <option value="">484904</option>
+                                    <option value="">542943</option>
+                                </select>
                                 <strong>Sliders: </strong>
                                 <select id="validSliders">
                                     <option value="#">select one...</option>
@@ -110,8 +121,8 @@
                                     <option value="">426913</option>
                                     <option value="">426915</option>
                                 </select>
-                                <!--<a href="./index.html"><button class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span>&nbsp;Back to Search</button></a>-->
                             </div>
+                            <a href="index.html"><button class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span>&nbsp;Back to Search</button></a>
 
                         </form>
                     </div>

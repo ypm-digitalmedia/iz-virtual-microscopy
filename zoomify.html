@@ -56,7 +56,8 @@
             imageloadmessage = "<h2>Please wait&hellip;<br />Microscope is loading.</h2>";
         } else {
             console.log("no folder name");
-            imageloadmessage = "<h2>Invalid parameter.</h2>";
+            // imageloadmessage = "<h2>Invalid parameter.</h2>";
+            document.location = "index.html";
         }
 
 
@@ -104,7 +105,23 @@
                                     <option value="">484904</option>
                                     <option value="">542943</option>
                                 </select>
-                            <!--<a href="./index.html"><button class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span>&nbsp;Back to Search</button></a>-->
+                            <strong>Sliders: </strong>
+                            <select id="validSliders">
+                                    <option value="#">select one...</option>
+                                    <option value="">420984</option>
+                                    <option value="">424789</option>
+                                    <option value="">425809</option>
+                                    <option value="">425816</option>
+                                    <option value="">425817</option>
+                                    <option value="">426566</option>
+                                    <option value="">426909</option>
+                                    <option value="">426910</option>
+                                    <option value="">426911</option>
+                                    <option value="">426912</option>
+                                    <option value="">426913</option>
+                                    <option value="">426915</option>
+                                </select>
+                            <a href="index.html"><button class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span>&nbsp;Back to Search</button></a>
                         </div>
 
                     </form>
