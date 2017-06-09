@@ -72,14 +72,14 @@
 
         <div id="top">
             <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-                <div class="container">
+                <div class="container-fluid">
                     <div class="navbar-header">
                         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
                         <a class="navbar-brand" href="http://peabody.yale.edu" target="_blank">
                             <img src="img/ypm_wordmark_single_small_white.png" />
                         </a>
@@ -132,7 +132,7 @@
 
             <!-- Top logo -->
 
-            <div class="container" class="toplogo">
+            <div class="container" class="toplogo" style="display: none">
                 <div class="nsf-logo pull-left">
                     <img src="img/nsf.png" height="80" width="80" />
                 </div>
@@ -148,21 +148,39 @@
 
         <div id="slideshow"></div>
 
-        <div id="controls">
-            <div id="slider" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all ui-slider-pips">
-                <div class="ui-slider-range ui-widget-header ui-corner-all ui-slider-range-min" style="width: 0%;"></div>
-                <span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0" style="left: 0%;"></span>
-                <span class="ui-slider-pip ui-slider-pip-first ui-slider-pip-label ui-slider-pip-0 ui-slider-pip-initial ui-slider-pip-selected" style="left: 0%"></span>
+        <div id="controls" class="container-fluid">
+            <div class="row" style="margin-left:0!important;margin-right:0!important;padding-left:0!important;padding-right:0!important;">
+                <div id="slider" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all ui-slider-pips">
+                    <div class="ui-slider-range ui-widget-header ui-corner-all ui-slider-range-min" style="width: 0%;"></div>
+                    <span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0" style="left: 0%;"></span>
+                    <span class="ui-slider-pip ui-slider-pip-first ui-slider-pip-label ui-slider-pip-0 ui-slider-pip-initial ui-slider-pip-selected" style="left: 0%"></span>
+                </div>
             </div>
+            <div class="row">
+                <div class="col-xs-3" style="padding-top: 2em;">
+                    <div class="nsf-logo-footer pull-left">
+                        <img src="img/nsf.png" height="80" width="80" />
+                    </div>
+                    <h4 style="margin-top:1em;">Invertebrate Zoology</h4>
+                    <h5>Virtual Microscopy</h5>
+                </div>
+                <div class="col-xs-4">
+                    <div id="knob" class="rslider"></div>
+                    <div id="precision_knob" class="rslider"></div>
+                </div>
+                <div class="col-xs-5" id="specimenInfo">
+                    <h3 class="viewer-label-title" id="specimen_title"><strong>%%TITLE%%</strong></h3>
+                    <p class="viewer-label-id" id="specimen_id">%%ID%%</p>
+                    <h5 class="viewer-label-scientificname" id="specimen_sciName">%%SCINAME%%</h5>
 
-            <div id="knob" class="rslider"></div>
-            <div id="precision_knob" class="rslider"></div>
+                </div>
+            </div>
         </div>
+
 
         <footer>&nbsp;</footer>
 
     </div>
-
 
     <script type="text/javascript" src="js/vendor/jquery-1.10.2.js"></script>
     <script type="text/javascript" src="js/vendor/jquery-ui.js"></script>
