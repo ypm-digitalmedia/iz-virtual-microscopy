@@ -34,6 +34,7 @@
     /*top: 160px;*/
     bottom: 240px;
     height: auto!important;
+    outline: 1px solid #696969;
 }
 
 #zoomifyMainContainer {
@@ -65,7 +66,7 @@ ui-slider-line {
     opacity: 1;
     height: 100%!important;
     width: auto!important;
-    border: 1px solid #696969;
+    /*border: 1px solid #696969;*/
 }
 
 #slideshow img.first {
@@ -110,5 +111,21 @@ footer {
     /*width: 900px;*/
     /*height: 550px;*/
     /*margin: auto;*/
-    border: 1px solid #696969;
+    /*border: 1px solid #696969;*/
+    outline: 1px solid #696969;
+}
+
+.blockUI h2 {
+    margin: 0;
+}
+
+.message-container {
+    padding: 0;
+    margin: 0;
+}
+
+.message-bg {
+    background-color: #0071bc;
+    height: 3em;
+    width: 0%;
 }

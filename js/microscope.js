@@ -35,10 +35,26 @@ $(window).load(function() {
         message: imageloadmessage,
         onBlock: function() {
             $.when(loadImages()).done(function(total) {
+                // console.log(total);
                 $.when(loadSlider(total)).done(function() {
+                    var step = 100 / total;
+                    console.log("100 / " + total + " = " + step)
                     for (var x = 0; x <= total; x++) {
                         changeSlideValue(x);
                     }
+
+                    var iter = 0;
+                    setInterval(function() {
+                        var pct = step * iter;
+                        if (pct <= 100) {
+                            $(".message-bg").css("width", pct + "%");
+                            iter++;
+                        } else {
+
+                            $(".message-bg").css("width", "100%");
+                        }
+                    }, 50)
+
                     setTimeout(function() { $.unblockUI(); }, (total + 1) * 50);
                     setTimeout(function() { changeSlideValue(0); }, (total + 2) * 50);
                 });
