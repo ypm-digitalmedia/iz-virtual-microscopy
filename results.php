@@ -146,7 +146,7 @@
 
             <div class="container">
                 <div class="row">
-                    <h2 class="header-and-button">31 Results for "Sponge":<a href="index.html" class="pull-right"><button class="btn btn-default">Start over</button></a></h2>
+                    <h2 class="header-and-button">31 Results for "Sponge":<a href="index.php" class="pull-right"><button class="btn btn-default">Start over</button></a></h2>
 
                 </div>
             </div>

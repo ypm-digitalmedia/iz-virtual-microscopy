@@ -204,6 +204,13 @@ strong {
     color: black;
 }
 
+.viewer-label-location {
+    font-family: "Mallory MP Light";
+    /*font-size: 10px;*/
+    font-style: italic!important;
+    color: black;
+}
+
 
 /* ========================================================= */
 

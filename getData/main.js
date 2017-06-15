@@ -104,7 +104,7 @@ function loadData(record) {
                 });
                 // console.log("SI | foundSlider: ");
                 // console.log(foundSlider);
-                repos.push({ repoIndex: index, type: "slider", obj: foundSlider, thumbnail: foundSlider.derivatives["2"].source, irn: SI });
+                repos.push({ repoIndex: index, type: "slider", obj: foundSlider, thumbnail: foundSlider.derivatives["2"].source, irn: SI, catalogNum: targetSqlData.catalog_number });
             });
 
             _.forEach(irns.zoomify, function(ZI, index) {
@@ -113,7 +113,7 @@ function loadData(record) {
                 });
                 // console.log("ZI | foundZoomify: ");
                 // console.log(foundZoomify);
-                repos.push({ repoIndex: index, type: "zoomify", obj: foundZoomify, thumbnail: foundZoomify.derivatives["2"].source, irn: ZI });
+                repos.push({ repoIndex: index, type: "zoomify", obj: foundZoomify, thumbnail: foundZoomify.derivatives["2"].source, irn: ZI, catalogNum: targetSqlData.catalog_number });
                 repos = _.uniq(repos);
             });
 
@@ -122,9 +122,9 @@ function loadData(record) {
 
             _.forEach(repos, function(repo) {
                 if (repo.type == "zoomify" && valid.zoomify.indexOf(repo.irn) > 0) {
-                    $("#imagery_zoomify").append("<a target='_blank' href='../zoomify.html?slide=" + repo.irn + "'><div class='test_thumbnail' title='" + repo.irn + "' style='background-image: url(\"" + repo.thumbnail + "\");'>&nbsp;</div></a>");
+                    $("#imagery_zoomify").append("<a target='_blank' href='../zoomify.php?irn=" + repo.irn + "&catalogNum=" + repo.catalogNum + "'><div class='test_thumbnail' title='" + repo.irn + "' style='background-image: url(\"" + repo.thumbnail + "\");'>&nbsp;</div></a>");
                 } else if (repo.type == "slider" && valid.slider.indexOf(repo.irn) > 0) {
-                    $("#imagery_slider").append("<a target='_blank' href='../slider.html?slide=" + repo.irn + "'><div class='test_thumbnail' title='" + repo.irn + "' style='background-image: url(\"" + repo.thumbnail + "\");'>&nbsp;</div></a>");
+                    $("#imagery_slider").append("<a target='_blank' href='../slider.php?irn=" + repo.irn + "&catalogNum=" + repo.catalogNum + "'><div class='test_thumbnail' title='" + repo.irn + "' style='background-image: url(\"" + repo.thumbnail + "\");'>&nbsp;</div></a>");
                 }
             })
 

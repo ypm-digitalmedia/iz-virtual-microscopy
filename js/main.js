@@ -108,7 +108,7 @@ $(document).ready(function() {
 
     $("#validZoomify").on("change", function() {
         if ($(this).val() != "#") {
-            document.location = "zoomify.html?slide=" + $(this).val();
+            document.location = "zoomify.php?irn=" + $(this).val() + "&catalogNum=";
         }
     });
 
@@ -120,7 +120,7 @@ $(document).ready(function() {
 
     $("#validSliders").on("change", function() {
         if ($(this).val() != "#") {
-            document.location = "slider.html?slide=" + $(this).val();
+            document.location = "slider.php?irn=" + $(this).val() + "&catalogNum=";
         }
     });
 

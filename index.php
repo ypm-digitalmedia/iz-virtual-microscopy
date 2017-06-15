@@ -31,6 +31,45 @@
 </head>
 
 <body>
+
+ <?php
+// $servername = "sprout018.sprout.yale.edu";
+$servername = "localhost";
+$username = "general";
+$password = "Specific38!";
+$dbname = "YPM_IZ_scope";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+$sql = "SELECT * FROM emu_metadata";
+$result = $conn->query($sql);
+
+
+// echo '<script type="text/javascript">alert(" ' . $_SERVER['QUERY_STRING'] . '");</script>';
+
+
+// if ($result->num_rows > 0) {
+//     // output data of each row
+//     echo "<table>";
+//     echo "<tr><th>&nbsp;</th><th>catalog_number</th><th>emu_irn</th><th>occurenceID</th><th>phylum</th><th>class</th><th>order</th><th>family</th><th>genus</th><th>species</th><th>country</th><th>state_province</th><th>county_district</th><th>nearest_named_place</th><th>precise_locality</th><th>decimal_latitude</th><th>decimal_longitude</th><th>media_zoomify_irns</th><th>media_sliders_irns</th></tr>";
+//     while($row = $result->fetch_assoc()) {
+//         echo "<script type='text/javascript'>sqldata.push({catalog_number: \"" . addslashes($row["catalog_number"]) . "\", emu_irn: \"" . addslashes($row["emu_irn"]) . "\", occurenceID: \"" . addslashes($row["occurenceID"]) . "\", phylum: \"" . addslashes($row["phylum"]) . "\", class: \"" . addslashes($row["class"]) . "\", order: \"" . addslashes($row["order"]) . "\", family: \"" . addslashes($row["family"]) . "\", genus: \"" . addslashes($row["genus"]) . "\", species: \"" . addslashes($row["species"]) . "\", country: \"" . addslashes($row["country"]) . "\", state_province: \"" . addslashes($row["state_province"]) . "\", county_district: \"" . addslashes($row["county_district"]) . "\", nearest_named_place: \"" . addslashes($row["nearest_named_place"]) . "\", precise_locality: \"" . addslashes($row["precise_locality"]) . "\", decimal_latitude: parseFloat(" . $row["decimal_latitude"] . "), decimal_longitude: parseFloat(" . $row["decimal_longitude"] . "), media_zoomify_irns: \"" . addslashes($row["media_zoomify_irns"]) . "\", media_sliders_irns: \"" . addslashes($row["media_sliders_irns"]) . "\"});</script>\n";
+//         echo "<tr>";
+//         echo "<td><button type='button' onclick='loadData(\"" . $row["catalog_number"] . "\")' class='btn btn-primary btn-sm' data-toggle='modal' data-target='#myModal'><span class='glyphicon glyphicon-eye-open'></span></button>" . "</td><td>" . $row["catalog_number"] . "</td><td>" . $row["emu_irn"] . "</td><td>" . $row["occurenceID"] . "</td><td>" . $row["phylum"] . "</td><td>" . $row["class"] . "</td><td>" . $row["order"] . "</td><td>" . $row["family"] . "</td><td>" . $row["genus"] . "</td><td>" . $row["species"] . "</td><td>" . $row["country"] . "</td><td>" . $row["state_province"] . "</td><td>" . $row["county_district"] . "</td><td>" . $row["nearest_named_place"] . "</td><td>" . $row["precise_locality"] . "</td><td>" . $row["decimal_latitude"] . "</td><td>" . $row["decimal_longitude"] . "</td><td rel=\"cell_zoomify\">" . $row["media_zoomify_irns"] . "</td><td rel=\"cell_slider\">" . $row["media_sliders_irns"] . "</td>";
+//         echo "</tr>\n";
+//     }
+//     echo "</table>";
+// } else {
+//     echo "0 results";
+// }
+$conn->close();
+?> 
+
     <!--[if lt IE 8]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
@@ -201,7 +240,6 @@
             <div class="row">
                 <p align="center">
                     <a href="#"><button class="btn btn-primary btn-lg bigcenter">View All</button></a>&nbsp;&nbsp;
-                    <!--<a href="slider.html?slide=424789"><button class="btn btn-primary btn-lg bigcenter">EXAMPLE</button></a>-->
 
                 </p>
             </div>
