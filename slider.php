@@ -140,44 +140,8 @@
                     </div>
                     <div id="navbar" class="navbar-collapse collapse">
                         <form class="navbar-form navbar-right" role="form">
-                            <!--<div class="form-group">
-                        <input type="text" placeholder="Email" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <input type="password" placeholder="Password" class="form-control">
-                    </div>
-                    <button type="submit" class="btn btn-success">Sign in</button>-->
 
-                            <div class="form-group">
-                                <strong>Zoomify: </strong>
-                                <select id="validZoomify">
-                                    <option value="#">select one...</option>
-                                    <option value="">420983</option>
-                                    <option value="">420985</option>
-                                    <option value="">425809</option>
-                                    <option value="">429851</option>
-                                    <option value="">484904</option>
-                                    <option value="">542943</option>
-                                </select>
-                                <strong>Sliders: </strong>
-                                <select id="validSliders">
-                                    <option value="#">select one...</option>
-                                    <option value="">420984</option>
-                                    <option value="">424789</option>
-                                    <option value="">425809</option>
-                                    <option value="">425816</option>
-                                    <option value="">425817</option>
-                                    <option value="">426566</option>
-                                    <option value="">426909</option>
-                                    <option value="">426910</option>
-                                    <option value="">426911</option>
-                                    <option value="">426912</option>
-                                    <option value="">426913</option>
-                                    <option value="">426915</option>
-                                </select>
-                            </div>
-                            <a href="index.php"><button class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span>&nbsp;Back to Search</button></a>
-
+                            <a href="index.php" class="top-right"><button class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span>&nbsp;Back to Search</button></a>
                         </form>
                     </div>
                     <!--/.navbar-collapse -->
@@ -224,7 +188,7 @@
                 </div>
                 <div class="col-xs-5" id="specimenInfo">
                     <h3 class="viewer-label-title" id="specimen_title"><strong>%%TITLE%%</strong></h3>
-                    <p class="viewer-label-id" id="specimen_id">%%ID%%</p>
+                    <!--<p class="viewer-label-id" id="specimen_id">%%ID%%</p>-->
                     <h5 class="viewer-label-location" id="specimen_location">%%LOCATION%%</h5>
 
                 </div>

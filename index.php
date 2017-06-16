@@ -27,6 +27,7 @@
 
     <script type="text/javascript">
         var thePage = "home";
+        var sqldata = [];
     </script>
 </head>
 
@@ -49,24 +50,16 @@ if ($conn->connect_error) {
 $sql = "SELECT * FROM emu_metadata";
 $result = $conn->query($sql);
 
+if ($result->num_rows > 0) {
+    // output data of each row to javascript
 
-// echo '<script type="text/javascript">alert(" ' . $_SERVER['QUERY_STRING'] . '");</script>';
-
-
-// if ($result->num_rows > 0) {
-//     // output data of each row
-//     echo "<table>";
-//     echo "<tr><th>&nbsp;</th><th>catalog_number</th><th>emu_irn</th><th>occurenceID</th><th>phylum</th><th>class</th><th>order</th><th>family</th><th>genus</th><th>species</th><th>country</th><th>state_province</th><th>county_district</th><th>nearest_named_place</th><th>precise_locality</th><th>decimal_latitude</th><th>decimal_longitude</th><th>media_zoomify_irns</th><th>media_sliders_irns</th></tr>";
-//     while($row = $result->fetch_assoc()) {
-//         echo "<script type='text/javascript'>sqldata.push({catalog_number: \"" . addslashes($row["catalog_number"]) . "\", emu_irn: \"" . addslashes($row["emu_irn"]) . "\", occurenceID: \"" . addslashes($row["occurenceID"]) . "\", phylum: \"" . addslashes($row["phylum"]) . "\", class: \"" . addslashes($row["class"]) . "\", order: \"" . addslashes($row["order"]) . "\", family: \"" . addslashes($row["family"]) . "\", genus: \"" . addslashes($row["genus"]) . "\", species: \"" . addslashes($row["species"]) . "\", country: \"" . addslashes($row["country"]) . "\", state_province: \"" . addslashes($row["state_province"]) . "\", county_district: \"" . addslashes($row["county_district"]) . "\", nearest_named_place: \"" . addslashes($row["nearest_named_place"]) . "\", precise_locality: \"" . addslashes($row["precise_locality"]) . "\", decimal_latitude: parseFloat(" . $row["decimal_latitude"] . "), decimal_longitude: parseFloat(" . $row["decimal_longitude"] . "), media_zoomify_irns: \"" . addslashes($row["media_zoomify_irns"]) . "\", media_sliders_irns: \"" . addslashes($row["media_sliders_irns"]) . "\"});</script>\n";
-//         echo "<tr>";
-//         echo "<td><button type='button' onclick='loadData(\"" . $row["catalog_number"] . "\")' class='btn btn-primary btn-sm' data-toggle='modal' data-target='#myModal'><span class='glyphicon glyphicon-eye-open'></span></button>" . "</td><td>" . $row["catalog_number"] . "</td><td>" . $row["emu_irn"] . "</td><td>" . $row["occurenceID"] . "</td><td>" . $row["phylum"] . "</td><td>" . $row["class"] . "</td><td>" . $row["order"] . "</td><td>" . $row["family"] . "</td><td>" . $row["genus"] . "</td><td>" . $row["species"] . "</td><td>" . $row["country"] . "</td><td>" . $row["state_province"] . "</td><td>" . $row["county_district"] . "</td><td>" . $row["nearest_named_place"] . "</td><td>" . $row["precise_locality"] . "</td><td>" . $row["decimal_latitude"] . "</td><td>" . $row["decimal_longitude"] . "</td><td rel=\"cell_zoomify\">" . $row["media_zoomify_irns"] . "</td><td rel=\"cell_slider\">" . $row["media_sliders_irns"] . "</td>";
-//         echo "</tr>\n";
-//     }
-//     echo "</table>";
-// } else {
-//     echo "0 results";
-// }
+    while($row = $result->fetch_assoc()) {
+        echo "<script type='text/javascript'>sqldata.push({catalog_number: \"" . addslashes($row["catalog_number"]) . "\", emu_irn: \"" . addslashes($row["emu_irn"]) . "\", occurenceID: \"" . addslashes($row["occurenceID"]) . "\", phylum: \"" . addslashes($row["phylum"]) . "\", class: \"" . addslashes($row["class"]) . "\", order: \"" . addslashes($row["order"]) . "\", family: \"" . addslashes($row["family"]) . "\", genus: \"" . addslashes($row["genus"]) . "\", species: \"" . addslashes($row["species"]) . "\", country: \"" . addslashes($row["country"]) . "\", state_province: \"" . addslashes($row["state_province"]) . "\", county_district: \"" . addslashes($row["county_district"]) . "\", nearest_named_place: \"" . addslashes($row["nearest_named_place"]) . "\", precise_locality: \"" . addslashes($row["precise_locality"]) . "\", decimal_latitude: parseFloat(" . $row["decimal_latitude"] . "), decimal_longitude: parseFloat(" . $row["decimal_longitude"] . "), media_zoomify_irns: \"" . addslashes($row["media_zoomify_irns"]) . "\", media_sliders_irns: \"" . addslashes($row["media_sliders_irns"]) . "\"});</script>\n";
+    }
+    echo ("<script type='text/javascript'>console.log(sqldata);</script>");
+} else {
+    echo "0 results";
+}
 $conn->close();
 ?> 
 
@@ -87,46 +80,7 @@ $conn->close();
                 </a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
-                <form class="navbar-form navbar-right" role="form">
-                    <!--<div class="form-group">
-                        <input type="text" placeholder="Email" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <input type="password" placeholder="Password" class="form-control">
-                    </div>
-                    <button type="submit" class="btn btn-success">Sign in</button>-->
 
-
-                    <div class="form-group">
-                        <strong>Zoomify: </strong>
-                        <select id="validZoomify">
-                            <option value="#">select one...</option>
-                            <option value="">420983</option>
-                            <option value="">420985</option>
-                            <option value="">425809</option>
-                            <option value="">429851</option>
-                            <option value="">484904</option>
-                            <option value="">542943</option>
-                        </select>
-                        <strong>Sliders: </strong>
-                        <select id="validSliders">
-                            <option value="#">select one...</option>
-                            <option value="">420984</option>
-                            <option value="">424789</option>
-                            <option value="">425809</option>
-                            <option value="">425816</option>
-                            <option value="">425817</option>
-                            <option value="">426566</option>
-                            <option value="">426909</option>
-                            <option value="">426910</option>
-                            <option value="">426911</option>
-                            <option value="">426912</option>
-                            <option value="">426913</option>
-                            <option value="">426915</option>
-                        </select>
-                    </div>
-
-                </form>
             </div>
             <!--/.navbar-collapse -->
         </div>

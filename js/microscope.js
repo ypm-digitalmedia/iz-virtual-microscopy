@@ -8,31 +8,6 @@ var targetSqlData;
 
 $(window).load(function() {
 
-    $("#validZoomify > option").each(function() {
-        if ($(this).val() != "#") {
-            $(this).val($(this).text());
-        }
-    });
-
-    $("#validZoomify").on("change", function() {
-        if ($(this).val() != "#") {
-            document.location = "zoomify.php?irn=" + $(this).val() + "&catalogNum=";
-        }
-    });
-
-    $("#validSliders > option").each(function() {
-        if ($(this).val() != "#") {
-            $(this).val($(this).text());
-        }
-    });
-
-    $("#validSliders").on("change", function() {
-        if ($(this).val() != "#") {
-            document.location = "slider.php?irn=" + $(this).val() + "&catalogNum=";
-        }
-    });
-
-
     $.blockUI({
         css: { 'opacity': '0.9' },
         message: imageloadmessage,
@@ -102,6 +77,10 @@ $(window).load(function() {
         editableTooltip: true,
     });
 
+    var record_irn = qs("irn");
+    var record_catalogNum = qs("catalogNum");
+    loadData(record_irn, record_catalogNum);
+
 
     // load SQL data / URL variables into text area at bottom
     var locString = "";
@@ -109,26 +88,122 @@ $(window).load(function() {
     var searchString = "";
 
     var place = sqldata[0].nearest_named_place;
-    var country = sqldata[0].country;
-    var state = sqldata[0].state_province;
     var district = sqldata[0].county_district;
+    var state = sqldata[0].state_province;
+    var country = sqldata[0].country;
     var lat = sqldata[0].decimal_latitude;
     var lng = sqldata[0].decimal_longitude;
 
+    var commaOne = ", ";
+    var commaTwo = ", ";
+    var commaThree = ", ";
+
+    // 0
+    if (place == "" && district == "" && state == "" && country == "") {
+        commaOne = "";
+        commaTwo = "";
+        commaThree = "";
+    }
+    // 1
+    if (place == "" && district == "" && state == "") {
+        commaOne = "";
+        commaTwo = "";
+        commaThree = "";
+    }
+    if (place == "" && district == "" && country == "") {
+        commaOne = "";
+        commaTwo = "";
+        commaThree = "";
+    }
+    if (place == "" && state == "" && country == "") {
+        commaOne = "";
+        commaTwo = "";
+        commaThree = "";
+    }
+    if (district == "" && state == "" && country == "") {
+        commaOne = "";
+        commaTwo = "";
+        commaThree = "";
+    }
+    //2
+    if (state == "" && country == "") {
+        commaOne = ", ";
+        commaTwo = "";
+        commaThree = "";
+    }
+    if (district == "" && country == "") {
+        commaOne = "";
+        commaTwo = ", ";
+        commaThree = "";
+    }
+    if (district == "" && state == "") {
+        commaOne = "";
+        commaTwo = "";
+        commaThree = ", ";
+    }
+    if (place == "" && district == "") {
+        commaOne = "";
+        commaTwo = "";
+        commaThree = ", ";
+    }
+    if (place == "" && state == "") {
+        commaOne = "";
+        commaTwo = "";
+        commaThree = ", ";
+    }
+    if (place == "" && country == "") {
+        commaOne = "";
+        commaTwo = ", ";
+        commaThree = "";
+    }
+    //3
+    if (country == "") {
+        commaOne = ", ";
+        commaTwo = ", ";
+        commaThree = "";
+    }
+    if (place == "") {
+        commaOne = "";
+        commaTwo = ", ";
+        commaThree = ", ";
+    }
+
+    if (district == "") {
+        commaOne = "";
+        commaTwo = ", ";
+        commaThree = ", ";
+    }
+
+    if (state == "") {
+        commaOne = ", ";
+        commaTwo = "";
+        commaThree = ", ";
+    }
+
+    locString = place + commaOne + district + commaTwo + state + commaThree + country;
+
+
+
+
+
+
+
+
+
     if (place != "") {
-        locString += place;
+        // locString += place;
         searchString += esc(place);
     }
     if (district != "") {
-        locString += ", " + district;
+        // locString += commaOne + district;
         searchString += "," + esc(district);
     }
     if (state != "") {
-        locString += ", " + state;
+        // locString += commaTwo + state;
         searchString += "," + esc(state);
     }
     if (country != "") {
-        locString += ", " + country;
+        // locString += commaThree + country;
         searchString += "," + esc(country);
     }
 
@@ -146,6 +221,8 @@ $(window).load(function() {
 });
 
 
+
+
 function esc(str) {
     return str.split(" ").join("+");
 }
@@ -154,7 +231,37 @@ function esc(str) {
 
 
 
+function loadData(irn, catalogNum) {
 
+
+    var url = "http://deliver.odai.yale.edu/info/repository/YPM/object/" + catalogNum + "/type/4";
+
+    var jqxhr = $.getJSON(url, function(data) {
+            console.log("GET successful: " + url);
+        })
+        .done(function(data) {
+            console.log("Request complete.  Writing javascript variable.");
+
+            targetCdsData = data;
+
+            var repo = _.findLast(targetCdsData, function(a) {
+                return a.metadata.repositoryID == irn;
+            });
+            // console.log(repo);
+            $("#specimen_title").html("<strong>" + repo.metadata.caption + "</strong>");
+
+
+        })
+        .fail(function() {
+            console.log("Error requesting " + url);
+        })
+        .always(function() {
+            console.log("jqxhr request complete.");
+        });
+
+    // Perform other work here ...
+
+}
 
 
 

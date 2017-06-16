@@ -1,9 +1,53 @@
 var tags = [];
 var test_images = [];
 var test_data = [];
-var numThumbs = 12;
+var live_data = [];
+var numItems = 16;
+var parsed_sqldata = [];
+var parsed_sampled_sqldata = [];
 
 $(document).ready(function() {
+
+    // parse SQL and create individual presentations for SQL data
+    // build array of tags from live data (taxa information)
+
+    _.forEach(sqldata, function(row) {
+
+        var zoomifys = row.media_zoomify_irns.split("|");
+        var sliders = row.media_sliders_irns.split("|");
+
+        if (zoomifys.length == 1 && zoomifys[0] == "") { zoomifys = []; }
+        if (sliders.length == 1 && sliders[0] == "") { sliders = []; }
+
+        // console.log("\n")
+        // console.log("ZOOMIFY +++++++++++++++++++++++++");
+        // console.log(row.catalog_number)
+        // console.log(zoomifys)
+
+        // console.log("SLIDER +++++++++++++++++++++++++");
+        // console.log(row.catalog_number)
+        // console.log(sliders)
+
+        // console.log(row.catalog_number + " -- " + zoomifys.length + " zoomifys, " + sliders.length + " sliders");
+
+        _.forEach(zoomifys, function(z) {
+            var tmpdata = row;
+            tmpdata.irn = z;
+            tmpdata.type = "zoomify";
+            if (z != "") { parsed_sqldata.push(tmpdata); }
+        });
+
+        _.forEach(sliders, function(s) {
+            var tmpdata = row;
+            tmpdata.irn = s;
+            tmpdata.type = "slider";
+            if (s != "") { parsed_sqldata.push(tmpdata); }
+        });
+
+    });
+
+    console.log("parsed data: ");
+    console.log(parsed_sqldata);
 
     tags = [
         { text: "Acanthocephala", weight: 1, link: '#' },
@@ -78,8 +122,6 @@ $(document).ready(function() {
         { title: "?", commonName: "False Crab", sciName: "Tubificoides sp.", id: "10811234", guid: 98798409598498049, type: "zoomify", url: "#" }
     ];
 
-    // var img = _.sample(test_images);
-
     _.forEach(test_data, function(d) {
         var thumb = $("#thumbnail-template").html();
         thumb = thumb.replace("%%IMG%%", _.sample(test_images));
@@ -91,39 +133,27 @@ $(document).ready(function() {
         thumb = thumb.replace("%%SCINAME%%", d.sciName);
         thumb = thumb.replace("%%URL%%", d.url);
 
-        // console.log(thumb);
-
         $("#results").append(thumb);
     });
 
+
+    parsed_sampled_sqldata = _.sampleSize(parsed_sqldata, numItems);
+
+    _.forEach(parsed_sampled_sqldata, function(row) {
+        loadData(row.irn, row.catalog_number)
+    })
+
+
+
+
+
+
+
+
+
+
     var cw = $('.thumbnail').eq(0).width();
     $('.thumbnail').css({ 'height': cw + 'px' });
-
-
-    $("#validZoomify > option").each(function() {
-        if ($(this).val() != "#") {
-            $(this).val($(this).text());
-        }
-    });
-
-    $("#validZoomify").on("change", function() {
-        if ($(this).val() != "#") {
-            document.location = "zoomify.php?irn=" + $(this).val() + "&catalogNum=";
-        }
-    });
-
-    $("#validSliders > option").each(function() {
-        if ($(this).val() != "#") {
-            $(this).val($(this).text());
-        }
-    });
-
-    $("#validSliders").on("change", function() {
-        if ($(this).val() != "#") {
-            document.location = "slider.php?irn=" + $(this).val() + "&catalogNum=";
-        }
-    });
-
 
 
 
@@ -167,3 +197,39 @@ $(document).ready(function() {
 
 
 });
+
+
+function loadData(irn, catalogNum) {
+
+
+    var url = "http://deliver.odai.yale.edu/info/repository/YPM/object/" + catalogNum + "/type/4";
+
+    var jqxhr = $.getJSON(url, function(data) {
+            console.log("GET successful: " + url);
+        })
+        .done(function(data) {
+            console.log("Request complete.  Writing javascript variable. IRN: " + irn);
+
+            var repo = _.findLast(data, function(a) {
+                // console.log(data);
+                return a.metadata.repositoryID == irn;
+            });
+
+            var stuff = { caption: repo.metadata.caption, thumbnail: repo.derivatives["2"].source };
+            console.log("return: ")
+            console.log(stuff);
+            return stuff;
+
+        })
+        .fail(function() {
+            console.log("Error requesting " + url);
+            return { caption: null, thumbnail: null };
+        })
+        .always(function() {
+            console.log("jqxhr request complete.");
+            return { caption: null, thumbnail: null };
+        });
+
+    // Perform other work here ...
+
+}

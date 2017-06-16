@@ -3,32 +3,9 @@ var targetSqlData;
 
 $(window).load(function() {
 
-    $("#validZoomify > option").each(function() {
-        if ($(this).val() != "#") {
-            $(this).val($(this).text());
-        }
-    });
-
-    $("#validZoomify").on("change", function() {
-        if ($(this).val() != "#") {
-            document.location = "zoomify.php?irn=" + $(this).val() + "&catalogNum=";
-        }
-    });
-
-    $("#validSliders > option").each(function() {
-        if ($(this).val() != "#") {
-            $(this).val($(this).text());
-        }
-    });
-
-    $("#validSliders").on("change", function() {
-        if ($(this).val() != "#") {
-            document.location = "slider.php?irn=" + $(this).val() + "&catalogNum=";
-        }
-    });
-
-    // var record = qs("slide");
-    // loadData(record);
+    var record_irn = qs("irn");
+    var record_catalogNum = qs("catalogNum");
+    loadData(record_irn, record_catalogNum);
 
 
     // load SQL data / URL variables into text area at bottom
@@ -67,7 +44,7 @@ $(window).load(function() {
     }
 
     $("#specimen_location").html(mapString);
-    $("#specimen_id").html("<strong>" + ids.catalogNum + "</strong> &ndash; IRN <strong>" + ids.irn + "</strong>");
+    // $("#specimen_id").html("<strong>" + ids.catalogNum + "</strong> &ndash; IRN <strong>" + ids.irn + "</strong>");
 
 });
 
@@ -75,10 +52,10 @@ function esc(str) {
     return str.split(" ").join("+");
 }
 
-function loadData(record) {
-    alert("make the index file a PHP file.  query mysql to get catalognum, sciname/taxa, etc., then query CDS with it for caption.")
+function loadData(irn, catalogNum) {
 
-    var url = "http://deliver.odai.yale.edu/info/repository/YPM/object/" + record + "/type/4";
+
+    var url = "http://deliver.odai.yale.edu/info/repository/YPM/object/" + catalogNum + "/type/4";
 
     var jqxhr = $.getJSON(url, function(data) {
             console.log("GET successful: " + url);
@@ -88,21 +65,11 @@ function loadData(record) {
 
             targetCdsData = data;
 
-            var repo = _.find(targetCdsData, function(a) {
-                return a.metadata.repositoryID == record;
+            var repo = _.findLast(targetCdsData, function(a) {
+                return a.metadata.repositoryID == irn;
             });
-
-            var catalogNum;
-            var caption;
-            var capCat = repo.metadata.caption.split(": ");
-            if (capCat.length > 1) {
-                caption = capCat[1];
-                catalogNum = capCat[0];
-            } else {
-                caption = catalogNum = repo.metadata.caption;
-            }
-
-            $("#specimen_title").html("<strong>" + caption + "</strong>");
+            // console.log(repo);
+            $("#specimen_title").html("<strong>" + repo.metadata.caption + "</strong>");
 
 
         })
