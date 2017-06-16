@@ -20,27 +20,111 @@ $(window).load(function() {
     var lat = sqldata[0].decimal_latitude;
     var lng = sqldata[0].decimal_longitude;
 
-    if (place != "") {
-        locString += place;
-        searchString += esc(place);
+    var commaOne = ", ";
+    var commaTwo = ", ";
+    var commaThree = ", ";
+
+
+    //3
+    if (country == "") {
+        commaOne = ", ";
+        commaTwo = ", ";
+        commaThree = "";
     }
-    if (district != "") {
-        locString += ", " + district;
-        searchString += "," + esc(district);
+    if (place == "") {
+        commaOne = "";
+        commaTwo = ", ";
+        commaThree = ", ";
     }
-    if (state != "") {
-        locString += ", " + state;
-        searchString += "," + esc(state);
+
+    if (district == "") {
+        commaOne = "";
+        commaTwo = ", ";
+        commaThree = ", ";
     }
-    if (country != "") {
-        locString += ", " + country;
-        searchString += "," + esc(country);
+
+    if (state == "") {
+        commaOne = ", ";
+        commaTwo = "";
+        commaThree = ", ";
     }
+
+    //2
+    if (state == "" && country == "") {
+        commaOne = ", ";
+        commaTwo = "";
+        commaThree = "";
+    }
+    if (district == "" && country == "") {
+        commaOne = "";
+        commaTwo = ", ";
+        commaThree = "";
+    }
+    if (district == "" && state == "") {
+        commaOne = "";
+        commaTwo = "";
+        commaThree = ", ";
+    }
+    if (place == "" && district == "") {
+        commaOne = "";
+        commaTwo = "";
+        commaThree = ", ";
+    }
+    if (place == "" && state == "") {
+        commaOne = "";
+        commaTwo = "";
+        commaThree = ", ";
+    }
+    if (place == "" && country == "") {
+        commaOne = "";
+        commaTwo = ", ";
+        commaThree = "";
+    }
+
+
+    // 1
+    if (place == "" && district == "" && state == "") {
+        commaOne = "";
+        commaTwo = "";
+        commaThree = "";
+    }
+    if (place == "" && district == "" && country == "") {
+        commaOne = "";
+        commaTwo = "";
+        commaThree = "";
+    }
+    if (place == "" && state == "" && country == "") {
+        commaOne = "";
+        commaTwo = "";
+        commaThree = "";
+    }
+    if (district == "" && state == "" && country == "") {
+        commaOne = "";
+        commaTwo = "";
+        commaThree = "";
+    }
+
+
+    // 0
+    if (place == "" && district == "" && state == "" && country == "") {
+        commaOne = "";
+        commaTwo = "";
+        commaThree = "";
+    }
+
+
+    locString = place + commaOne + district + commaTwo + state + commaThree + country;
+    searchString = esc(place) + commaOne + esc(district) + commaTwo + esc(state) + commaThree + esc(country);
+    searchString = esc(searchString);
 
     if (lat != 0 && lng != 0) {
         mapString = "<a title='Click here to view coordinates in Google Maps.' href='https://www.google.com/maps/search/?api=1&query=" + lat + "," + lng + "' target=_blank'><span class='glyphicon glyphicon-globe'></span> " + locString + "</a>";
     } else {
         mapString = "<a title='No coordinates included.  Click here to search in Google Maps.' href='https://www.google.com/maps/search/?api=1&query=" + searchString + "' target=_blank'><span class='glyphicon glyphicon-search'></span> " + locString + "</a>";
+    }
+
+    if (place == "" && district == "" && state == "" && country == "") {
+        mapString = "";
     }
 
     $("#specimen_location").html(mapString);

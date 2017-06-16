@@ -193,7 +193,7 @@ $conn->close();
 
             <div class="row">
                 <p align="center">
-                    <a href="#"><button class="btn btn-primary btn-lg bigcenter">View All</button></a>&nbsp;&nbsp;
+                    <a href="#"><button class="btn btn-primary btn-lg bigcenter">Browse More</button></a>&nbsp;&nbsp;
 
                 </p>
             </div>
@@ -228,8 +228,8 @@ $conn->close();
                     <img class="thumbnail-hoverimg" src="%%HOVERIMGTYPE%%" />
                     <div class="thumbnail-label">
                         <p class="thumbnail-label-title">%%TITLE%%</p>
+                        <!-- <p class="thumbnail-label-scientificname">%%SCINAME%%</p> -->
                         <p class="thumbnail-label-id">%%ID%%</p>
-                        <p class="thumbnail-label-scientificname">%%SCINAME%%</p>
                     </div>
                 </div>
             </a>
@@ -248,6 +248,7 @@ $conn->close();
     <script>
         window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')
     </script>
+    <!--<script src="js/vendor/object-watch.js"></script>-->
 
     <script src="js/vendor/lodash.min.js"></script>
     <script src="js/vendor/bootstrap.min.js"></script>

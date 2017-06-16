@@ -2,9 +2,10 @@ var tags = [];
 var test_images = [];
 var test_data = [];
 var live_data = [];
-var numItems = 16;
+var numItems = 12;
 var parsed_sqldata = [];
 var parsed_sampled_sqldata = [];
+var cdsData = [];
 
 $(document).ready(function() {
 
@@ -133,15 +134,21 @@ $(document).ready(function() {
         thumb = thumb.replace("%%SCINAME%%", d.sciName);
         thumb = thumb.replace("%%URL%%", d.url);
 
-        $("#results").append(thumb);
+        // $("#results").append(thumb);
     });
 
 
     parsed_sampled_sqldata = _.sampleSize(parsed_sqldata, numItems);
 
+    // console.log(parsed_sampled_sqldata);
+
     _.forEach(parsed_sampled_sqldata, function(row) {
-        loadData(row.irn, row.catalog_number)
-    })
+        loadData(row.irn, row.catalog_number, row.type);
+    });
+
+
+    // var cw = $('.thumbnail').eq(0).width();
+    // $('.thumbnail').css({ 'height': cw + 'px' });
 
 
 
@@ -150,10 +157,6 @@ $(document).ready(function() {
 
 
 
-
-
-    var cw = $('.thumbnail').eq(0).width();
-    $('.thumbnail').css({ 'height': cw + 'px' });
 
 
 
@@ -165,14 +168,14 @@ $(document).ready(function() {
         $('.thumbnail').css({ 'height': cw + 'px' });
     })
 
-    $(".thumbnail").on("mouseover", function() {
-        $(this).find("img.thumbnail-hoverimg").css("opacity", 1.0);
-    })
+    // $(".thumbnail").on("mouseover", function() {
+    //     $(this).find("img.thumbnail-hoverimg").css("opacity", 1.0);
+    // })
 
 
-    $(".thumbnail").on("mouseout", function() {
-        $(this).find("img.thumbnail-hoverimg").css("opacity", 0);
-    })
+    // $(".thumbnail").on("mouseout", function() {
+    //     $(this).find("img.thumbnail-hoverimg").css("opacity", 0);
+    // })
 
 
 
@@ -199,35 +202,82 @@ $(document).ready(function() {
 });
 
 
-function loadData(irn, catalogNum) {
+function loadData(i, c, t) {
 
 
-    var url = "http://deliver.odai.yale.edu/info/repository/YPM/object/" + catalogNum + "/type/4";
+    var url = "http://deliver.odai.yale.edu/info/repository/YPM/object/" + c + "/type/4";
 
     var jqxhr = $.getJSON(url, function(data) {
             console.log("GET successful: " + url);
         })
         .done(function(data) {
-            console.log("Request complete.  Writing javascript variable. IRN: " + irn);
+            console.log("Request complete.  Writing javascript variable. IRN: " + i);
 
             var repo = _.findLast(data, function(a) {
                 // console.log(data);
-                return a.metadata.repositoryID == irn;
+                return a.metadata.repositoryID == i;
             });
 
-            var stuff = { caption: repo.metadata.caption, thumbnail: repo.derivatives["2"].source };
-            console.log("return: ")
-            console.log(stuff);
-            return stuff;
+            // var stuff = { irn: i, catalogNum: c, caption: repo.metadata.caption, thumbnail: repo.derivatives["2"].source };
+            // console.log("return: ")
+            // console.log(stuff);
+            cdsData.push({ irn: i, catalogNum: c, caption: repo.metadata.caption, thumbnail: repo.derivatives["2"].source });
+
+            var captionString = repo.metadata.caption;
+            var caption = "";
+            var thumbnail = repo.derivatives["2"].source;
+
+            captionString = captionString.split(":");
+            if (captionString.length > 1) {
+                captionString = captionString[1];
+                if (captionString[0] == " ") { captionString = captionString.substr(1); }
+            } else {
+                captionString = captionString[0];
+            }
+            // console.log(captionString);
+
+            captionString = captionString.split(";");
+            _.forEach(captionString, function(cs) { if (cs[0].toString() == " ") { cs = cs.substr(1); } })
+            if (captionString.length > 1) {
+                caption = captionString.join("<br />");
+            } else {
+                caption = captionString[0];
+            }
+            // console.log(caption);
+
+            // CREATE THUMBNAILS
+
+            var thumb = $("#thumbnail-template").html();
+            thumb = thumb.replace("%%IMG%%", thumbnail);
+            thumb = thumb.replace("%%GUID%%", "thumb_" + i + "_" + c);
+            thumb = thumb.replace("%%HOVERIMGTYPE%%", "img/thumbhover_" + t + ".png");
+            thumb = thumb.replace("%%ID%%", "IRN: " + i);
+            thumb = thumb.replace("%%TITLE%%", caption); // if title is blank, use common name
+            thumb = thumb.replace("%%URL%%", t + ".php?irn=" + i + "&catalogNum=" + c);
+
+            $("#results").append(thumb);
+
+            $(window).trigger("resize")
+
+            if ($(".thumbnail").length >= numItems) {
+
+                $(".thumbnail").on("mouseover", function() {
+                    $(this).find("img.thumbnail-hoverimg").css("opacity", 1.0);
+                })
+
+                $(".thumbnail").on("mouseout", function() {
+                    $(this).find("img.thumbnail-hoverimg").css("opacity", 0);
+                })
+            }
 
         })
         .fail(function() {
             console.log("Error requesting " + url);
-            return { caption: null, thumbnail: null };
+            // return { caption: null, thumbnail: null };
         })
         .always(function() {
             console.log("jqxhr request complete.");
-            return { caption: null, thumbnail: null };
+            // return { caption: null, thumbnail: null };
         });
 
     // Perform other work here ...
