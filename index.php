@@ -193,7 +193,7 @@ $conn->close();
 
             <div class="row">
                 <p align="center">
-                    <a href="#"><button class="btn btn-primary btn-lg bigcenter">Browse More</button></a>&nbsp;&nbsp;
+                    <a href="javascript:sampleSlides();"><button class="btn btn-primary btn-lg bigcenter">Browse More</button></a>&nbsp;&nbsp;
 
                 </p>
             </div>
