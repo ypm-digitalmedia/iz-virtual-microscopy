@@ -243,6 +243,7 @@ function loadData(i, c, t) {
             captionString = captionString.split(";");
             _.forEach(captionString, function(cs) { if (cs[0].toString() == " ") { cs = cs.substr(1); } })
             if (captionString.length > 1) {
+                captionString[0] = "<span class='thumbnail-title-bold'>" + captionString[0] + "</span>";
                 caption = captionString.join("<br />");
             } else {
                 caption = captionString[0];

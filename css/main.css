@@ -189,6 +189,10 @@ strong {
     color: black;
 }
 
+.thumbnail-title-bold {
+    font-family: "Mallory MP Black";
+}
+
 .viewer-label-id {
     font-family: "Mallory MP Light";
     /*font-size: 14px;*/
