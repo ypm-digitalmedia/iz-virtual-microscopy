@@ -19,8 +19,6 @@
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="css/jqcloud.css">
-
-
     <link rel="stylesheet" href="css/main.css">
 
     <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
@@ -34,33 +32,34 @@
 <body>
 
  <?php
-// $servername = "sprout018.sprout.yale.edu";
-$servername = "localhost";
-$username = "general";
-$password = "Specific38!";
-$dbname = "YPM_IZ_scope";
+    // $servername = "sprout018.sprout.yale.edu";
+    $servername = "localhost";
+    $username = "general";
+    $password = "Specific38!";
+    $dbname = "YPM_IZ_scope";
 
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-$sql = "SELECT * FROM emu_metadata";
-$result = $conn->query($sql);
-
-if ($result->num_rows > 0) {
-    // output data of each row to javascript
-
-    while($row = $result->fetch_assoc()) {
-        echo "<script type='text/javascript'>sqldata.push({catalog_number: \"" . addslashes($row["catalog_number"]) . "\", emu_irn: \"" . addslashes($row["emu_irn"]) . "\", occurenceID: \"" . addslashes($row["occurenceID"]) . "\", phylum: \"" . addslashes($row["phylum"]) . "\", class: \"" . addslashes($row["class"]) . "\", order: \"" . addslashes($row["order"]) . "\", family: \"" . addslashes($row["family"]) . "\", genus: \"" . addslashes($row["genus"]) . "\", species: \"" . addslashes($row["species"]) . "\", country: \"" . addslashes($row["country"]) . "\", state_province: \"" . addslashes($row["state_province"]) . "\", county_district: \"" . addslashes($row["county_district"]) . "\", nearest_named_place: \"" . addslashes($row["nearest_named_place"]) . "\", precise_locality: \"" . addslashes($row["precise_locality"]) . "\", decimal_latitude: parseFloat(" . $row["decimal_latitude"] . "), decimal_longitude: parseFloat(" . $row["decimal_longitude"] . "), media_zoomify_irns: \"" . addslashes($row["media_zoomify_irns"]) . "\", media_sliders_irns: \"" . addslashes($row["media_sliders_irns"]) . "\"});</script>\n";
+    // Create connection
+    $conn = new mysqli($servername, $username, $password, $dbname);
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
     }
-    echo ("<script type='text/javascript'>console.log(sqldata);</script>");
-} else {
-    echo "0 results";
-}
-$conn->close();
+
+    $sql = "SELECT * FROM emu_metadata";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        // output data of each row to javascript
+
+        while($row = $result->fetch_assoc()) {
+            echo "<script type='text/javascript'>sqldata.push({catalog_number: \"" . addslashes($row["catalog_number"]) . "\", emu_irn: \"" . addslashes($row["emu_irn"]) . "\", occurenceID: \"" . addslashes($row["occurenceID"]) . "\", phylum: \"" . addslashes($row["phylum"]) . "\", class: \"" . addslashes($row["class"]) . "\", order: \"" . addslashes($row["order"]) . "\", family: \"" . addslashes($row["family"]) . "\", genus: \"" . addslashes($row["genus"]) . "\", species: \"" . addslashes($row["species"]) . "\", country: \"" . addslashes($row["country"]) . "\", state_province: \"" . addslashes($row["state_province"]) . "\", county_district: \"" . addslashes($row["county_district"]) . "\", nearest_named_place: \"" . addslashes($row["nearest_named_place"]) . "\", precise_locality: \"" . addslashes($row["precise_locality"]) . "\", decimal_latitude: parseFloat(" . $row["decimal_latitude"] . "), decimal_longitude: parseFloat(" . $row["decimal_longitude"] . "), media_zoomify_irns: \"" . addslashes($row["media_zoomify_irns"]) . "\", media_sliders_irns: \"" . addslashes($row["media_sliders_irns"]) . "\"});</script>\n";
+        }
+        echo ("<script type='text/javascript'>console.log(sqldata);</script>");
+    } else {
+        // echo "0 results";
+        echo "";
+    }
+    $conn->close();
 ?> 
 
     <!--[if lt IE 8]>
@@ -110,48 +109,54 @@ $conn->close();
                         <h2 class="searchlabel">Search:</h2>
                     </div>
                     <div class="col-sm-6">
-                        <div class="input-group" id="adv-search">
-                            <input type="text" class="form-control" placeholder="Enter search term" id="search" />
-                            <div class="input-group-btn">
-                                <div class="btn-group" role="group">
-                                    <div class="dropdown dropdown-lg">
-                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></button>
-                                        <div class="dropdown-menu dropdown-menu-right" role="menu">
-                                            <form class="form-horizontal" role="form">
-                                                <div class="form-group">
-                                                    <label for="filter">Filter by</label>
-                                                    <select class="form-control">
-                                                        <option value="0" selected>All Snippets</option>
-                                                        <option value="1">Featured</option>
-                                                        <option value="2">Most popular</option>
-                                                        <option value="3">Top rated</option>
-                                                        <option value="4">Most commented</option>
-                                                    </select>
+                        <form class="form-horizontal" role="form" action="javascript:search();">
+                            <div class="form-group">
+                                <div class="input-group" id="adv-search">
+                                    <input type="text" class="form-control" placeholder="Enter search term" id="search" />
+                                    <div class="input-group-btn">
+                                        <div class="btn-group" role="group">
+                                            <!--<div class="dropdown dropdown-lg">
+                                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></button>
+                                                <div class="dropdown-menu dropdown-menu-right" role="menu">
+                                                    <form class="form-horizontal" role="form">
+                                                        <div class="form-group">
+                                                            <label for="filter">Filter by</label>
+                                                            <select class="form-control">
+                                                                <option value="0" selected>All Snippets</option>
+                                                                <option value="1">Featured</option>
+                                                                <option value="2">Most popular</option>
+                                                                <option value="3">Top rated</option>
+                                                                <option value="4">Most commented</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="contain">Author</label>
+                                                            <input class="form-control" type="text" />
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="contain">Contains the words</label>
+                                                            <input class="form-control" type="text" />
+                                                        </div>
+                                                        <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                                                    </form>
                                                 </div>
-                                                <div class="form-group">
-                                                    <label for="contain">Author</label>
-                                                    <input class="form-control" type="text" />
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="contain">Contains the words</label>
-                                                    <input class="form-control" type="text" />
-                                                </div>
-                                                <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-                                            </form>
+                                            </div>-->
+                                            <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
                                         </div>
                                     </div>
-                                    <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
                                 </div>
-                            </div>
-                        </div>
 
+                        
+                            </div>
+                        </form>
                     </div>
                     <div class="col-sm-3"></div>
                 </div>
                 <div class="row">
                     <div class="col-sm-3"></div>
                     <div class="col-sm-6">
-                        <h6>Common/scientific name, identifier, taxa, keywords, etc.</h6>
+                        <!--<h6 style="margin-top: 0">Taxa [phylum, class, order, family, genus, species], identifier, or location.</h6>-->
+                        <h6 style="margin-top: 0">Taxa [phylum, class, order, family, genus, species], identifier, or location.</h6>
                     </div>
                     <div class="col-sm-3"></div>
                 </div>
@@ -193,7 +198,7 @@ $conn->close();
 
             <div class="row">
                 <p align="center">
-                    <a href="javascript:sampleSlides();"><button class="btn btn-primary btn-lg bigcenter">Browse More</button></a>&nbsp;&nbsp;
+                    <a href="javascript:sampleSlides();"><button class="btn btn-primary btn-lg bigcenter" id="browseMoreButton">Browse More<span id="numRemaining"></span></button></a>
 
                 </p>
             </div>

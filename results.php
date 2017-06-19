@@ -14,14 +14,9 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="stylesheet" href="css/mallory.css">
 
     <link rel="stylesheet" href="css/bootstrap.min.css">
-    <style>
-        body {
-            padding-top: 50px;
-            padding-bottom: 20px;
-        }
-    </style>
     <link rel="stylesheet" href="css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="css/jqcloud.css">
     <link rel="stylesheet" href="css/main.css">
@@ -30,10 +25,90 @@
 
     <script type="text/javascript">
         var thePage = "results";
+        var sqldata = [];
+
+        function qs(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            var results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        };
+
+        var theQuery = qs('q');
+        if (theQuery) {
+            console.log(theQuery);
+        } else {
+            console.log("no query");
+            document.location = "index.php";
+        }
+
     </script>
 </head>
 
 <body>
+
+ <?php
+    // $servername = "sprout018.sprout.yale.edu";
+    $servername = "localhost";
+    $username = "general";
+    $password = "Specific38!";
+    $dbname = "YPM_IZ_scope";
+
+    // Create connection
+    $conn = new mysqli($servername, $username, $password, $dbname);
+    //Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    // $conn = mysqli_connect($servername, $username, $password, $dbname) or die('Error connecting to MySQL server');
+
+    $vars = $_SERVER['QUERY_STRING'];
+    $qs = "";
+    if( !isset($vars) || $vars == "" || $vars == " ") {
+        // nothing
+    } else {
+        parse_str($vars, $vars_arr);
+        $qs = $vars_arr['q'];
+    }
+
+
+// SELECT title FROM pages WHERE my_col LIKE %$qs% OR another_col LIKE %$qs%;
+// where Concat(catalog_number, '', emu_irn, '', occurenceID, '', phylum, '', class, '', order, '', family, '', genus, '', species, '', country, '', state_province, '', county_district, '', nearest_named_place, '', precise_locality, '', decimal_latitude, '', decimal_longitude, '', media_zoomify_irns, '', media_sliders_irns) like "%qs%"
+
+// SELECT * FROM `emu_metadata` WHERE CONCAT_WS('|',`catalog_number`,`emu_irn`,`occurenceID`,`phylum`,`class`,`order`,`family`,`genus`,`species`,`country`,`state_province`,`county_district`,`nearest_named_place`,`precise_locality`,`decimal_latitude`,`decimal_longitude`,`media_zoomify_irns`,`media_sliders_irns`) LIKE '%$qs%'
+
+// WHERE `catalog_number` = '$qs' OR `emu_irn` = '$qs' OR `occurenceID` ='$qs' OR 
+
+
+
+    // $sql = "SELECT * FROM emu_metadata WHERE `catalog_number` = '$qs' OR `emu_irn` = '$qs' OR `occurenceID` ='$qs' OR CONCAT_WS('|',`phylum`,`class`,`order`,`family`,`genus`,`species`,`country`,`state_province`,`county_district`,`nearest_named_place`,`precise_locality`,`media_zoomify_irns`,`media_sliders_irns`) LIKE '%$qs%'";
+
+    $sql = "SELECT * FROM emu_metadata WHERE `catalog_number` = '$qs' OR `emu_irn` = '$qs' OR `occurenceID` ='$qs' OR CONCAT_WS('|',`phylum`,`class`,`order`,`family`,`genus`,`species`,`country`,`state_province`,`county_district`,`nearest_named_place`,`precise_locality`,`media_zoomify_irns`,`media_sliders_irns`) LIKE '%$qs%'";
+
+    // $sql = "SELECT * FROM emu_metadata WHERE `catalog_number` = '$qs'";
+
+    // $sql = mysqli_real_escape_string($conn, $sql);
+    // echo $sql;
+    $result = $conn->query($sql);
+    // $result = mysqli_query($conn,$sql);
+
+    if ($result->num_rows > 0) {
+        // output data of each row to javascript
+
+        while($row = $result->fetch_assoc()) {
+            echo "<script type='text/javascript'>sqldata.push({catalog_number: \"" . addslashes($row["catalog_number"]) . "\", emu_irn: \"" . addslashes($row["emu_irn"]) . "\", occurenceID: \"" . addslashes($row["occurenceID"]) . "\", phylum: \"" . addslashes($row["phylum"]) . "\", class: \"" . addslashes($row["class"]) . "\", order: \"" . addslashes($row["order"]) . "\", family: \"" . addslashes($row["family"]) . "\", genus: \"" . addslashes($row["genus"]) . "\", species: \"" . addslashes($row["species"]) . "\", country: \"" . addslashes($row["country"]) . "\", state_province: \"" . addslashes($row["state_province"]) . "\", county_district: \"" . addslashes($row["county_district"]) . "\", nearest_named_place: \"" . addslashes($row["nearest_named_place"]) . "\", precise_locality: \"" . addslashes($row["precise_locality"]) . "\", decimal_latitude: parseFloat(" . $row["decimal_latitude"] . "), decimal_longitude: parseFloat(" . $row["decimal_longitude"] . "), media_zoomify_irns: \"" . addslashes($row["media_zoomify_irns"]) . "\", media_sliders_irns: \"" . addslashes($row["media_sliders_irns"]) . "\"});</script>\n";
+        }
+        echo ("<script type='text/javascript'>console.log(sqldata);</script>");
+    } else {
+        // echo "0 results";
+        echo "";
+    }
+    $conn->close();
+    // mysqli_close($conn);
+?> 
+
+
     <!--[if lt IE 8]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
@@ -47,20 +122,16 @@
             <span class="icon-bar"></span>
           </button>
                 <a class="navbar-brand" href="http://peabody.yale.edu" target="_blank">
-                    <img src="img/ypm_wordmark_double_small_white.png" />
+                    <img src="img/ypm_wordmark_single_small_white.png" />
                 </a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
-                <form class="navbar-form navbar-right" role="form">
-                    <div class="form-group">
-                        <input type="text" placeholder="Email" class="form-control">
+                        <form class="navbar-form navbar-right" role="form">
+
+
+                                <a href="index.php" class="top-right"><button class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span>&nbsp;Back to Search</button></a>
+                        </form>
                     </div>
-                    <div class="form-group">
-                        <input type="password" placeholder="Password" class="form-control">
-                    </div>
-                    <button type="submit" class="btn btn-success">Sign in</button>
-                </form>
-            </div>
             <!--/.navbar-collapse -->
         </div>
     </nav>
@@ -89,48 +160,53 @@
                         <h2 class="searchlabel">Search:</h2>
                     </div>
                     <div class="col-sm-6">
-                        <div class="input-group" id="adv-search">
-                            <input type="text" class="form-control" placeholder="Enter search term" id="search" />
-                            <div class="input-group-btn">
-                                <div class="btn-group" role="group">
-                                    <div class="dropdown dropdown-lg">
-                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></button>
-                                        <div class="dropdown-menu dropdown-menu-right" role="menu">
-                                            <form class="form-horizontal" role="form">
-                                                <div class="form-group">
-                                                    <label for="filter">Filter by</label>
-                                                    <select class="form-control">
-                                                        <option value="0" selected>All Snippets</option>
-                                                        <option value="1">Featured</option>
-                                                        <option value="2">Most popular</option>
-                                                        <option value="3">Top rated</option>
-                                                        <option value="4">Most commented</option>
-                                                    </select>
+                        <form class="form-horizontal" role="form" action="javascript:search();">
+                            <div class="form-group">
+                                <div class="input-group" id="adv-search">
+                                    <input type="text" class="form-control" placeholder="Enter search term" id="search" />
+                                    <div class="input-group-btn">
+                                        <div class="btn-group" role="group">
+                                            <!--<div class="dropdown dropdown-lg">
+                                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></button>
+                                                <div class="dropdown-menu dropdown-menu-right" role="menu">
+                                                    <form class="form-horizontal" role="form">
+                                                        <div class="form-group">
+                                                            <label for="filter">Filter by</label>
+                                                            <select class="form-control">
+                                                                <option value="0" selected>All Snippets</option>
+                                                                <option value="1">Featured</option>
+                                                                <option value="2">Most popular</option>
+                                                                <option value="3">Top rated</option>
+                                                                <option value="4">Most commented</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="contain">Author</label>
+                                                            <input class="form-control" type="text" />
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="contain">Contains the words</label>
+                                                            <input class="form-control" type="text" />
+                                                        </div>
+                                                        <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                                                    </form>
                                                 </div>
-                                                <div class="form-group">
-                                                    <label for="contain">Author</label>
-                                                    <input class="form-control" type="text" />
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="contain">Contains the words</label>
-                                                    <input class="form-control" type="text" />
-                                                </div>
-                                                <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-                                            </form>
+                                            </div>-->
+                                            <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
                                         </div>
                                     </div>
-                                    <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
                                 </div>
-                            </div>
-                        </div>
 
+                            </div>
+                        </form>
                     </div>
                     <div class="col-sm-3"></div>
                 </div>
                 <div class="row">
                     <div class="col-sm-3"></div>
                     <div class="col-sm-6">
-                        <h6>Common/scientific name, identifier, taxa, keywords, etc.</h6>
+                        <!--<h6 style="margin-top: 0">Taxa [phylum, class, order, family, genus, species], identifier, or location.</h6>-->
+                        <h6 style="margin-top: 0">Taxa [phylum, class, order, family, genus, species], identifier, or location.</h6>
                     </div>
                     <div class="col-sm-3"></div>
                 </div>
@@ -146,8 +222,9 @@
 
             <div class="container">
                 <div class="row">
-                    <h2 class="header-and-button">31 Results for "Sponge":<a href="index.php" class="pull-right"><button class="btn btn-default">Start over</button></a></h2>
-
+                    <h2 class="header-and-button"><span id="queryNum"></span> Results for <span id="queryText"></span>
+                    <!--<a href="index.php" class="pull-right"><button class="btn btn-default">Start over</button></a>-->
+                    </h2>
                 </div>
             </div>
         </div>
@@ -165,7 +242,7 @@
 
             </div>
 
-            <div class="row" id="pagination">
+            <!--<div class="row" id="pagination">
                 <div class="col-xs-6" style="text-align: right;">
                     <a href="#"><button class="btn btn-default disabled"><span class="glyphicon glyphicon-chevron-left"></span>&nbsp;Previous</button></a>
                 </div>
@@ -174,16 +251,16 @@
                 </div>
             </div>
 
-            <hr />
 
-            <div class="row">
-                <div id="tagcloud"></div>
-            </div>
+            <hr />-->
 
             <div class="row">
                 <p align="center">
-                    <a href="#"><button class="btn btn-primary btn-lg bigcenter">View All</button></a>
+                    <a href="javascript:sampleSlides();"><button class="btn btn-primary btn-lg bigcenter" id="browseMoreButton">Show More<span id="numRemaining"></span></button></a>
                 </p>
+            </div>
+            <div class="row">
+                <div id="tagcloud"></div>
             </div>
 
             <hr />
@@ -215,8 +292,9 @@
                 <div class="thumbnail" id="%%GUID%%" style="background-image:url('%%IMG%%')">
                     <img class="thumbnail-hoverimg" src="%%HOVERIMGTYPE%%" />
                     <div class="thumbnail-label">
+                        <p class="thumbnail-label-title">%%TITLE%%</p>
+                        <!-- <p class="thumbnail-label-scientificname">%%SCINAME%%</p> -->
                         <p class="thumbnail-label-id">%%ID%%</p>
-                        <p class="thumbnail-label-scientificname">%%SCINAME%%</p>
                     </div>
                 </div>
             </a>
