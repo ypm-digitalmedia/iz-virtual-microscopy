@@ -6,6 +6,7 @@ var taxa_keywords_obj = {
     species: [],
     family: []
 };
+
 var tags = [];
 var tagsCondensed;
 var tagsCount = [];
@@ -18,6 +19,7 @@ var parsed_sqldata = [];
 var parsed_sampled_sqldata = [];
 var cdsData = [];
 
+var shown_slides = [];
 
 $(document).ready(function() {
 
@@ -27,10 +29,26 @@ $(document).ready(function() {
     _.forEach(sqldata, function(row) {
 
         var zoomifys = row.media_zoomify_irns.split("|");
-        var sliders = row.media_sliders_irns.split("|");
-
         if (zoomifys.length == 1 && zoomifys[0] == "") { zoomifys = []; }
+        _.forEach(zoomifys, function(z) {
+            var tmpdataZ = JSON.parse(JSON.stringify(row));
+            tmpdataZ.irn = z;
+            tmpdataZ.type = "zoomify";
+            if (z != "") { parsed_sqldata.push(tmpdataZ); }
+        });
+
+        var sliders = row.media_sliders_irns.split("|");
         if (sliders.length == 1 && sliders[0] == "") { sliders = []; }
+        _.forEach(sliders, function(s) {
+            var tmpdataS = JSON.parse(JSON.stringify(row));
+            tmpdataS.irn = s;
+            tmpdataS.type = "slider";
+            if (s != "") { parsed_sqldata.push(tmpdataS); }
+        });
+
+
+        // console.log("zoomifys: " + zoomifys.length);
+        // console.log("sliders: " + sliders.length);
 
         taxa_keywords_obj.class.push(row.class);
         taxa_keywords_obj.order.push(row.order);
@@ -52,19 +70,6 @@ $(document).ready(function() {
 
         // console.log(row.catalog_number + " -- " + zoomifys.length + " zoomifys, " + sliders.length + " sliders");
 
-        _.forEach(zoomifys, function(z) {
-            var tmpdata = row;
-            tmpdata.irn = z;
-            tmpdata.type = "zoomify";
-            if (z != "") { parsed_sqldata.push(tmpdata); }
-        });
-
-        _.forEach(sliders, function(s) {
-            var tmpdata = row;
-            tmpdata.irn = s;
-            tmpdata.type = "slider";
-            if (s != "") { parsed_sqldata.push(tmpdata); }
-        });
 
     });
 
@@ -114,7 +119,34 @@ $(document).ready(function() {
 });
 
 function sampleSlides() {
-    parsed_sampled_sqldata = _.sampleSize(parsed_sqldata, numItems);
+
+    for (var a = 0; a < numItems; a++) {
+        var targetItem = _.sample(parsed_sqldata);
+        console.log(targetItem);
+
+        // var shown = _.find(shown_slides, function(o) {
+        //     return o.irn == targetItem.irn && o.catalog_number == targetItem.catalog_number;
+        // })
+        // if (!shown || typeof(shown) == "undefined") {
+        //     parsed_sampled_sqldata.push(targetItem);
+        //     shown_slides.push(JSON.parse(JSON.stringify(targetItem)));
+        // }
+
+
+        parsed_sqldata = _.reject(parsed_sqldata, function(o) {
+            return o.irn == targetItem.irn && o.catalog_number == targetItem.catalog_number;
+        });
+
+        console.log(parsed_sqldata.length)
+
+
+        parsed_sampled_sqldata.push(targetItem);
+
+
+
+        // console.log("Parsed_sqldata: " + parsed_sqldata.length);
+    }
+    // parsed_sampled_sqldata = _.sampleSize(parsed_sqldata, numItems);
 
     // console.log(parsed_sampled_sqldata);
 
@@ -127,7 +159,10 @@ function sampleSlides() {
 function makeTags() {
 
     // tagsCondensed = _.union(taxa_keywords_obj.class, taxa_keywords_obj.order, taxa_keywords_obj.genus, taxa_keywords_obj.phylum, taxa_keywords_obj.species, taxa_keywords_obj.family);
-    tagsCondensed = taxa_keywords_obj.class.concat(taxa_keywords_obj.order).concat(taxa_keywords_obj.genus).concat(taxa_keywords_obj.phylum).concat(taxa_keywords_obj.species).concat(taxa_keywords_obj.family);
+
+    // tagsCondensed = taxa_keywords_obj.class.concat(taxa_keywords_obj.order).concat(taxa_keywords_obj.genus).concat(taxa_keywords_obj.phylum).concat(taxa_keywords_obj.species).concat(taxa_keywords_obj.family);
+
+    tagsCondensed = taxa_keywords_obj.class.concat(taxa_keywords_obj.order).concat(taxa_keywords_obj.genus).concat(taxa_keywords_obj.phylum).concat(taxa_keywords_obj.family);
     // tagsCondensed = _.uniq(tagsCondensed);
     tagsCondensed = _.without(tagsCondensed, "");
 
@@ -140,43 +175,6 @@ function makeTags() {
     tags = _.uniqBy(tagsCount, 'text');
     tags = _.orderBy(tags, 'weight', 'desc');
 
-    // tags = [
-    //     { text: "Acanthocephala", weight: 1, link: '#' },
-    //     { text: "Annelida", weight: 1, link: '#' },
-    //     { text: "Arthropoda", weight: 1, link: '#' },
-    //     { text: "Brachiopoda", weight: 1, link: '#' },
-    //     { text: "Bryozoa", weight: 1, link: '#' },
-    //     { text: "Chaetognatha", weight: 1, link: '#' },
-    //     { text: "Cnidaria", weight: 1, link: '#' },
-    //     { text: "Ctenophora", weight: 1, link: '#' },
-    //     { text: "Echinodermata", weight: 1, link: '#' },
-    //     { text: "Echiura", weight: 1, link: '#' },
-    //     { text: "Entoprocta", weight: 1, link: '#' },
-    //     { text: "Gastrotricha", weight: 1, link: '#' },
-    //     { text: "Gnathostomulida", weight: 1, link: '#' },
-    //     { text: "Kinorhyncha", weight: 1, link: '#' },
-    //     { text: "Loricifera", weight: 1, link: '#' },
-    //     { text: "Mesozoa", weight: 1, link: '#' },
-    //     { text: "Mollusca", weight: 1, link: '#' },
-    //     { text: "Nematoda", weight: 1, link: '#' },
-    //     { text: "Nematomorpha", weight: 1, link: '#' },
-    //     { text: "Nemertea", weight: 1, link: '#' },
-    //     { text: "Onychophora", weight: 1, link: '#' },
-    //     { text: "Pentastoma", weight: 1, link: '#' },
-    //     { text: "Phoronida", weight: 1, link: '#' },
-    //     { text: "Placozoa", weight: 1, link: '#' },
-    //     { text: "Platyhelminthes", weight: 1, link: '#' },
-    //     { text: "Pogonophora", weight: 1, link: '#' },
-    //     { text: "Porifera", weight: 1, link: '#' },
-    //     { text: "Priapula", weight: 1, link: '#' },
-    //     { text: "Rotifera", weight: 1, link: '#' },
-    //     { text: "Sipuncula", weight: 1, link: '#' },
-    //     { text: "Tardigrada", weight: 1, link: '#' }
-    // ];
-
-    // _.forEach(tags, function(t) {
-    //     t.weight = _.random(5, 15);
-    // })
 
     $('#tagcloud').jQCloud(tags, {
         autoResize: true,
@@ -242,7 +240,6 @@ function loadData(i, c, t) {
             // console.log(caption);
 
             // CREATE THUMBNAILS
-
             var thumb = $("#thumbnail-template").html();
             thumb = thumb.replace("%%IMG%%", thumbnail);
             thumb = thumb.replace("%%GUID%%", "thumb_" + i + "_" + c);
