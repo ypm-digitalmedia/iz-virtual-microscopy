@@ -74,8 +74,8 @@ $(document).ready(function() {
 
     });
 
-    console.log("parsed data: ");
-    console.log(parsed_sqldata);
+    // console.log("parsed data: ");
+    // console.log(parsed_sqldata);
 
     makeTags();
     sampleSlides();
