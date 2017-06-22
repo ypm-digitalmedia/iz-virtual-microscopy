@@ -190,6 +190,10 @@ strong {
 }
 
 .thumbnail-title-bold {
+    font-family: "Mallory MP Bold";
+}
+
+.thumbnail-title-black {
     font-family: "Mallory MP Black";
 }
 
@@ -225,6 +229,22 @@ strong {
     /*font-size: 10px;*/
     font-style: italic!important;
     color: black;
+}
+
+.black-text {
+    color: black!important;
+}
+
+.black-text:hover {
+    color: #245580!important;
+}
+
+.noit {
+    font-style: normal;
+}
+
+.it {
+    font-style: italic;
 }
 
 

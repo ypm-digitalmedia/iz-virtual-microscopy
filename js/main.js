@@ -241,12 +241,20 @@ function loadData(i, c, t) {
             // console.log(captionString);
 
             captionString = captionString.split(";");
-            _.forEach(captionString, function(cs) { if (cs[0].toString() == " ") { cs = cs.substr(1); } })
+            _.forEach(captionString, function(cs) { if (cs.toString()[0] == " ") { cs = cs.substr(1); } })
             if (captionString.length > 1) {
-                captionString[0] = "<span class='thumbnail-title-bold'>" + captionString[0] + "</span>";
+
+                if (captionString[0].indexOf("sp.") > -1) { captionString[0] = captionString[0].replace("sp.", "<span class='noit'>sp.</span>"); }
+                if (captionString[0].indexOf("nf.") > -1) { captionString[0] = captionString[0].replace("nf.", "<span class='noit'>nf.</span>"); }
+                if (captionString[0].indexOf("cf.") > -1) { captionString[0] = captionString[0].replace("cf.", "<span class='noit'>cf.</span>"); }
+                if (captionString[0].indexOf("spp.") > -1) { captionString[0] = captionString[0].replace("spp.", "<span class='noit'>spp.</span>"); }
+                if (captionString[0].indexOf("var.") > -1) { captionString[0] = captionString[0].replace("var.", "<span class='noit'>var.</span>"); }
+
+
+                captionString[0] = "<span class='thumbnail-title-bold it'>" + captionString[0] + "</span>";
                 caption = captionString.join("<br />");
             } else {
-                caption = captionString[0];
+                caption = "<span class='thumbnail-title-bold it'>" + captionString[0] + "</span>";
             }
             // console.log(caption);
 

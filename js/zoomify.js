@@ -153,7 +153,36 @@ function loadData(irn, catalogNum) {
                 return a.metadata.repositoryID == irn;
             });
             // console.log(repo);
-            $("#specimen_title").html("<strong>" + repo.metadata.caption + "</strong>");
+
+            var captionString = repo.metadata.caption;
+            var caption = "";
+
+            captionString = captionString.split(":");
+            if (captionString.length > 1) {
+                captionString = captionString[1];
+                if (captionString[0] == " ") { captionString = captionString.substr(1); }
+            } else {
+                captionString = captionString[0];
+            }
+            // console.log(captionString);
+
+            captionString = captionString.split(";");
+            _.forEach(captionString, function(cs) { if (cs.toString()[0] == " ") { cs = cs.substr(1); } })
+            if (captionString.length > 1) {
+
+                if (captionString[0].indexOf("sp.") > -1) { captionString[0] = captionString[0].replace("sp.", "<span class='noit'>sp.</span>"); }
+                if (captionString[0].indexOf("nf.") > -1) { captionString[0] = captionString[0].replace("nf.", "<span class='noit'>nf.</span>"); }
+                if (captionString[0].indexOf("cf.") > -1) { captionString[0] = captionString[0].replace("cf.", "<span class='noit'>cf.</span>"); }
+                if (captionString[0].indexOf("spp.") > -1) { captionString[0] = captionString[0].replace("spp.", "<span class='noit'>spp.</span>"); }
+                if (captionString[0].indexOf("var.") > -1) { captionString[0] = captionString[0].replace("var.", "<span class='noit'>var.</span>"); }
+
+
+                captionString[0] = "<span class='thumbnail-title-bold it'>" + captionString[0] + "</span> &ndash; ";
+                caption = captionString.join("");
+            } else {
+                caption = "<span class='thumbnail-title-bold it'>" + captionString[0] + "</span>";
+            }
+            $("#specimen_title").html("<strong>" + catalogNum + ": " + caption + "</strong>");
 
 
         })

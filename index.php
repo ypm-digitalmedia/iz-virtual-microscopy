@@ -92,13 +92,15 @@
         <!-- Top logo -->
 
         <div class="container" class="toplogo">
-            <div class="nsf-logo pull-left">
-                <img src="img/nsf.png" height="80" width="80" />
-            </div>
-            <div class="title pull-left">
-                <h1>Invertebrate Zoology</h1>
-                <h3>Virtual Microscopy</h3>
-            </div>
+            <a href="index.php" title="Home" class="black-text">
+                <div class="nsf-logo pull-left">
+                    <img src="img/nsf.png" height="80" width="80" />
+                </div>
+                <div class="title pull-left">
+                    <h1>Invertebrate Zoology</h1>
+                    <h3>Virtual Microscopy</h3>
+                </div>
+            </a>
         </div>
 
 
