@@ -112,7 +112,8 @@
 
 
         var docRoot = document.URL.substr(0, document.URL.lastIndexOf('/'));
-        var imagefolderlocation = docRoot + "/_photos/zoomify/" + slide;
+        // var imagefolderlocation = docRoot + "/_photos/zoomify/" + slide;
+        var imagefolderlocation = "http://sprout018.sprout.yale.edu/other/izscope/microscopy/zoomify/" + slide;
 
         Z.showImage("myContainer", imagefolderlocation, "zAutoResize=1&zSkinPath=Assets/Skins/Light&zNavigatorVisible=1&zToolbarVisible=0&zLogoVisible=0&zSliderVisible=0&zFullPageVisible=1&zProgressVisible=0&zTooltipsVisible=1");
     </script>

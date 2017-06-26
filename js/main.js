@@ -215,7 +215,7 @@ function loadData(i, c, t) {
             console.log("GET successful: " + url);
         })
         .done(function(data) {
-            console.log("Request complete.  Writing javascript variable. IRN: " + i);
+            console.log("Request complete.  Writing javascript variable. IRN: " + i + ", catalog number: " + c);
 
             var repo = _.findLast(data, function(a) {
                 // console.log(data);
@@ -263,7 +263,8 @@ function loadData(i, c, t) {
             thumb = thumb.replace("%%IMG%%", thumbnail);
             thumb = thumb.replace("%%GUID%%", "thumb_" + i + "_" + c);
             thumb = thumb.replace("%%HOVERIMGTYPE%%", "img/thumbhover_" + t + ".png");
-            thumb = thumb.replace("%%ID%%", "IRN: " + i);
+            thumb = thumb.replace("%%ID%%", c);
+            // thumb = thumb.replace("%%ID%%", "IRN: " + i);
             thumb = thumb.replace("%%TITLE%%", caption); // if title is blank, use common name
             thumb = thumb.replace("%%URL%%", t + ".php?irn=" + i + "&catalogNum=" + c);
 

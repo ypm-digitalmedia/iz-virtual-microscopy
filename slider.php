@@ -113,7 +113,10 @@
 
 
         var docRoot = document.URL.substr(0, document.URL.lastIndexOf('/'));
-        var imagefolderlocation = docRoot + "/_photos/slider/" + slide;
+        // var imagefolderlocation = docRoot + "/_photos/slider/" + slide;
+        var imagefolderlocation = "http://sprout018.sprout.yale.edu/other/izscope/microscopy/slider/" + slide;
+
+
         // Name of the image
         var imagename = "Plane";
         // File type of the image
