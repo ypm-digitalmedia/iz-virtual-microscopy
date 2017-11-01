@@ -84,7 +84,7 @@
 
     // $sql = "SELECT * FROM emu_metadata WHERE `catalog_number` = '$qs' OR `emu_irn` = '$qs' OR `occurenceID` ='$qs' OR CONCAT_WS('|',`phylum`,`class`,`order`,`family`,`genus`,`species`,`country`,`state_province`,`county_district`,`nearest_named_place`,`precise_locality`,`media_zoomify_irns`,`media_sliders_irns`) LIKE '%$qs%'";
 
-    $sql = "SELECT * FROM emu_metadata WHERE `catalog_number` = '$qs' OR `emu_irn` = '$qs' OR `occurenceID` ='$qs' OR CONCAT_WS('|',`phylum`,`class`,`order`,`family`,`genus`,`species`,`country`,`state_province`,`county_district`,`nearest_named_place`,`precise_locality`,`media_zoomify_irns`,`media_sliders_irns`) LIKE '%$qs%'";
+    $sql = "SELECT * FROM emu_metadata WHERE `catalog_number` = '$qs' OR `emu_irn` = '$qs' OR `occurenceID` ='$qs' OR CONCAT_WS('|',`phylum`,`class`,`order`,`family`,`genus`,`species`,`country`,`state_province`,`county_district`,`nearest_named_place`,`precise_locality`,`media_zoomify_irns`,`media_sliders_irns`,`media-zoomify-captions`,`media-sliders-captions`,`subphylum`,`superclass`,`subclass`,`superorder`,`infraorder`,`scientific_name`,`author_string`,`ocean`,`sea_gulf`,`bay_sound`,`common_names`) LIKE '%$qs%'";
 
     // $sql = "SELECT * FROM emu_metadata WHERE `catalog_number` = '$qs'";
 
@@ -98,7 +98,7 @@
         echo "<script type='text/javascript'>";
 
         while($row = $result->fetch_assoc()) {
-            echo "sqldata.push({catalog_number: \"" . addslashes($row["catalog_number"]) . "\", emu_irn: \"" . addslashes($row["emu_irn"]) . "\", occurenceID: \"" . addslashes($row["occurenceID"]) . "\", phylum: \"" . addslashes($row["phylum"]) . "\", class: \"" . addslashes($row["class"]) . "\", order: \"" . addslashes($row["order"]) . "\", family: \"" . addslashes($row["family"]) . "\", genus: \"" . addslashes($row["genus"]) . "\", species: \"" . addslashes($row["species"]) . "\", country: \"" . addslashes($row["country"]) . "\", state_province: \"" . addslashes($row["state_province"]) . "\", county_district: \"" . addslashes($row["county_district"]) . "\", nearest_named_place: \"" . addslashes($row["nearest_named_place"]) . "\", precise_locality: \"" . addslashes($row["precise_locality"]) . "\", decimal_latitude: parseFloat(" . $row["decimal_latitude"] . "), decimal_longitude: parseFloat(" . $row["decimal_longitude"] . "), media_zoomify_irns: \"" . addslashes($row["media_zoomify_irns"]) . "\", media_sliders_irns: \"" . addslashes($row["media_sliders_irns"]) . "\"});\n";
+            echo "sqldata.push({catalog_number: \"" . addslashes($row["catalog_number"]) . "\", emu_irn: \"" . addslashes($row["emu_irn"]) . "\", occurenceID: \"" . addslashes($row["occurenceID"]) . "\", phylum: \"" . addslashes($row["phylum"]) . "\", class: \"" . addslashes($row["class"]) . "\", order: \"" . addslashes($row["order"]) . "\", family: \"" . addslashes($row["family"]) . "\", genus: \"" . addslashes($row["genus"]) . "\", species: \"" . addslashes($row["species"]) . "\", country: \"" . addslashes($row["country"]) . "\", state_province: \"" . addslashes($row["state_province"]) . "\", county_district: \"" . addslashes($row["county_district"]) . "\", nearest_named_place: \"" . addslashes($row["nearest_named_place"]) . "\", precise_locality: \"" . addslashes($row["precise_locality"]) . "\", decimal_latitude: parseFloat(" . $row["decimal_latitude"] . "), decimal_longitude: parseFloat(" . $row["decimal_longitude"] . "), media_zoomify_irns: \"" . addslashes($row["media_zoomify_irns"]) . "\", media_sliders_irns: \"" . addslashes($row["media_sliders_irns"]) . "\", \"media-zoomify-captions\": \"" . addslashes($row["media-zoomify-captions"]) . "\", \"media-zoomify-themes\": \"" . addslashes($row["media-zoomify-themes"]) . "\",\"media-sliders-captions\": \"" . addslashes($row["media-sliders-captions"]) . "\",\"media-sliders-themes\": \"" . addslashes($row["media-sliders-themes"]) . "\",subphylum: \"" . addslashes($row["subphylum"]) . "\", superclass: \"" . addslashes($row["superclass"]) . "\", subclass: \"" . addslashes($row["subclass"]) . "\", superorder: \"" . addslashes($row["superorder"]) . "\", infraorder: \"" . addslashes($row["infraorder"]) . "\", scientific_name: \"" . addslashes($row["scientific_name"]) . "\", author_string: \"" . addslashes($row["author_string"]) . "\", ocean: \"" . addslashes($row["ocean"]) . "\", sea_gulf: \"" . addslashes($row["sea_gulf"]) . "\", bay_sound: \"" . addslashes($row["bay_sound"]) . "\", common_names: \"" . addslashes($row["common_names"]) . "\"});\n";
         }
         echo "</script>";
         // echo ("<script type='text/javascript'>console.log(sqldata);</script>");
@@ -210,7 +210,7 @@
                     <div class="col-sm-3"></div>
                     <div class="col-sm-6">
                         <!--<h6 style="margin-top: 0">Taxa [phylum, class, order, family, genus, species], identifier, or location.</h6>-->
-                        <h6 style="margin-top: 0">Taxa [phylum, class, order, family, genus, species], identifier, or location.</h6>
+                        <h6 style="margin-top: 0">Taxa [phylum, subphylum, superclass, class, subclass, superorder, order, infraorder, family, genus, species, scientific name], common name, caption, author, identifier, or location.</h6>
                     </div>
                     <div class="col-sm-3"></div>
                 </div>
