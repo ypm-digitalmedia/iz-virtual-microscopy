@@ -127,12 +127,12 @@
                 <div class="container-fluid">
                     <div class="navbar-header">
                         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-							<span class="sr-only">Toggle navigation</span>
+							<span title="Toggle navigation" aria-label="Toggle navigation" class="sr-only">Toggle navigation</span>
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
 						</button>
-                        <a class="navbar-brand" href="http://peabody.yale.edu" target="_blank">
+                        <a title="" aria-label="" class="navbar-brand" href="http://peabody.yale.edu" target="_blank">
                             <img src="img/ypm_wordmark_single_small_white.png" />
                         </a>
                     </div>
