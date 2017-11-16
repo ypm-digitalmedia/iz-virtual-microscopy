@@ -309,6 +309,10 @@
                                 <div class="col col-xs-12 col-sm-6 col-md-8" id="modal_locality_countyDistrict"></div>
                             </div>
                             <div class="row">
+                                <div class="col col-xs-12 col-sm-6 col-md-4"><strong>Precise Locality: </strong></div>
+                                <div class="col col-xs-12 col-sm-6 col-md-8" id="modal_locality_preciseLocality"></div>
+                            </div>
+                            <div class="row">
                                 <div class="col col-xs-12 col-sm-6 col-md-4"><strong>Nearest Named Place: </strong></div>
                                 <div class="col col-xs-12 col-sm-6 col-md-8" id="modal_locality_nearestNamedPlace"></div>
                             </div>

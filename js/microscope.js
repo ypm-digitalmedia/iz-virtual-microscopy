@@ -304,14 +304,21 @@ function loadRelatedThumbnails() {
     var zoomifyIrns = sqldata[0].media_zoomify_irns.split("|");
     var catalogNum = sqldata[0].catalog_number;
 
+    // console.warn(sliderIrns);
+    // console.warn(zoomifyIrns);
+
     _.forEach(zoomifyIrns, function(z) {
-        loadDataModal(z, catalogNum, "zoomify");
-        numRelated++;
+        if (z != "") {
+            loadDataModal(z, catalogNum, "zoomify");
+            numRelated++;
+        }
     });
 
     _.forEach(sliderIrns, function(s) {
-        loadDataModal(s, catalogNum, "slider");
-        numRelated++
+        if (s != "") {
+            loadDataModal(s, catalogNum, "slider");
+            numRelated++;
+        }
     });
 
     $("#numRelatedCounter").html(numRelated);
@@ -484,6 +491,7 @@ function loadDataModal(i, c, t) {
             $("#modal_locality_country").html(sqldata[0].country);
             $("#modal_locality_stateProvince").html(sqldata[0].state_province);
             $("#modal_locality_countyDistrict").html(sqldata[0].county_district);
+            $("#modal_locality_preciseLocality").html(sqldata[0].precise_locality);
             $("#modal_locality_nearestNamedPlace").html(sqldata[0].nearest_named_place);
             $("#modal_locality_ocean").html(sqldata[0].ocean);
             $("#modal_locality_seaGulf").html(sqldata[0].sea_gulf);
