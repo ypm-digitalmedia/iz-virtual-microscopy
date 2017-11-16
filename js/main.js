@@ -4,8 +4,19 @@ var taxa_keywords_obj = {
     genus: [],
     phylum: [],
     species: [],
-    family: []
+    family: [],
+    subphylum: [],
+    superclass: [],
+    superorder: [],
+    subclass: [],
+    scientific_name: [],
+    infraorder: []
 };
+
+var themes_obj = { sliders: [], zoomify: [] };
+var themes = [];
+var themesCondensed;
+var themesCount = {};
 
 var tags = [];
 var tagsCondensed;
@@ -27,6 +38,9 @@ $(document).ready(function() {
     // parse SQL and create individual presentations for SQL data
     // build array of tags from live data (taxa information)
 
+    // $('#theme').prop('selectedIndex', 0);
+
+
     _.forEach(sqldata, function(row) {
 
         var zoomifys = row.media_zoomify_irns.split("|");
@@ -47,44 +61,72 @@ $(document).ready(function() {
             if (s != "") { parsed_sqldata.push(tmpdataS); }
         });
 
+        themes_obj.zoomify.push(row['media-zoomify-themes']);
+        themes_obj.sliders.push(row['media-sliders-themes']);
 
-        // console.log("zoomifys: " + zoomifys.length);
-        // console.log("sliders: " + sliders.length);
+        var themes = "";
 
+
+
+
+        // build taxa keywords object
         taxa_keywords_obj.class.push(row.class);
         taxa_keywords_obj.order.push(row.order);
         taxa_keywords_obj.genus.push(row.genus);
         taxa_keywords_obj.phylum.push(row.phylum);
         taxa_keywords_obj.species.push(row.species);
         taxa_keywords_obj.family.push(row.family);
+        taxa_keywords_obj.subphylum.push(row.subphylum);
+        taxa_keywords_obj.superclass.push(row.superclass);
+        taxa_keywords_obj.superorder.push(row.superorder);
+        taxa_keywords_obj.subclass.push(row.subclass);
+        taxa_keywords_obj.scientific_name.push(row.scientific_name);
+        taxa_keywords_obj.infraorder.push(row.infraorder);
 
-
-
-        // console.log("\n")
-        // console.log("ZOOMIFY +++++++++++++++++++++++++");
-        // console.log(row.catalog_number)
-        // console.log(zoomifys)
-
-        // console.log("SLIDER +++++++++++++++++++++++++");
-        // console.log(row.catalog_number)
-        // console.log(sliders)
-
-        // console.log(row.catalog_number + " -- " + zoomifys.length + " zoomifys, " + sliders.length + " sliders");
-
+        // build thematic searches object
 
     });
 
     // console.log("parsed data: ");
     // console.log(parsed_sqldata);
 
-    makeTags();
-    sampleSlides();
+
 
 
     if (thePage == "results") {
-        $("#queryNum").html(max_parsed_sqldata);
-        $("#queryText").html(unesc(qs("q")));
-        $("#search").val(unesc(qs("q")));
+
+        var theQuery = qs('q');
+        var theTheme = qs('t');
+
+        if (theQuery) {
+
+            makeTags();
+            makeThemes();
+            sampleSlides();
+
+            $("#queryNum").html(max_parsed_sqldata);
+            $("#queryText").html(unesc(qs("q")));
+            $("#search").val(unesc(qs("q")));
+            $("#search").focus();
+
+        } else if (theTheme) {
+
+            makeTags();
+            makeThemes();
+            sampleSlides();
+
+            // $("#theme").val(unesc(qs("t")));
+
+            $("#queryNum").html(max_parsed_sqldata);
+            $("#queryType").html(" results for theme: ");
+            $("#queryText").html(unesc(qs("t")));
+
+        }
+    } else if (thePage == "home") {
+        makeTags();
+        makeThemes();
+        sampleSlides();
+        $("#search").focus();
     }
 
 
@@ -135,7 +177,14 @@ function search() {
     }
 }
 
-
+function goTheme() {
+    var themeTerm = $("#theme").find(":selected").text();
+    if (themeTerm != "") {
+        document.location = "results.php?t=" + esc(themeTerm);
+    } else {
+        alert("Please select an option.");
+    }
+}
 
 function esc(str) {
     return str.split(" ").join("+");
@@ -146,8 +195,10 @@ function unesc(str) {
     return str.split("+").join(" ");
 }
 
+
 function sampleSlides() {
     if (max_parsed_sqldata == null) { max_parsed_sqldata = parsed_sqldata.length; }
+
     if (parsed_sqldata.length > 0) {
 
         for (var a = 0; a < numItems; a++) {
@@ -172,6 +223,46 @@ function sampleSlides() {
 
 }
 
+function makeThemes() {
+    themesCondensed = themes_obj.sliders.concat(themes_obj.zoomify);
+    themesCondensed = _.without(themesCondensed, "");
+    // console.warn("THEMES CONDENSED:");
+    // console.warn(themesCondensed);
+
+    _.forEach(themesCondensed, function(t) {
+        var arr = t.split("|");
+        _.forEach(arr, function(tt) {
+            themes.push(tt);
+        });
+    });
+
+    // console.warn("THEMES FINAL:");
+    // console.warn(themes);
+
+    themes = _.without(themes, "");
+    themes = _.uniq(themes);
+    themes.sort();
+    // console.warn(themes);
+
+
+    _.forEach(themes, function(ttt) {
+
+        // var selectedString = ttt == unesc(qs('t')) ? " selected" : "";
+        var selectedString = "";
+        var selectOption = '<option value="' + ttt + '"' + selectedString + '>' + ttt + '</option>';
+        $("#theme").append(selectOption);
+    });
+
+    if (thePage == "results") {
+        if (qs("t") && !qs("q")) {
+            $('#theme option[value=\"' + unesc(qs("t")) + '\"]').attr('selected', 'selected');
+        } else if (!qs("t") && qs("q")) {
+            $('#theme').prop('selectedIndex', 0);
+        }
+    }
+
+}
+
 
 function makeTags() {
 
@@ -179,7 +270,7 @@ function makeTags() {
 
     // tagsCondensed = taxa_keywords_obj.class.concat(taxa_keywords_obj.order).concat(taxa_keywords_obj.genus).concat(taxa_keywords_obj.phylum).concat(taxa_keywords_obj.species).concat(taxa_keywords_obj.family);
 
-    tagsCondensed = taxa_keywords_obj.class.concat(taxa_keywords_obj.order).concat(taxa_keywords_obj.genus).concat(taxa_keywords_obj.phylum).concat(taxa_keywords_obj.family);
+    tagsCondensed = taxa_keywords_obj.class.concat(taxa_keywords_obj.order).concat(taxa_keywords_obj.genus).concat(taxa_keywords_obj.phylum).concat(taxa_keywords_obj.family).concat(taxa_keywords_obj.subphylum).concat(taxa_keywords_obj.superclass).concat(taxa_keywords_obj.superorder).concat(taxa_keywords_obj.subclass).concat(taxa_keywords_obj.infraorder);
     // tagsCondensed = _.uniq(tagsCondensed);
     tagsCondensed = _.without(tagsCondensed, "");
 
@@ -203,7 +294,10 @@ function makeTags() {
 }
 
 
-
+function clone(oldObject) {
+    var newObject = jQuery.extend(true, {}, oldObject);
+    return newObject;
+}
 
 
 function loadData(i, c, t) {

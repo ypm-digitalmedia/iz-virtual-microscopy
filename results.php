@@ -26,6 +26,7 @@
     <script type="text/javascript">
         var thePage = "results";
         var sqldata = [];
+        // var search_sqldata = [];
 
         function qs(name) {
             name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
@@ -35,10 +36,13 @@
         };
 
         var theQuery = qs('q');
+        var theTheme = qs('t');
         if (theQuery) {
             console.log(theQuery);
+        } else if( theTheme ) { 
+            console.log(theTheme);
         } else {
-            console.log("no query");
+            console.log("no query / theme");
             document.location = "index.php";
         }
 
@@ -65,13 +69,19 @@
 
     $vars = $_SERVER['QUERY_STRING'];
     $qs = "";
+    $th = "";
+
     if( !isset($vars) || $vars == "" || $vars == " ") {
         // nothing
     } else {
         parse_str($vars, $vars_arr);
         $qs = $vars_arr['q'];
+        // $qs = preg_replace("/[^A-Za-z0-9 ]/", '', $qs);
+
+        $th = $vars_arr['t'];
     }
 
+// GARBAGE ===============
 
 // SELECT title FROM pages WHERE my_col LIKE %$qs% OR another_col LIKE %$qs%;
 // where Concat(catalog_number, '', emu_irn, '', occurenceID, '', phylum, '', class, '', order, '', family, '', genus, '', species, '', country, '', state_province, '', county_district, '', nearest_named_place, '', precise_locality, '', decimal_latitude, '', decimal_longitude, '', media_zoomify_irns, '', media_sliders_irns) like "%qs%"
@@ -84,14 +94,37 @@
 
     // $sql = "SELECT * FROM emu_metadata WHERE `catalog_number` = '$qs' OR `emu_irn` = '$qs' OR `occurenceID` ='$qs' OR CONCAT_WS('|',`phylum`,`class`,`order`,`family`,`genus`,`species`,`country`,`state_province`,`county_district`,`nearest_named_place`,`precise_locality`,`media_zoomify_irns`,`media_sliders_irns`) LIKE '%$qs%'";
 
+// ==============================
+
+    // OLD QUERY
+    
+    // echo('<script type="text/javascript">console.log("qs: ' . $qs .'\nth: '. $th .'");</script>');
+
+    if (isset($qs) && $qs != null && $qs != "" ) {
     $sql = "SELECT * FROM emu_metadata WHERE `catalog_number` = '$qs' OR `emu_irn` = '$qs' OR `occurenceID` ='$qs' OR CONCAT_WS('|',`phylum`,`class`,`order`,`family`,`genus`,`species`,`country`,`state_province`,`county_district`,`nearest_named_place`,`precise_locality`,`media_zoomify_irns`,`media_sliders_irns`,`media-zoomify-captions`,`media-sliders-captions`,`subphylum`,`superclass`,`subclass`,`superorder`,`infraorder`,`scientific_name`,`author_string`,`ocean`,`sea_gulf`,`bay_sound`,`common_names`) LIKE '%$qs%'";
 
+    } else if (isset($th) && $th != null && $th != "") {
+
+        $sql = "SELECT * FROM emu_metadata WHERE CONCAT_WS('|',`media-zoomify-themes`,`media-sliders-themes`) LIKE '%$th%'"; 
+
+    } else if (isset($th) && isset($qs)) {
+        $sql = "SELECT * FROM emu_metadata";
+    } else {
+        $sql = "SELECT * FROM emu_metadata";
+    }
+    // CATALOG NUMBER MATCH
     // $sql = "SELECT * FROM emu_metadata WHERE `catalog_number` = '$qs'";
 
-    // $sql = mysqli_real_escape_string($conn, $sql);
-    // echo $sql;
+    // GET ALL
+    // $sql = "SELECT * FROM emu_metadata";
+
+    
+
+
+
+
+
     $result = $conn->query($sql);
-    // $result = mysqli_query($conn,$sql);
 
     if ($result->num_rows > 0) {
         // output data of each row to javascript
@@ -216,6 +249,46 @@
                 </div>
 
 
+                <div class="row">
+                    <div class="col-xs-12">&nbsp;</div>
+                </div>                    
+
+
+                <div class="row">
+                    <div class="col-sm-3">
+                        <h2 class="searchlabel">Themes:</h2>
+                    </div>
+                    <div class="col-sm-6">
+                        <form class="form-horizontal" role="form" action="javascript:document.location='index.php';">
+                            <div class="form-group">
+                                <div class="input-group" id="adv-search">
+                                        <select class="form-control" id="theme" onChange="javascript:goTheme()">
+                                            <option value="" disabled>Select one...</option>
+                                        </select>
+                                    <div class="input-group-btn">
+                                        <div class="btn-group" role="group">
+                                            <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>&nbsp;Back</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                        
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-sm-3"></div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-3"></div>
+                    <div class="col-sm-6">
+                        <h6 class="input-help">Select one of many preset &quot;thematic searches&quot; to explore similar concepts and specimens.  On this page, this dropdown menu will show related thematic searches to the one selected.</h6>
+                    </div>
+                    <div class="col-sm-3"></div>
+                </div>
+
+
             </div>
 
 
@@ -226,7 +299,7 @@
 
             <div class="container">
                 <div class="row">
-                    <h2 class="header-and-button"><span id="queryNum"></span> Results for <span id="queryText"></span>
+                    <h2 class="header-and-button"><span id="queryNum"></span><span id="queryType"> Results for </span><span id="queryText"></span>
                     <!--<a href="index.php" class="pull-right"><button class="btn btn-default">Start over</button></a>-->
                     </h2>
                 </div>
@@ -292,7 +365,7 @@
 
     <script type="text/content" id="thumbnail-template">
         <div class="col-md-3 col-sm-4 col-xs-6">
-            <a href="%%URL%%">
+            <a href="%%URL%%" target="_blank">
                 <div class="thumbnail" id="%%GUID%%" style="background-image:url('%%IMG%%')">
                     <img class="thumbnail-hoverimg" src="%%HOVERIMGTYPE%%" />
                     <div class="thumbnail-label">

@@ -119,7 +119,7 @@
                                     <input type="text" class="form-control" placeholder="Enter search term" id="search" />
                                     <div class="input-group-btn">
                                         <div class="btn-group" role="group">
-                                            <!--<div class="dropdown dropdown-lg">
+                                            <!-- <div class="dropdown dropdown-lg">
                                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></button>
                                                 <div class="dropdown-menu dropdown-menu-right" role="menu">
                                                     <form class="form-horizontal" role="form">
@@ -144,7 +144,7 @@
                                                         <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
                                                     </form>
                                                 </div>
-                                            </div>-->
+                                            </div> -->
                                             <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
                                         </div>
                                     </div>
@@ -156,11 +156,51 @@
                     </div>
                     <div class="col-sm-3"></div>
                 </div>
+
                 <div class="row">
                     <div class="col-sm-3"></div>
                     <div class="col-sm-6">
                         <!--<h6 style="margin-top: 0">Taxa [phylum, class, order, family, genus, species], identifier, or location.</h6>-->
-                        <h6 style="margin-top: 0">Taxa [phylum, subphylum, superclass, class, subclass, superorder, order, infraorder, family, genus, species, scientific name], common name, caption, author, identifier, or location.</h6>
+                        <h6 class="input-help">Taxa [phylum, subphylum, superclass, class, subclass, superorder, order, infraorder, family, genus, species, scientific name], common name, caption, author, identifier, or location.</h6>
+                    </div>
+                    <div class="col-sm-3"></div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-xs-12">&nbsp;</div>
+                </div>                    
+
+
+                <div class="row">
+                    <div class="col-sm-3">
+                        <h2 class="searchlabel">Themes:</h2>
+                    </div>
+                    <div class="col-sm-6">
+                        <form class="form-horizontal" role="form" action="javascript:goTheme();">
+                            <div class="form-group">
+                                <div class="input-group" id="adv-search">
+                                        <select class="form-control" id="theme" onChange="javascript:goTheme()">
+                                            <option value="" disabled selected>Select one...</option>
+                                        </select>
+                                    <!-- <div class="input-group-btn">
+                                        <div class="btn-group" role="group">
+                                            <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                                        </div>
+                                    </div> -->
+                                </div>
+
+                        
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-sm-3"></div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-3"></div>
+                    <div class="col-sm-6">
+                        <h6 class="input-help">Select one of many preset &quot;thematic searches&quot; to explore similar concepts and specimens.</h6>
                     </div>
                     <div class="col-sm-3"></div>
                 </div>
@@ -232,7 +272,7 @@
 
     <script type="text/content" id="thumbnail-template">
         <div class="col-md-3 col-sm-4 col-xs-6">
-            <a href="%%URL%%">
+            <a href="%%URL%%" target="_blank">
                 <div class="thumbnail" id="%%GUID%%" style="background-image:url('%%IMG%%')">
                     <img class="thumbnail-hoverimg" src="%%HOVERIMGTYPE%%" />
                     <div class="thumbnail-label">

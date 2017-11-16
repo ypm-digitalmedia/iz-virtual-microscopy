@@ -74,7 +74,7 @@ h4,
 h5,
 h6,
 strong {
-    font-family: "Mallory Book";
+    font-family: "Mallory Bold";
 }
 
 .title h1 {
@@ -112,6 +112,10 @@ strong {
 
 #queryText {
     font-family: "Mallory Light Italic"!important;
+}
+
+.input-help {
+    margin-top: 0;
 }
 
 
@@ -193,6 +197,10 @@ strong {
     font-family: "Mallory MP Bold";
 }
 
+.thumbnail-title {
+    font-family: "Mallory MP Light";
+}
+
 .thumbnail-title-black {
     font-family: "Mallory MP Black";
 }
@@ -215,6 +223,7 @@ strong {
     font-weight: 700;
     /*font-size: 12px;*/
     color: black;
+    margin-top: 0;
 }
 
 .viewer-label-scientificname {
