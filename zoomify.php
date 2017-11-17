@@ -319,9 +319,6 @@
                                             <div class="col col-xs-12 col-sm-6 col-md-8" id="modal_locality_nearestNamedPlace"></div>
                                         </div>
                                         <div class="row">
-                                            <div class="col col-xs-12">&nbsp;</div>
-                                        </div>
-                                        <div class="row">
                                             <div class="col col-xs-12" id="modal_locality_mapString"></div>
                                         </div>
                                         <div class="row">

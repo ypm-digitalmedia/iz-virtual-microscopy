@@ -1,360 +1,344 @@
-    @charset "utf-8";
-#everything {
-    height: calc(100vh-50px);
-    max-height: calc(100vh-50px);
-    overflow-y: hidden;
-    background-color: transparent;
-}
-
-#controls {
-    position: absolute;
-    bottom: 20px;
-    width: 100%;
-    padding: 0 20px;
-}
-
-.controls-zoomify {
-    bottom: 50px!important;
-}
-
-.presentation-zoomify #controls {
-    height: 195px;
-}
-
-.presentation-slider #controls {
-    height: 220px;
-}
-
-#top {
-    width: 100%;
-    position: absolute;
-    /*height: 110px;*/
-}
-
-#slideshow {
-    position: absolute;
-    margin: 0 auto 15px 15px;
-    top: 65px;
-    /*top: 160px;*/
-    bottom: 240px;
-    height: auto!important;
-    outline: 1px solid #696969;
-}
-
-#zoomifyMainContainer {
-    position: absolute;
-    margin: 0 auto 15px 0;
-    top: 65px;
-    /*top: 160px;*/
-    bottom: 175px;
-    height: auto!important;
-    background: transparent;
-    right: 15px;
-    left: 15px;
-}
-
-#main {
-    margin: 0;
-    padding: 0;
-}
-
-ui-slider-line {
-    height: 10px;
-}
-
-#slideshow img {
-    display: none;
-    /*position: absolute;*/
-    /*top: 0px;*/
-    /*left: 0px;*/
-    opacity: 1;
-    height: 100%!important;
-    width: auto!important;
-    /*border: 1px solid #696969;*/
-}
-
-#slideshow img.first {
-    display: block
-}
-
-.blockOverlay {
-    opacity: 0.9 !important;
-}
-
-.rslider {
-    display: inline-block;
-    margin-top: 0;
-    margin-left: 20px;
-}
-
-form {
-    background-color: transparent!important;
-}
-
-h1,
-h2 {
-    padding: 0!important;
-}
-
-h1,
-h2,
-h3,
-h4 {
-    font-family: "Mallory Bold"!important;
-}
-
-footer {
-    background-color: #0071bc !important;
-    color: white;
-    padding: 0!important;
-    margin-bottom: 0!important;
-    height: 20px!important;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    /*margin-left: -20px;
+            @charset "utf-8";
+        #everything {
+            height: calc(100vh-50px);
+            max-height: calc(100vh-50px);
+            overflow-y: hidden;
+            background-color: transparent;
+        }
+        
+        #controls {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            padding: 0 20px;
+        }
+        
+        .controls-zoomify {
+            bottom: 50px!important;
+        }
+        
+        .presentation-zoomify #controls {
+            height: 195px;
+        }
+        
+        .presentation-slider #controls {
+            height: 220px;
+        }
+        
+        #top {
+            width: 100%;
+            position: absolute;
+            /*height: 110px;*/
+        }
+        
+        #slideshow {
+            position: absolute;
+            margin: 0 auto 15px 15px;
+            top: 65px;
+            /*top: 160px;*/
+            bottom: 240px;
+            height: auto!important;
+            outline: 1px solid #696969;
+        }
+        
+        #zoomifyMainContainer {
+            position: absolute;
+            margin: 0 auto 15px 0;
+            top: 65px;
+            /*top: 160px;*/
+            bottom: 175px;
+            height: auto!important;
+            background: transparent;
+            right: 15px;
+            left: 15px;
+        }
+        
+        #main {
+            margin: 0;
+            padding: 0;
+        }
+        
+        ui-slider-line {
+            height: 10px;
+        }
+        
+        #slideshow img {
+            display: none;
+            /*position: absolute;*/
+            /*top: 0px;*/
+            /*left: 0px;*/
+            opacity: 1;
+            height: 100%!important;
+            width: auto!important;
+            /*border: 1px solid #696969;*/
+        }
+        
+        #slideshow img.first {
+            display: block
+        }
+        
+        .blockOverlay {
+            opacity: 0.9 !important;
+        }
+        
+        .rslider {
+            display: inline-block;
+            margin-top: 0;
+            margin-left: 20px;
+        }
+        
+        form {
+            background-color: transparent!important;
+        }
+        
+        h1,
+        h2 {
+            padding: 0!important;
+        }
+        
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: "Mallory Bold"!important;
+        }
+        
+        footer {
+            background-color: #0071bc !important;
+            color: white;
+            padding: 0!important;
+            margin-bottom: 0!important;
+            height: 20px!important;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            /*margin-left: -20px;
     margin-right: -20px;*/
-}
-
-#myContainer {
-    width: 100%!important;
-    height: 100%!important;
-    /*width: 900px;*/
-    /*height: 550px;*/
-    /*margin: auto;*/
-    /*border: 1px solid #696969;*/
-    outline: 1px solid #696969;
-}
-
-.blockUI h2 {
-    margin: 0;
-}
-
-.message-container {
-    padding: 0;
-    margin: 0;
-}
-
-.message-bg {
-    background-color: #0071bc;
-    height: 3em;
-    width: 0%;
-}
-
-
-/* ========================================================= */
-
-
-/* MODAL POPUP */
-
-
-/* ========================================================= */
-
-.modal.fade.in .related-modal-body {
-    bottom: 0;
-    opacity: 1;
-}
-
-.related-modal-body p {
-    margin: 0 0 1.62rem 0;
-    line-height: 1.62;
-    font-weight: 300;
-    font-size: 1.62rem;
-    color: #666;
-}
-
-.related-modal-body {
-    position: relative;
-    bottom: -250px;
-    margin: 150px auto 0;
-    padding: 40px;
-    max-width: 60%;
-    height: auto;
-    background-color: #ffffff;
-    border: 1px solid #000000;
-    border-radius: 10px;
-    opacity: 0;
-    -webkit-transition: opacity 0.3s ease-out, bottom 0.3s ease-out;
-    -moz-transition: opacity 0.3s ease-out, bottom 0.3s ease-out;
-    -o-transition: opacity 0.3s ease-out, bottom 0.3s ease-out;
-    transition: opacity 0.3s ease-out, bottom 0.3s ease-out;
-}
-
-.close {
-    margin-top: -20px;
-    /* margin-right: -20px; */
-    text-shadow: 0 1px 0 #ffffff;
-}
-
-#catalogNumModalHeader {
-    margin-top: 0;
-    font-size: 3rem;
-}
-
-.tab-pane {
-    overflow-y: auto;
-    width: 100%;
-    max-height: 400px;
-}
-
-#modalClose span {
-    color: #0071bc;
-}
-
-.tab-pane {
-    padding-top: 20px;
-}
-
-
-/* ========================================================= */
-
-
-/*                         THUMBNAIL                         */
-
-
-/* ========================================================= */
-
-.thumbnail {
-    width: 100%;
-    height: 100%;
-    border-radius: 10px;
-    border: 1px black solid;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    padding: 0;
-    margin-bottom: 7em;
-}
-
-.thumbnail-label {
-    clear: both;
-}
-
-.thumbnail-label p {
-    font-size: 1.2rem!important;
-    margin: 0.1em 0;
-}
-
-.thumbnail-hoverimg {
-    height: 100%;
-    width: 100%;
-    opacity: 0;
-    clear: both;
-    transition: 0.5s all ease-in-out;
-}
-
-
-/*.thumbnail-label-id {
+        }
+        
+        #myContainer {
+            width: 100%!important;
+            height: 100%!important;
+            /*width: 900px;*/
+            /*height: 550px;*/
+            /*margin: auto;*/
+            /*border: 1px solid #696969;*/
+            outline: 1px solid #696969;
+        }
+        
+        .blockUI h2 {
+            margin: 0;
+        }
+        
+        .message-container {
+            padding: 0;
+            margin: 0;
+        }
+        
+        .message-bg {
+            background-color: #0071bc;
+            height: 3em;
+            width: 0%;
+        }
+        /* ========================================================= */
+        /* MODAL POPUP */
+        /* ========================================================= */
+        
+        .modal.fade.in .related-modal-body {
+            bottom: 0;
+            opacity: 1;
+        }
+        
+        .related-modal-body p {
+            margin: 0 0 1.62rem 0;
+            line-height: 1.62;
+            font-weight: 300;
+            font-size: 1.62rem;
+            color: #666;
+        }
+        
+        .related-modal-body {
+            position: relative;
+            bottom: -250px;
+            margin: 150px auto 0;
+            padding: 40px;
+            max-width: 60%;
+            height: auto;
+            background-color: #ffffff;
+            border: 1px solid #000000;
+            border-radius: 10px;
+            opacity: 0;
+            -webkit-transition: opacity 0.3s ease-out, bottom 0.3s ease-out;
+            -moz-transition: opacity 0.3s ease-out, bottom 0.3s ease-out;
+            -o-transition: opacity 0.3s ease-out, bottom 0.3s ease-out;
+            transition: opacity 0.3s ease-out, bottom 0.3s ease-out;
+        }
+        
+        .close {
+            margin-top: -20px;
+            /* margin-right: -20px; */
+            text-shadow: 0 1px 0 #ffffff;
+        }
+        
+        #catalogNumModalHeader {
+            margin-top: 0;
+            font-size: 3rem;
+        }
+        
+        .tab-pane {
+            overflow-y: auto;
+            width: 100%;
+            max-height: 420px;
+        }
+        
+        #modalClose span {
+            color: #0071bc;
+        }
+        
+        .tab-pane {
+            padding-top: 10px;
+        }
+        /* ========================================================= */
+        /*                         THUMBNAIL                         */
+        /* ========================================================= */
+        
+        .thumbnail {
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+            border: 1px black solid;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            padding: 0;
+            margin-bottom: 7em;
+        }
+        
+        .thumbnail-label {
+            clear: both;
+        }
+        
+        .thumbnail-label p {
+            font-size: 1.2rem!important;
+            margin: 0.1em 0;
+        }
+        
+        .thumbnail-hoverimg {
+            height: 100%;
+            width: 100%;
+            opacity: 0;
+            clear: both;
+            transition: 0.5s all ease-in-out;
+        }
+        /*.thumbnail-label-id {
     text-align: center;
     font-family: "Mallory MP Light";
     font-size: 14px;
     color: black;
 }*/
-
-
-/*.thumbnail-label-commonname {
+        /*.thumbnail-label-commonname {
     text-align: center;
     font-family: "Mallory MP Light";
     font-size: 11px;
     font-style: italic;
     color: black;
 }*/
-
-.thumbnail-label-title,
-.thumbnail-label-scientificname {
-    text-align: center;
-    font-family: "Mallory MP Book";
-    font-weight: 700;
-    font-size: 12px;
-    color: black;
-}
-
-.thumbnail-label-id {
-    text-align: center;
-    font-family: "Mallory MP Light";
-    font-size: 10px;
-    font-style: italic;
-    color: black;
-}
-
-.thumbnail-title-bold {
-    font-family: "Mallory MP Bold";
-}
-
-.thumbnail-title-black {
-    font-family: "Mallory MP Black";
-}
-
-.viewer-label-id {
-    font-family: "Mallory MP Light";
-    /*font-size: 14px;*/
-    color: black;
-}
-
-.viewer-label-commonname {
-    font-family: "Mallory MP Light";
-    /*font-size: 11px;*/
-    /*font-style: italic;*/
-    color: black;
-}
-
-.viewer-label-title {
-    font-family: "Mallory MP Book";
-    font-weight: 700;
-    /*font-size: 12px;*/
-    color: black;
-    margin-top: 0;
-}
-
-.viewer-label-scientificname {
-    font-family: "Mallory MP Light";
-    /*font-size: 10px;*/
-    font-style: italic!important;
-    color: black;
-}
-
-.viewer-label-location {
-    font-family: "Mallory MP Light";
-    /*font-size: 10px;*/
-    font-style: italic!important;
-    color: black;
-}
-
-.black-text {
-    color: black!important;
-}
-
-.black-text:hover {
-    color: #245580!important;
-}
-
-.noit {
-    font-style: normal;
-}
-
-.it {
-    font-style: italic;
-}
-
-#captionModalSubHeader {
-    margin-top: 0;
-    margin-bottom: 0;
-}
-
-#catalogNumModalHeader {
-    margin-top: 0;
-    margin-bottom: 5px;
-}
-
-.tab-heading {
-    margin-top: 0;
-}
-
-.common-name-link {
-    padding: 5px;
-    margin: 5px;
-}
-
-.badge-primary {
-    color: #fff;
-    background-color: #007bff;
+        
+        .thumbnail-label-title,
+        .thumbnail-label-scientificname {
+            text-align: center;
+            font-family: "Mallory MP Book";
+            font-weight: 700;
+            font-size: 12px;
+            color: black;
+        }
+        
+        .thumbnail-label-id {
+            text-align: center;
+            font-family: "Mallory MP Light";
+            font-size: 10px;
+            font-style: italic;
+            color: black;
+        }
+        
+        .thumbnail-title-bold {
+            font-family: "Mallory MP Bold";
+        }
+        
+        .thumbnail-title-black {
+            font-family: "Mallory MP Black";
+        }
+        
+        .viewer-label-id {
+            font-family: "Mallory MP Light";
+            /*font-size: 14px;*/
+            color: black;
+        }
+        
+        .viewer-label-commonname {
+            font-family: "Mallory MP Light";
+            /*font-size: 11px;*/
+            /*font-style: italic;*/
+            color: black;
+        }
+        
+        .viewer-label-title {
+            font-family: "Mallory MP Book";
+            font-weight: 700;
+            /*font-size: 12px;*/
+            color: black;
+            margin-top: 0;
+        }
+        
+        .viewer-label-scientificname {
+            font-family: "Mallory MP Light";
+            /*font-size: 10px;*/
+            font-style: italic!important;
+            color: black;
+        }
+        
+        .viewer-label-location {
+            font-family: "Mallory MP Light";
+            /*font-size: 10px;*/
+            font-style: italic!important;
+            color: black;
+        }
+        
+        .black-text {
+            color: black!important;
+        }
+        
+        .black-text:hover {
+            color: #245580!important;
+        }
+        
+        .noit {
+            font-style: normal;
+        }
+        
+        .it {
+            font-style: italic;
+        }
+        
+        #captionModalSubHeader {
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+        
+        #catalogNumModalHeader {
+            margin-top: 0;
+            margin-bottom: 5px;
+        }
+        
+        .tab-heading {
+            margin-top: 0;
+        }
+        
+        .common-name-link {
+            padding: 5px;
+            margin: 5px;
+        }
+        
+        .badge-primary {
+            color: #fff;
+            background-color: #007bff;
