@@ -223,6 +223,18 @@ $(window).load(function() {
         }, 500);
     });
 
+    $(window).on('hide.bs.modal', function(e) {
+        setTimeout(function() {
+            $(".modalButton").removeClass("active");
+            $(".modalButton").blur();
+        }, 300);
+    });
+
+    $('.modal-toggle').click(function(e) {
+        var tab = e.target.hash;
+        $('li > a[href="' + tab + '"]').tab("show");
+    });
+
 });
 
 
@@ -294,6 +306,10 @@ function loadData(irn, catalogNum) {
 
     // Perform other work here ...
 
+}
+
+function catalogNumUrl(c) {
+    return "http://collections.peabody.yale.edu/search/Record/YPM-" + c.replace(".", "-");
 }
 
 
@@ -500,6 +516,29 @@ function loadDataModal(i, c, t) {
             $("#modal_locality_occurrenceID").html(sqldata[0].occurenceID);
             $("#modal_locality_mapString").html(mapString);
 
+            // load Collections Portal URL
+
+            $("#collectionsPortalLink").attr("href", catalogNumUrl(c));
+            $("#collectionsPortalLink").attr("title", "Collections Portal - " + c + " - " + $("#modal_taxa_scientificName").text());
+
+            // build common names
+
+            var cns = sqldata[0].common_names;
+
+            if (cns && typeof(cns) != "undefined" && cns != "") {
+                cns = cns.split("|");
+                cns = _.without(cns, "Animals");
+                cns = _.without(cns, "animals");
+                var cnsObj = [];
+
+                _.forEach(cns, function(cn) {
+                    var cnObj = '<a href="results.php?q=' + esc(cn) + '" target="_blank" title="Search for &quot;' + cn + '&quot;" class="btn btn-sm btn-primary common-name-link"><span class="glyphicon glyphicon-search"></span>&nbsp;' + cn + '</a>';
+                    cnsObj.push(cnObj);
+                })
+
+                cnsObj = _.uniq(cnsObj);
+                $("#commonNames").html(cnsObj.join(""));
+            }
 
             // var stuff = { irn: i, catalogNum: c, caption: repo.metadata.caption, thumbnail: repo.derivatives["2"].source };
             // console.log("return: ")

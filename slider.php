@@ -242,6 +242,9 @@
                     <div role="tabpanel" class="tab-pane" id="relatedTaxa">
                         <div class="container-fluid">
                             <div class="row">
+                                <div class="col col-xs-12"><h3 class="tab-heading">Taxonomic Ranks</h3></div>
+                            </div>
+                            <div class="row">
                                 <div class="col col-xs-12 col-sm-6 col-md-4"><strong>Phylum: </strong></div>
                                 <div class="col col-xs-12 col-sm-6 col-md-8" id="modal_taxa_phylum"></div>
                             </div>
@@ -289,12 +292,19 @@
                                 <div class="col col-xs-12 col-sm-6 col-md-4"><strong>Scientific Name: </strong></div>
                                 <div class="col col-xs-12 col-sm-6 col-md-8" id="modal_taxa_scientificName"></div>
                             </div>
+                            <div class="row">
+                                <hr />
+                                <div class="col col-xs-12"><h3 class="tab-heading">Common Names</h3></div>
+                            </div>
+                            <div class="row">
+                                <div class="col col-xs-12" id="commonNames"></div>
+                            </div>
                         </div>
                     </div>
                     <div role="tabpanel" class="tab-pane" id="relatedOccurrence">
                         <div class="container-fluid">
                             <div class="row">
-                                <div class="col col-xs-12"><h3>Locality</h3></div>
+                                <div class="col col-xs-12"><h3 class="tab-heading">Locality</h3></div>
                             </div>
                             <div class="row">
                                 <div class="col col-xs-12 col-sm-6 col-md-4"><strong>Country: </strong></div>
@@ -324,7 +334,7 @@
                             </div>
                             <div class="row">
                                 <hr />
-                                <div class="col col-xs-12"><h3>Body of Water</h3></div>
+                                <div class="col col-xs-12"><h3 class="tab-heading">Body of Water</h3></div>
                             </div>
                             <div class="row">
                                 <div class="col col-xs-12 col-sm-6 col-md-4"><strong>Ocean: </strong></div>
@@ -340,7 +350,7 @@
                             </div>
                             <div class="row">
                                 <hr />
-                                <div class="col col-xs-12"><h3>Author/Occurrence</h3></div>
+                                <div class="col col-xs-12"><h3 class="tab-heading">Author/Occurrence</h3></div>
                             </div>
                             <div class="row">
                                 <div class="col col-xs-12 col-sm-6 col-md-4"><strong>Author: </strong></div>
@@ -358,6 +368,7 @@
         <div class="modal-footer">
             <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
             <!-- <button type="button" class="btn btn-primary save">Save changes</button> -->
+            <span class="pull-left"><a id="collectionsPortalLink" target="_blank" href="#" title=""><span class="glyphicon glyphicon-link"></span>&nbsp;Click for Collections Portal record</a></span>
         </div>
     </div>
 </div>

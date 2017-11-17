@@ -1,4 +1,4 @@
-@charset "utf-8";
+    @charset "utf-8";
 #everything {
     height: calc(100vh-50px);
     max-height: calc(100vh-50px);
@@ -345,3 +345,16 @@ footer {
     margin-top: 0;
     margin-bottom: 5px;
 }
+
+.tab-heading {
+    margin-top: 0;
+}
+
+.common-name-link {
+    padding: 5px;
+    margin: 5px;
+}
+
+.badge-primary {
+    color: #fff;
+    background-color: #007bff;

@@ -250,7 +250,6 @@ function loadData(irn, catalogNum) {
 
             theCaption = caption;
 
-
         })
         .fail(function() {
             console.log("Error requesting " + url);
@@ -263,7 +262,9 @@ function loadData(irn, catalogNum) {
 
 }
 
-
+function catalogNumUrl(c) {
+    return "http://collections.peabody.yale.edu/search/Record/YPM-" + c.replace(".", "-");
+}
 
 function loadDataModal(i, c, t) {
 
@@ -341,6 +342,30 @@ function loadDataModal(i, c, t) {
             $("#modal_locality_occurrenceID").html(sqldata[0].occurenceID);
             $("#modal_locality_mapString").html(mapString);
 
+            // load Collections Portal URL
+
+            $("#collectionsPortalLink").attr("href", catalogNumUrl(c));
+            $("#collectionsPortalLink").attr("title", "Collections Portal - " + c + " - " + $("#modal_taxa_scientificName").text());
+
+            // build common names
+
+            var cns = sqldata[0].common_names;
+
+            if (cns && typeof(cns) != "undefined" && cns != "") {
+                cns = cns.split("|");
+                cns = _.without(cns, "Animals");
+                cns = _.without(cns, "animals");
+                var cnsObj = [];
+
+                _.forEach(cns, function(cn) {
+                    var cnObj = '<a href="results.php?q=' + esc(cn) + '" target="_blank" title="Search for &quot;' + cn + '&quot;" class="btn btn-sm btn-primary common-name-link"><span class="glyphicon glyphicon-search"></span>&nbsp;' + cn + '</a>';
+                    cnsObj.push(cnObj);
+                })
+
+                cnsObj = _.uniq(cnsObj);
+                $("#commonNames").html(cnsObj.join(""));
+
+            }
 
             // var stuff = { irn: i, catalogNum: c, caption: repo.metadata.caption, thumbnail: repo.derivatives["2"].source };
             // console.log("return: ")
