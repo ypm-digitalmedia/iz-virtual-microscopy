@@ -1,3 +1,15 @@
+<?  
+session_start(); 
+if(!isset($_SESSION['random'])){  
+     $_SESSION['randomone'] = mt_rand(100000, 999999);  
+     $_SESSION['randomtwo'] = mt_rand(100000, 999999);
+     $_SESSION['randomthree'] = mt_rand(100000, 999999);
+}  
+$randomone = $_SESSION['randomone'];  
+$randomtwo = $_SESSION['randomtwo'];  
+$randomthree = $_SESSION['randomthree'];  
+?>
+
 <!doctype html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
@@ -19,7 +31,10 @@
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="css/jqcloud.css">
-    <link rel="stylesheet" href="css/main.css">
+
+
+    <?php echo '<link rel="stylesheet" type="text/css" href="css/main.css?v=' . $randomone . '" />'; ?>
+    <!-- <link rel="stylesheet" href="css/main.css"> -->
 
     <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
 
@@ -303,7 +318,8 @@
     <script src="js/vendor/bootstrap.min.js"></script>
     <script src="js/vendor/jqcloud.js"></script>
 
-    <script src="js/main.js"></script>
+    <?php echo '<script type="text/javascript" src="js/main.js?v=' . $randomtwo . '"></script>'; ?>
+    <!-- <script src="js/main.js"></script> -->
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
     <script>

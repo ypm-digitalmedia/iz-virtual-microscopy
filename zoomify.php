@@ -1,3 +1,15 @@
+<?  
+session_start(); 
+if(!isset($_SESSION['random'])){  
+     $_SESSION['randomone'] = mt_rand(100000, 999999);  
+     $_SESSION['randomtwo'] = mt_rand(100000, 999999);
+     $_SESSION['randomthree'] = mt_rand(100000, 999999);
+}  
+$randomone = $_SESSION['randomone'];  
+$randomtwo = $_SESSION['randomtwo'];  
+$randomthree = $_SESSION['randomthree'];  
+?>
+
 <!doctype html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
@@ -17,8 +29,10 @@
     <link rel="stylesheet" href="css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="css/mallory.css">
 
-    <link rel="stylesheet" type="text/css" media="screen" href="css/main.css">
-    <link rel="stylesheet" type="text/css" media="screen" href="css/microscope.css">
+    <?php echo '<link rel="stylesheet" type="text/css" href="css/main.css?v=' . $randomone . '" />'; ?>
+    <?php echo '<link rel="stylesheet" type="text/css" href="css/microscope.css?v=' . $randomtwo . '" />'; ?>
+    <!-- <link rel="stylesheet" type="text/css" media="screen" href="css/main.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/microscope.css"> -->
 
     <script type="text/javascript">
         var sqldata = [];
@@ -386,7 +400,9 @@
     <script type="text/javascript" src="js/vendor/jquery-1.10.2.js"></script>
     <script type="text/javascript" src="js/vendor/bootstrap.min.js"></script>
     <script type="text/javascript" src="js/vendor/lodash.min.js"></script>
-    <script type="text/javascript" src="js/zoomify.js"></script>
+
+    <?php echo '<script type="text/javascript" src="js/zoomify.js?v=' . $randomthree . '"></script>'; ?>
+    <!-- <script type="text/javascript" src="js/zoomify.js"></script> -->
 </body>
 
 </html>
