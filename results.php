@@ -1,4 +1,4 @@
-<?  
+<?php
 session_start(); 
 if(!isset($_SESSION['random'])){  
      $_SESSION['randomone'] = mt_rand(100000, 999999);  
