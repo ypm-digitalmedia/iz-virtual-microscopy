@@ -50,7 +50,7 @@ $randomthree = $_SESSION['randomthree'];
     // $servername = "sprout018.sprout.yale.edu";
     $servername = "localhost";
     $username = "general";
-    $password = "Specific38!";
+    $password = "Specific38!!";
     $dbname = "YPM_IZ_scope";
 
     // Create connection
