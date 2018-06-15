@@ -66,7 +66,7 @@ $randomthree = $_SESSION['randomthree'];
     <body>
 
         <?php
-    // $servername = "sprout018.sprout.yale.edu";
+    // $servername = "10.5.32.250";
     $servername = "localhost";
     $username = "general";
     $password = "INSERT PASSWORD HERE";

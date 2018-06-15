@@ -49,7 +49,7 @@ $randomthree = $_SESSION['randomthree'];
         </script>
 
         <?php
-    // $servername = "sprout018.sprout.yale.edu";
+    // $servername = "10.5.32.250";
     // echo '<script type="text/javascript">alert(" ' . $_SERVER['QUERY_STRING'] . '");</script>';
     
     $vars = $_SERVER['QUERY_STRING'];
@@ -129,7 +129,7 @@ $randomthree = $_SESSION['randomthree'];
 
                 var docRoot = document.URL.substr(0, document.URL.lastIndexOf('/'));
                 // var imagefolderlocation = docRoot + "/_photos/slider/" + slide;
-                var imagefolderlocation = "http://sprout018.sprout.yale.edu/other/izscope/microscopy/slider/" + slide;
+                var imagefolderlocation = "http://10.5.32.250/other/izscope/microscopy/slider/" + slide;
 
 
                 // Name of the image

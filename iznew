@@ -1,0 +1,14 @@
+#!/bin/bash
+
+now=`date`
+izscope=`ls -la /usr/local/share/www/izscope | grep microscopy | cut -c1-3`
+if [ "$izscope" = "drw" ] ; then
+   echo $now 'izscope online' >> /tmp/izscope.log
+   fi
+if [ "$izscope" = "" ] ; then
+   echo $now 'izscope offline' >> /tmp/izscope.log
+   echo $now 'restarting izscope...' >> /tmp/izscope.log
+   /bin/mount -t cifs -o ro,credentials=/home/lfgall/iz //wcsfs00.its.yale.internal/IZ-883001-YPM /usr/local/share/www/izscope
+   fi
+
+

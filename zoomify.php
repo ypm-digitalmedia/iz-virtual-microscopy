@@ -42,7 +42,7 @@ $randomthree = $_SESSION['randomthree'];
 
 
         <?php
-    // $servername = "sprout018.sprout.yale.edu";
+    // $servername = "10.5.32.250";
     // echo '<script type="text/javascript">alert(" ' . $_SERVER['QUERY_STRING'] . '");</script>';
     
     $vars = $_SERVER['QUERY_STRING'];
@@ -128,7 +128,7 @@ $randomthree = $_SESSION['randomthree'];
 
                 var docRoot = document.URL.substr(0, document.URL.lastIndexOf('/'));
                 // var imagefolderlocation = docRoot + "/_photos/zoomify/" + slide;
-                var imagefolderlocation = "http://sprout018.sprout.yale.edu/other/izscope/microscopy/zoomify/" + slide;
+                var imagefolderlocation = "http://10.5.32.250/other/izscope/microscopy/zoomify/" + slide;
 
                 Z.showImage("myContainer", imagefolderlocation, "zAutoResize=1&zSkinPath=Assets/Skins/Light&zNavigatorVisible=1&zToolbarVisible=0&zLogoVisible=0&zSliderVisible=0&zFullPageVisible=1&zProgressVisible=0&zTooltipsVisible=1");
 

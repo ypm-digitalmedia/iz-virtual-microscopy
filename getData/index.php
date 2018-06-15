@@ -1,44 +1,48 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<title>IZ | MySQL-CDS unit test</title>
-<meta charset="utf8" />
+    <title>IZ | MySQL-CDS unit test</title>
+    <meta charset="utf8" />
 
-<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
 
-<link rel="stylesheet" type="text/css" href="main.css" />
+    <link rel="stylesheet" type="text/css" href="main.css" />
 
-<script type="text/javascript">
-    var sqldata = [];
+    <script type="text/javascript">
+        var sqldata = [];
 
-    var valid = {
-        slider : ["420984","424789","425809","425816","425817","426566","426909","426910","426911","426912","426913","426915"],
-        zoomify : ["420983","420985","425809","429851","484904","542943"]
-    };
+        var valid = {
+            slider: ["420984", "424789", "425809", "425816", "425817", "426566", "426909", "426910", "426911", "426912", "426913", "426915"],
+            zoomify: ["420983", "420985", "425809", "429851", "484904", "542943"]
+        };
 
 
-    function getIntersect(arr1, arr2) {
-        var r = [], o = {}, l = arr2.length, i, v;
-        for (i = 0; i < l; i++) {
-            o[arr2[i]] = true;
-        }
-        l = arr1.length;
-        for (i = 0; i < l; i++) {
-            v = arr1[i];
-            if (v in o) {
-                r.push(v);
+        function getIntersect(arr1, arr2) {
+            var r = [],
+                o = {},
+                l = arr2.length,
+                i, v;
+            for (i = 0; i < l; i++) {
+                o[arr2[i]] = true;
             }
+            l = arr1.length;
+            for (i = 0; i < l; i++) {
+                v = arr1[i];
+                if (v in o) {
+                    r.push(v);
+                }
+            }
+            return r;
         }
-        return r;
-    }
 
-</script>
+    </script>
 
- </head>
+</head>
 
- <body>
- <?php
-// $servername = "sprout018.sprout.yale.edu";
+<body>
+    <?php
+// $servername = "10.5.32.250";
 $servername = "localhost";
 $username = "general";
 $password = "Specific38!";
@@ -72,53 +76,58 @@ if ($result->num_rows > 0) {
     echo "0 results";
 }
 $conn->close();
-?> 
+?>
 
 
-<!-- Modal -->
-<div class="modal modal-wide fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel"></h4>
-      </div>
-      <div class="modal-body" id="myModalContent">
-            <p align="center" id="myModalLoader">
-                <img src='ajax-loader.gif' />
-            </p>
-            <div id="imagery" class="container-fluid">
-                <div class="row">
-                    <div class="col-sm-12 col-md-6"><h3>Sliders:</h3></div>
-                    <div class="col-sm-12 col-md-6"><h3>Zoomifys:</h3></div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12 col-md-6" id="imagery_slider"></div>
-                    <div class="col-sm-12 col-md-6" id="imagery_zoomify"></div>
+        <!-- Modal -->
+        <div class="modal modal-wide fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel"></h4>
+                    </div>
+                    <div class="modal-body" id="myModalContent">
+                        <p align="center" id="myModalLoader">
+                            <img src='ajax-loader.gif' />
+                        </p>
+                        <div id="imagery" class="container-fluid">
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6">
+                                    <h3>Sliders:</h3>
+                                </div>
+                                <div class="col-sm-12 col-md-6">
+                                    <h3>Zoomifys:</h3>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6" id="imagery_slider"></div>
+                                <div class="col-sm-12 col-md-6" id="imagery_zoomify"></div>
+                            </div>
+                        </div>
+                        <hr />
+                        <div id="repos"></div>
+                        <h3>SQL data:</h3>
+                        <div id="sqlData" class="well"></div>
+                        <h3>CDS data:</h3>
+                        <div id="cdsData" class="well"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <!--<button type="button" class="btn btn-primary">Save changes</button>-->
+                    </div>
                 </div>
             </div>
-            <hr />
-            <div id="repos"></div>
-            <h3>SQL data:</h3>
-            <div id="sqlData" class="well"></div>
-            <h3>CDS data:</h3>
-            <div id="cdsData" class="well"></div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <!--<button type="button" class="btn btn-primary">Save changes</button>-->
-      </div>
-    </div>
-  </div>
-</div>
+        </div>
 
 
-<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" type="text/javascript"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js" type="text/javascript"></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js" type="text/javascript"></script>
 
-<script src="main.js" type="text/javascript"></script>
+        <script src="main.js" type="text/javascript"></script>
 
 
 </body>
+
 </html>
