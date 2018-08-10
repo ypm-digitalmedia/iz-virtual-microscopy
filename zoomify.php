@@ -19,6 +19,20 @@ $randomthree = $_SESSION['randomthree'];
 	<!--<![endif]-->
 
 	<head>
+		<!-- Global site tag (gtag.js) - Google Analytics -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-3250139-10"></script>
+		<script>
+			window.dataLayer = window.dataLayer || [];
+
+			function gtag() {
+				dataLayer.push(arguments);
+			}
+			gtag('js', new Date());
+
+			gtag('config', 'UA-3250139-10');
+
+		</script>
+
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<title>Virtual Microscopy | Invertebrate Zoology | Yale Peabody Museum of Natural History</title>
