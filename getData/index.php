@@ -42,21 +42,10 @@
 
 <body>
     <?php
-// $servername = "10.5.32.250";
-$servername = "localhost";
-$username = "general";
-$password = "Specific38!";
-$dbname = "YPM_IZ_scope";
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+require_once('./include/dbconnect.php');
 
 $sql = "SELECT * FROM emu_metadata";
-$result = $conn->query($sql);
+$result = $connection->query($sql);
 
 
 
@@ -75,7 +64,7 @@ if ($result->num_rows > 0) {
 } else {
     echo "0 results";
 }
-$conn->close();
+$connection->close();
 ?>
 
 

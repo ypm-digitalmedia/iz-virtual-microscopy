@@ -21,7 +21,7 @@ $randomthree = $_SESSION['randomthree'];
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>Invertebrate Zoology | Virtual Microscopy</title>
+        <title>Virtual Microscopy | Invertebrate Zoology | Yale Peabody Museum of Natural History</title>
         <link rel="shortcut icon" href="http://peabody.yale.edu/sites/default/files/favicon.ico" type="image/x-icon">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -66,20 +66,9 @@ $randomthree = $_SESSION['randomthree'];
     <body>
 
         <?php
-    // $servername = "10.5.32.250";
-    $servername = "localhost";
-    $username = "general";
-    $password = "INSERT PASSWORD HERE";
-    $dbname = "YPM_IZ_scope";
+    require_once('./include/dbconnect.php');
 
-    // Create connection
-    $conn = new mysqli($servername, $username, $password, $dbname);
-    //Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-
-    // $conn = mysqli_connect($servername, $username, $password, $dbname) or die('Error connecting to MySQL server');
+    // $connection = mysqli_connect($servername, $username, $password, $dbname) or die('Error connecting to MySQL server');
 
     $vars = $_SERVER['QUERY_STRING'];
     $qs = "";
@@ -138,7 +127,7 @@ $randomthree = $_SESSION['randomthree'];
 
 
 
-    $result = $conn->query($sql);
+    $result = $connection->query($sql);
 
     if ($result->num_rows > 0) {
         // output data of each row to javascript
@@ -153,8 +142,8 @@ $randomthree = $_SESSION['randomthree'];
         // echo "0 results";
         echo "";
     }
-    $conn->close();
-    // mysqli_close($conn);
+    $connection->close();
+    // mysqli_close($connection);
 ?>
 
 
@@ -379,7 +368,7 @@ $randomthree = $_SESSION['randomthree'];
 
             <script type="text/content" id="thumbnail-template">
                 <div class="col-md-3 col-sm-4 col-xs-6">
-                    <a href="%%URL%%" target="_blank">
+                    <a href="%%URL%%">
                         <div class="thumbnail" id="%%GUID%%" style="background-image:url('%%IMG%%')">
                             <img class="thumbnail-hoverimg" src="%%HOVERIMGTYPE%%" />
                             <div class="thumbnail-label">

@@ -9,7 +9,7 @@ var searchString = "";
 
 var theCaption = "";
 
-$(window).load(function() {
+$(window).load(function () {
 
     var record_irn = qs("irn");
     var record_catalogNum = qs("catalogNum");
@@ -139,26 +139,28 @@ $(window).load(function() {
     // $("#specimen_id").html("<strong>" + ids.catalogNum + "</strong> &ndash; IRN <strong>" + ids.irn + "</strong>");
 
 
-    $(window).resize(function() {
+    $(window).resize(function () {
         var cw = $('.thumbnail').eq(0).width();
-        $('.thumbnail').css({ 'height': cw + 'px' });
+        $('.thumbnail').css({
+            'height': cw + 'px'
+        });
     })
     $(window).trigger("resize");
 
-    $(window).on('show.bs.modal', function(e) {
-        setTimeout(function() {
+    $(window).on('show.bs.modal', function (e) {
+        setTimeout(function () {
             $(window).trigger("resize");
         }, 500);
     });
 
-    $(window).on('hide.bs.modal', function(e) {
-        setTimeout(function() {
+    $(window).on('hide.bs.modal', function (e) {
+        setTimeout(function () {
             $(".modalButton").removeClass("active");
             $(".modalButton").blur();
         }, 300);
     });
 
-    $('.modal-toggle').click(function(e) {
+    $('.modal-toggle').click(function (e) {
         var tab = e.target.hash;
         $('li > a[href="' + tab + '"]').tab("show");
     });
@@ -177,14 +179,14 @@ function loadRelatedThumbnails() {
     // console.warn(sliderIrns);
     // console.warn(zoomifyIrns);
 
-    _.forEach(zoomifyIrns, function(z) {
+    _.forEach(zoomifyIrns, function (z) {
         if (z != "") {
             loadDataModal(z, catalogNum, "zoomify");
             numRelated++;
         }
     });
 
-    _.forEach(sliderIrns, function(s) {
+    _.forEach(sliderIrns, function (s) {
         if (s != "") {
             loadDataModal(s, catalogNum, "slider");
             numRelated++;
@@ -204,15 +206,15 @@ function loadData(irn, catalogNum) {
 
     var url = "http://deliver.odai.yale.edu/info/repository/YPM/object/" + catalogNum + "/type/4";
 
-    var jqxhr = $.getJSON(url, function(data) {
+    var jqxhr = $.getJSON(url, function (data) {
             console.log("GET successful: " + url);
         })
-        .done(function(data) {
+        .done(function (data) {
             console.log("Request complete.  Writing javascript variable.");
 
             targetCdsData = data;
 
-            var repo = _.findLast(targetCdsData, function(a) {
+            var repo = _.findLast(targetCdsData, function (a) {
                 return a.metadata.repositoryID == irn;
             });
             // console.log(repo);
@@ -223,21 +225,37 @@ function loadData(irn, catalogNum) {
             captionString = captionString.split(":");
             if (captionString.length > 1) {
                 captionString = captionString[1];
-                if (captionString[0] == " ") { captionString = captionString.substr(1); }
+                if (captionString[0] == " ") {
+                    captionString = captionString.substr(1);
+                }
             } else {
                 captionString = captionString[0];
             }
             // console.log(captionString);
 
             captionString = captionString.split(";");
-            _.forEach(captionString, function(cs) { if (cs.toString()[0] == " ") { cs = cs.substr(1); } })
+            _.forEach(captionString, function (cs) {
+                if (cs.toString()[0] == " ") {
+                    cs = cs.substr(1);
+                }
+            })
             if (captionString.length > 1) {
 
-                if (captionString[0].indexOf("sp.") > -1) { captionString[0] = captionString[0].replace("sp.", "<span class='noit'>sp.</span>"); }
-                if (captionString[0].indexOf("nf.") > -1) { captionString[0] = captionString[0].replace("nf.", "<span class='noit'>nf.</span>"); }
-                if (captionString[0].indexOf("cf.") > -1) { captionString[0] = captionString[0].replace("cf.", "<span class='noit'>cf.</span>"); }
-                if (captionString[0].indexOf("spp.") > -1) { captionString[0] = captionString[0].replace("spp.", "<span class='noit'>spp.</span>"); }
-                if (captionString[0].indexOf("var.") > -1) { captionString[0] = captionString[0].replace("var.", "<span class='noit'>var.</span>"); }
+                if (captionString[0].indexOf("sp.") > -1) {
+                    captionString[0] = captionString[0].replace("sp.", "<span class='noit'>sp.</span>");
+                }
+                if (captionString[0].indexOf("nf.") > -1) {
+                    captionString[0] = captionString[0].replace("nf.", "<span class='noit'>nf.</span>");
+                }
+                if (captionString[0].indexOf("cf.") > -1) {
+                    captionString[0] = captionString[0].replace("cf.", "<span class='noit'>cf.</span>");
+                }
+                if (captionString[0].indexOf("spp.") > -1) {
+                    captionString[0] = captionString[0].replace("spp.", "<span class='noit'>spp.</span>");
+                }
+                if (captionString[0].indexOf("var.") > -1) {
+                    captionString[0] = captionString[0].replace("var.", "<span class='noit'>var.</span>");
+                }
 
                 $("#captionModalSubHeader").html("<span class='thumbnail-title it'>" + captionString[0] + "</span>");
                 captionString[0] = "<span class='thumbnail-title-bold it'>" + captionString[0] + "</span> &ndash; ";
@@ -251,10 +269,10 @@ function loadData(irn, catalogNum) {
             theCaption = caption;
 
         })
-        .fail(function() {
+        .fail(function () {
             console.log("Error requesting " + url);
         })
-        .always(function() {
+        .always(function () {
             console.log("jqxhr request complete.");
         });
 
@@ -271,13 +289,13 @@ function loadDataModal(i, c, t) {
 
     var url = "http://deliver.odai.yale.edu/info/repository/YPM/object/" + c + "/type/4";
 
-    var jqxhr = $.getJSON(url, function(data) {
+    var jqxhr = $.getJSON(url, function (data) {
             console.log("GET successful: " + url);
         })
-        .done(function(data) {
+        .done(function (data) {
             console.log("Request complete.  Writing javascript variable. IRN: " + i + ", catalog number: " + c);
 
-            var repo = _.findLast(data, function(a) {
+            var repo = _.findLast(data, function (a) {
                 // console.log(data);
                 return a.metadata.repositoryID == i;
             });
@@ -290,21 +308,37 @@ function loadDataModal(i, c, t) {
             captionString = captionString.split(":");
             if (captionString.length > 1) {
                 captionString = captionString[1];
-                if (captionString[0] == " ") { captionString = captionString.substr(1); }
+                if (captionString[0] == " ") {
+                    captionString = captionString.substr(1);
+                }
             } else {
                 captionString = captionString[0];
             }
             // console.log(captionString);
 
             captionString = captionString.split(";");
-            _.forEach(captionString, function(cs) { if (cs.toString()[0] == " ") { cs = cs.substr(1); } })
+            _.forEach(captionString, function (cs) {
+                if (cs.toString()[0] == " ") {
+                    cs = cs.substr(1);
+                }
+            })
             if (captionString.length > 1) {
 
-                if (captionString[0].indexOf("sp.") > -1) { captionString[0] = captionString[0].replace("sp.", "<span class='noit'>sp.</span>"); }
-                if (captionString[0].indexOf("nf.") > -1) { captionString[0] = captionString[0].replace("nf.", "<span class='noit'>nf.</span>"); }
-                if (captionString[0].indexOf("cf.") > -1) { captionString[0] = captionString[0].replace("cf.", "<span class='noit'>cf.</span>"); }
-                if (captionString[0].indexOf("spp.") > -1) { captionString[0] = captionString[0].replace("spp.", "<span class='noit'>spp.</span>"); }
-                if (captionString[0].indexOf("var.") > -1) { captionString[0] = captionString[0].replace("var.", "<span class='noit'>var.</span>"); }
+                if (captionString[0].indexOf("sp.") > -1) {
+                    captionString[0] = captionString[0].replace("sp.", "<span class='noit'>sp.</span>");
+                }
+                if (captionString[0].indexOf("nf.") > -1) {
+                    captionString[0] = captionString[0].replace("nf.", "<span class='noit'>nf.</span>");
+                }
+                if (captionString[0].indexOf("cf.") > -1) {
+                    captionString[0] = captionString[0].replace("cf.", "<span class='noit'>cf.</span>");
+                }
+                if (captionString[0].indexOf("spp.") > -1) {
+                    captionString[0] = captionString[0].replace("spp.", "<span class='noit'>spp.</span>");
+                }
+                if (captionString[0].indexOf("var.") > -1) {
+                    captionString[0] = captionString[0].replace("var.", "<span class='noit'>var.</span>");
+                }
 
 
                 captionString[0] = "<span class='thumbnail-title it'>" + captionString[0] + "</span>";
@@ -351,14 +385,14 @@ function loadDataModal(i, c, t) {
 
             var cns = sqldata[0].common_names;
 
-            if (cns && typeof(cns) != "undefined" && cns != "") {
+            if (cns && typeof (cns) != "undefined" && cns != "") {
                 cns = cns.split("|");
                 cns = _.without(cns, "Animals");
                 cns = _.without(cns, "animals");
                 var cnsObj = [];
 
-                _.forEach(cns, function(cn) {
-                    var cnObj = '<a href="results.php?q=' + esc(cn) + '" target="_blank" title="Search for &quot;' + cn + '&quot;" class="btn btn-sm btn-primary common-name-link"><span class="glyphicon glyphicon-search"></span>&nbsp;' + cn + '</a>';
+                _.forEach(cns, function (cn) {
+                    var cnObj = '<a href="results.php?q=' + esc(cn) + '" title="Search for &quot;' + cn + '&quot;" class="btn btn-sm btn-primary common-name-link"><span class="glyphicon glyphicon-search"></span>&nbsp;' + cn + '</a>';
                     cnsObj.push(cnObj);
                 })
 
@@ -379,14 +413,20 @@ function loadDataModal(i, c, t) {
             captionString = captionString.split(":");
             if (captionString.length > 1) {
                 captionString = captionString[1];
-                if (captionString[0] == " ") { captionString = captionString.substr(1); }
+                if (captionString[0] == " ") {
+                    captionString = captionString.substr(1);
+                }
             } else {
                 captionString = captionString[0];
             }
             // console.log(captionString);
 
             captionString = captionString.split(";");
-            _.forEach(captionString, function(cs) { if (cs.toString()[0] == " ") { cs = cs.substr(1); } });
+            _.forEach(captionString, function (cs) {
+                if (cs.toString()[0] == " ") {
+                    cs = cs.substr(1);
+                }
+            });
             if (captionString.length > 1) {
                 caption = "<span class='thumbnail-title-bold it'>" + captionString[1] + "</span>";
             } else {
@@ -409,21 +449,21 @@ function loadDataModal(i, c, t) {
 
             if ($(".thumbnail").length > 0) {
 
-                $(".thumbnail").on("mouseover", function() {
+                $(".thumbnail").on("mouseover", function () {
                     $(this).find("img.thumbnail-hoverimg").css("opacity", 1.0);
                 })
 
-                $(".thumbnail").on("mouseout", function() {
+                $(".thumbnail").on("mouseout", function () {
                     $(this).find("img.thumbnail-hoverimg").css("opacity", 0);
                 })
             }
 
         })
-        .fail(function() {
+        .fail(function () {
             console.log("Error requesting " + url);
             // return { caption: null, thumbnail: null };
         })
-        .always(function() {
+        .always(function () {
             console.log("jqxhr request complete.");
             // return { caption: null, thumbnail: null };
         });
@@ -432,22 +472,22 @@ function loadDataModal(i, c, t) {
 
 }
 
-(function($) {
+(function ($) {
 
-    $.fn.shuffle = function() {
+    $.fn.shuffle = function () {
 
         var allElems = this.get(),
-            getRandom = function(max) {
+            getRandom = function (max) {
                 return Math.floor(Math.random() * max);
             },
-            shuffled = $.map(allElems, function() {
+            shuffled = $.map(allElems, function () {
                 var random = getRandom(allElems.length),
                     randEl = $(allElems[random]).clone(true)[0];
                 allElems.splice(random, 1);
                 return randEl;
             });
 
-        this.each(function(i) {
+        this.each(function (i) {
             $(this).replaceWith($(shuffled[i]));
         });
 

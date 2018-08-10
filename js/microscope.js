@@ -532,7 +532,7 @@ function loadDataModal(i, c, t) {
                 var cnsObj = [];
 
                 _.forEach(cns, function(cn) {
-                    var cnObj = '<a href="results.php?q=' + esc(cn) + '" target="_blank" title="Search for &quot;' + cn + '&quot;" class="btn btn-sm btn-primary common-name-link"><span class="glyphicon glyphicon-search"></span>&nbsp;' + cn + '</a>';
+                    var cnObj = '<a href="results.php?q=' + esc(cn) + '" title="Search for &quot;' + cn + '&quot;" class="btn btn-sm btn-primary common-name-link"><span class="glyphicon glyphicon-search"></span>&nbsp;' + cn + '</a>';
                     cnsObj.push(cnObj);
                 })
 
