@@ -303,7 +303,7 @@ function clone(oldObject) {
 function loadData(i, c, t) {
 
 
-    var url = "http://deliver.odai.yale.edu/info/repository/YPM/object/" + c + "/type/4";
+    var url = "https://deliver.odai.yale.edu/info/repository/YPM/object/" + c + "/type/4";
 
     var jqxhr = $.getJSON(url, function(data) {
             console.log("GET successful: " + url);

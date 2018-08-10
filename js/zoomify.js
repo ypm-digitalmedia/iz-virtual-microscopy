@@ -204,7 +204,7 @@ function loadRelatedThumbnails() {
 function loadData(irn, catalogNum) {
 
 
-    var url = "http://deliver.odai.yale.edu/info/repository/YPM/object/" + catalogNum + "/type/4";
+    var url = "https://deliver.odai.yale.edu/info/repository/YPM/object/" + catalogNum + "/type/4";
 
     var jqxhr = $.getJSON(url, function (data) {
             console.log("GET successful: " + url);
@@ -287,7 +287,7 @@ function catalogNumUrl(c) {
 function loadDataModal(i, c, t) {
 
 
-    var url = "http://deliver.odai.yale.edu/info/repository/YPM/object/" + c + "/type/4";
+    var url = "https://deliver.odai.yale.edu/info/repository/YPM/object/" + c + "/type/4";
 
     var jqxhr = $.getJSON(url, function (data) {
             console.log("GET successful: " + url);
