@@ -71,9 +71,11 @@ $randomthree = $_SESSION['randomthree'];
     }
     
     require_once('./include/dbconnect.php');
+		
+	$cNumClean = mysqli_real_escape_string($connection, $vars_arr['catalogNum']);
 
-
-    $sql = "SELECT * FROM emu_metadata WHERE catalog_number = '" . $vars_arr['catalogNum'] ."' LIMIT 1";
+//    $sql = "SELECT * FROM emu_metadata WHERE catalog_number = '" . $vars_arr['catalogNum'] ."' LIMIT 1";
+    $sql = "SELECT * FROM emu_metadata WHERE catalog_number = '" . $cNumClean ."' LIMIT 1";
     $result = $connection->query($sql);
     
 

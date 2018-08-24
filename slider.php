@@ -37,13 +37,14 @@ $randomthree = $_SESSION['randomthree'];
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<title>Virtual Microscopy | Invertebrate Zoology | Yale Peabody Museum of Natural History</title>
 		<link rel="shortcut icon" href="https://virtualmicroscopy.peabody.yale.edu/img/favicon.ico" type="image/x-icon">
-		<meta name="description" content="">
+		<meta name="description" content="Browse the full breadth of invertebrate taxa through a series of interactive, high-resolution microscope slides with annotations by experts, made freely available for students and educators">
+		<meta name="keywords" content="yale, virtual microscopy, microscopy, slides, invertebrate zoology">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
 		<link rel="stylesheet" type="text/css" media="screen" href="css/jq.css">
 		<link rel="stylesheet" type="text/css" media="screen" href="css/cycle.css">
 		<link rel="stylesheet" type="text/css" media="screen" href="css/jquery-ui.css">
-		<link rel="stylesheet" type="text/css" media="screen" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+		<link rel="stylesheet" type="text/css" media="screen" href="css/themes/smoothness/jquery-ui.css">
 		<link rel="stylesheet" type="text/css" media="screen" href="css/jquery-ui.structure.css">
 		<link rel="stylesheet" type="text/css" media="screen" href="css/jquery-ui-slider-pips.css">
 		<link rel="stylesheet" type="text/css" media="screen" href="css/roundslider.min.css">
@@ -78,8 +79,11 @@ $randomthree = $_SESSION['randomthree'];
     }
     
     require_once('./include/dbconnect.php');
-
-    $sql = "SELECT * FROM emu_metadata WHERE catalog_number = '" . $vars_arr['catalogNum'] ."' LIMIT 1";
+		
+	$cNumClean = mysqli_real_escape_string($connection, $vars_arr['catalogNum']);
+		
+//    $sql = "SELECT * FROM emu_metadata WHERE catalog_number = '" . $vars_arr['catalogNum'] ."' LIMIT 1";
+    $sql = "SELECT * FROM emu_metadata WHERE catalog_number = '" . $cNumClean ."' LIMIT 1";
     $result = $connection->query($sql);
     
 

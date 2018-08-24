@@ -1,19 +1,22 @@
 var taxa_keywords_obj = {
-    class: [],
-    order: [],
-    genus: [],
-    phylum: [],
-    species: [],
-    family: [],
-    subphylum: [],
-    superclass: [],
-    superorder: [],
-    subclass: [],
-    scientific_name: [],
-    infraorder: []
+	class: [],
+	order: [],
+	genus: [],
+	phylum: [],
+	species: [],
+	family: [],
+	subphylum: [],
+	superclass: [],
+	superorder: [],
+	subclass: [],
+	scientific_name: [],
+	infraorder: []
 };
 
-var themes_obj = { sliders: [], zoomify: [] };
+var themes_obj = {
+	sliders: [],
+	zoomify: []
+};
 var themes = [];
 var themesCondensed;
 var themesCount = {};
@@ -33,135 +36,142 @@ var cdsData = [];
 
 var shown_slides = [];
 
-$(document).ready(function() {
+$(document).ready(function () {
 
-    // parse SQL and create individual presentations for SQL data
-    // build array of tags from live data (taxa information)
+	// parse SQL and create individual presentations for SQL data
+	// build array of tags from live data (taxa information)
 
-    // $('#theme').prop('selectedIndex', 0);
-
-
-    _.forEach(sqldata, function(row) {
-
-        var zoomifys = row.media_zoomify_irns.split("|");
-        if (zoomifys.length == 1 && zoomifys[0] == "") { zoomifys = []; }
-        _.forEach(zoomifys, function(z) {
-            var tmpdataZ = JSON.parse(JSON.stringify(row));
-            tmpdataZ.irn = z;
-            tmpdataZ.type = "zoomify";
-            if (z != "") { parsed_sqldata.push(tmpdataZ); }
-        });
-
-        var sliders = row.media_sliders_irns.split("|");
-        if (sliders.length == 1 && sliders[0] == "") { sliders = []; }
-        _.forEach(sliders, function(s) {
-            var tmpdataS = JSON.parse(JSON.stringify(row));
-            tmpdataS.irn = s;
-            tmpdataS.type = "slider";
-            if (s != "") { parsed_sqldata.push(tmpdataS); }
-        });
-
-        themes_obj.zoomify.push(row['media-zoomify-themes']);
-        themes_obj.sliders.push(row['media-sliders-themes']);
-
-        var themes = "";
+	// $('#theme').prop('selectedIndex', 0);
 
 
+	_.forEach(sqldata, function (row) {
 
+		var zoomifys = row.media_zoomify_irns.split("|");
+		if (zoomifys.length == 1 && zoomifys[0] == "") {
+			zoomifys = [];
+		}
+		_.forEach(zoomifys, function (z) {
+			var tmpdataZ = JSON.parse(JSON.stringify(row));
+			tmpdataZ.irn = z;
+			tmpdataZ.type = "zoomify";
+			if (z != "") {
+				parsed_sqldata.push(tmpdataZ);
+			}
+		});
 
-        // build taxa keywords object
-        taxa_keywords_obj.class.push(row.class);
-        taxa_keywords_obj.order.push(row.order);
-        taxa_keywords_obj.genus.push(row.genus);
-        taxa_keywords_obj.phylum.push(row.phylum);
-        taxa_keywords_obj.species.push(row.species);
-        taxa_keywords_obj.family.push(row.family);
-        taxa_keywords_obj.subphylum.push(row.subphylum);
-        taxa_keywords_obj.superclass.push(row.superclass);
-        taxa_keywords_obj.superorder.push(row.superorder);
-        taxa_keywords_obj.subclass.push(row.subclass);
-        taxa_keywords_obj.scientific_name.push(row.scientific_name);
-        taxa_keywords_obj.infraorder.push(row.infraorder);
+		var sliders = row.media_sliders_irns.split("|");
+		if (sliders.length == 1 && sliders[0] == "") {
+			sliders = [];
+		}
+		_.forEach(sliders, function (s) {
+			var tmpdataS = JSON.parse(JSON.stringify(row));
+			tmpdataS.irn = s;
+			tmpdataS.type = "slider";
+			if (s != "") {
+				parsed_sqldata.push(tmpdataS);
+			}
+		});
 
-        // build thematic searches object
+		themes_obj.zoomify.push(row['media-zoomify-themes']);
+		themes_obj.sliders.push(row['media-sliders-themes']);
 
-    });
-
-    // console.log("parsed data: ");
-    // console.log(parsed_sqldata);
+		var themes = "";
 
 
 
 
-    if (thePage == "results") {
+		// build taxa keywords object
+		taxa_keywords_obj.class.push(row.class);
+		taxa_keywords_obj.order.push(row.order);
+		taxa_keywords_obj.genus.push(row.genus);
+		taxa_keywords_obj.phylum.push(row.phylum);
+		taxa_keywords_obj.species.push(row.species);
+		taxa_keywords_obj.family.push(row.family);
+		taxa_keywords_obj.subphylum.push(row.subphylum);
+		taxa_keywords_obj.superclass.push(row.superclass);
+		taxa_keywords_obj.superorder.push(row.superorder);
+		taxa_keywords_obj.subclass.push(row.subclass);
+		taxa_keywords_obj.scientific_name.push(row.scientific_name);
+		taxa_keywords_obj.infraorder.push(row.infraorder);
 
-        var theQuery = qs('q');
-        var theTheme = qs('t');
+		// build thematic searches object
 
-        if (theQuery) {
+	});
 
-            makeTags();
-            makeThemes();
-            sampleSlides();
-
-            $("#queryNum").html(max_parsed_sqldata);
-            $("#queryText").html(unesc(qs("q")));
-            $("#search").val(unesc(qs("q")));
-            $("#search").focus();
-
-        } else if (theTheme) {
-
-            makeTags();
-            makeThemes();
-            sampleSlides();
-
-            // $("#theme").val(unesc(qs("t")));
-
-            $("#queryNum").html(max_parsed_sqldata);
-            $("#queryType").html(" results for theme: ");
-            $("#queryText").html(unesc(qs("t")));
-
-        }
-    } else if (thePage == "home") {
-        makeTags();
-        makeThemes();
-        sampleSlides();
-        $("#search").focus();
-    }
+	// console.log("parsed data: ");
+	// console.log(parsed_sqldata);
 
 
 
 
+	if (thePage == "results") {
 
-    // var cw = $('.thumbnail').eq(0).width();
-    // $('.thumbnail').css({ 'height': cw + 'px' });
+		var theQuery = qs('q');
+		var theTheme = qs('t');
 
+		if (theQuery) {
 
+			makeTags();
+			makeThemes();
+			sampleSlides();
 
+			$("#queryNum").html(max_parsed_sqldata);
+			$("#queryText").html(unesc(qs("q")));
+			$("#search").val(unesc(qs("q")));
+			$("#search").focus();
+
+		} else if (theTheme) {
+
+			makeTags();
+			makeThemes();
+			sampleSlides();
+
+			// $("#theme").val(unesc(qs("t")));
+
+			$("#queryNum").html(max_parsed_sqldata);
+			$("#queryType").html(" results for theme: ");
+			$("#queryText").html(unesc(qs("t")));
+
+		}
+	} else if (thePage == "home") {
+		makeTags();
+		makeThemes();
+		sampleSlides();
+		$("#search").focus();
+	}
 
 
 
 
 
+	// var cw = $('.thumbnail').eq(0).width();
+	// $('.thumbnail').css({ 'height': cw + 'px' });
 
 
 
 
-    // ==================================== EVENT LISTENERS ==================================== //
-
-    $(window).resize(function() {
-        var cw = $('.thumbnail').eq(0).width();
-        $('.thumbnail').css({ 'height': cw + 'px' });
-    })
-
-    // $(".thumbnail").on("mouseover", function() {
-    //     $(this).find("img.thumbnail-hoverimg").css("opacity", 1.0);
-    // })
 
 
-    // $(".thumbnail").on("mouseout", function() {
-    //     $(this).find("img.thumbnail-hoverimg").css("opacity", 0);
-    // })
+
+
+
+	// ==================================== EVENT LISTENERS ==================================== //
+
+	$(window).resize(function () {
+		var cw = $('.thumbnail').eq(0).width();
+		$('.thumbnail').css({
+			'height': cw + 'px'
+		});
+	})
+
+	// $(".thumbnail").on("mouseover", function() {
+	//     $(this).find("img.thumbnail-hoverimg").css("opacity", 1.0);
+	// })
+
+
+	// $(".thumbnail").on("mouseout", function() {
+	//     $(this).find("img.thumbnail-hoverimg").css("opacity", 0);
+	// })
 
 
 
@@ -169,224 +179,254 @@ $(document).ready(function() {
 
 
 function search() {
-    var searchTerm = $("#search").val();
-    if (searchTerm == "" || searchTerm == " " || !searchTerm) {
-        alert("Please enter a search term.");
-    } else {
-        document.location = "results.php?q=" + esc(searchTerm);
-    }
+	var searchTerm = $("#search").val();
+	if (searchTerm == "" || searchTerm == " " || !searchTerm) {
+		alert("Please enter a search term.");
+	} else {
+		document.location = "results.php?q=" + esc(searchTerm);
+	}
 }
 
 function goTheme() {
-    var themeTerm = $("#theme").find(":selected").text();
-    if (themeTerm != "") {
-        document.location = "results.php?t=" + esc(themeTerm);
-    } else {
-        alert("Please select an option.");
-    }
+	var themeTerm = $("#theme").find(":selected").text();
+	if (themeTerm != "") {
+		document.location = "results.php?t=" + esc(themeTerm);
+	} else {
+		alert("Please select an option.");
+	}
 }
 
 function esc(str) {
-    return str.split(" ").join("+");
+	return str.split(" ").join("+");
 }
 
 
 function unesc(str) {
-    return str.split("+").join(" ");
+	return str.split("+").join(" ");
 }
 
 
 function sampleSlides() {
-    if (max_parsed_sqldata == null) { max_parsed_sqldata = parsed_sqldata.length; }
+	if (max_parsed_sqldata == null) {
+		max_parsed_sqldata = parsed_sqldata.length;
+	}
 
-    if (parsed_sqldata.length > 0) {
+	if (parsed_sqldata.length > 0) {
 
-        for (var a = 0; a < numItems; a++) {
-            var targetItem = _.sample(parsed_sqldata);
-            // console.log(targetItem);
+		for (var a = 0; a < numItems; a++) {
+			var targetItem = _.sample(parsed_sqldata);
+			// console.log(targetItem);
 
-            if (targetItem && typeof(targetItem) != "undefined") {
-                parsed_sqldata = _.reject(parsed_sqldata, function(o) {
-                    return o.irn == targetItem.irn && o.catalog_number == targetItem.catalog_number && o.type == targetItem.type;
-                });
+			if (targetItem && typeof (targetItem) != "undefined") {
+				parsed_sqldata = _.reject(parsed_sqldata, function (o) {
+					return o.irn == targetItem.irn && o.catalog_number == targetItem.catalog_number && o.type == targetItem.type;
+				});
 
-                $("#numRemaining").html(" (" + parsed_sqldata.length + ")");
+				$("#numRemaining").html(" (" + parsed_sqldata.length + ")");
 
-                parsed_sampled_sqldata.push(targetItem);
+				parsed_sampled_sqldata.push(targetItem);
 
-                loadData(targetItem.irn, targetItem.catalog_number, targetItem.type);
-            }
-        }
-    } else {
-        $("#browseMoreButton").removeClass("btn-primary").addClass("disabled");
-    }
+				loadData(targetItem.irn, targetItem.catalog_number, targetItem.type);
+			}
+		}
+	} else {
+		$("#browseMoreButton").removeClass("btn-primary").addClass("disabled");
+	}
 
 }
 
 function makeThemes() {
-    themesCondensed = themes_obj.sliders.concat(themes_obj.zoomify);
-    themesCondensed = _.without(themesCondensed, "");
-    // console.warn("THEMES CONDENSED:");
-    // console.warn(themesCondensed);
+	themesCondensed = themes_obj.sliders.concat(themes_obj.zoomify);
+	themesCondensed = _.without(themesCondensed, "");
+	// console.warn("THEMES CONDENSED:");
+	// console.warn(themesCondensed);
 
-    _.forEach(themesCondensed, function(t) {
-        var arr = t.split("|");
-        _.forEach(arr, function(tt) {
-            themes.push(tt);
-        });
-    });
+	_.forEach(themesCondensed, function (t) {
+		var arr = t.split("|");
+		_.forEach(arr, function (tt) {
+			themes.push(tt);
+		});
+	});
 
-    // console.warn("THEMES FINAL:");
-    // console.warn(themes);
+	// console.warn("THEMES FINAL:");
+	// console.warn(themes);
 
-    themes = _.without(themes, "");
-    themes = _.uniq(themes);
-    themes.sort();
-    // console.warn(themes);
+	themes = _.without(themes, "");
+	themes = _.uniq(themes);
+	themes.sort();
+	// console.warn(themes);
 
 
-    _.forEach(themes, function(ttt) {
+	_.forEach(themes, function (ttt) {
 
-        // var selectedString = ttt == unesc(qs('t')) ? " selected" : "";
-        var selectedString = "";
-        var selectOption = '<option value="' + ttt + '"' + selectedString + '>' + ttt + '</option>';
-        $("#theme").append(selectOption);
-    });
+		// var selectedString = ttt == unesc(qs('t')) ? " selected" : "";
+		var selectedString = "";
+		var selectOption = '<option value="' + ttt + '"' + selectedString + '>' + ttt + '</option>';
+		$("#theme").append(selectOption);
+	});
 
-    if (thePage == "results") {
-        if (qs("t") && !qs("q")) {
-            $('#theme option[value=\"' + unesc(qs("t")) + '\"]').attr('selected', 'selected');
-        } else if (!qs("t") && qs("q")) {
-            $('#theme').prop('selectedIndex', 0);
-        }
-    }
+	if (thePage == "results") {
+		if (qs("t") && !qs("q")) {
+			$('#theme option[value=\"' + unesc(qs("t")) + '\"]').attr('selected', 'selected');
+		} else if (!qs("t") && qs("q")) {
+			$('#theme').prop('selectedIndex', 0);
+		}
+	}
 
 }
 
 
 function makeTags() {
 
-    // tagsCondensed = _.union(taxa_keywords_obj.class, taxa_keywords_obj.order, taxa_keywords_obj.genus, taxa_keywords_obj.phylum, taxa_keywords_obj.species, taxa_keywords_obj.family);
+	// tagsCondensed = _.union(taxa_keywords_obj.class, taxa_keywords_obj.order, taxa_keywords_obj.genus, taxa_keywords_obj.phylum, taxa_keywords_obj.species, taxa_keywords_obj.family);
 
-    // tagsCondensed = taxa_keywords_obj.class.concat(taxa_keywords_obj.order).concat(taxa_keywords_obj.genus).concat(taxa_keywords_obj.phylum).concat(taxa_keywords_obj.species).concat(taxa_keywords_obj.family);
+	// tagsCondensed = taxa_keywords_obj.class.concat(taxa_keywords_obj.order).concat(taxa_keywords_obj.genus).concat(taxa_keywords_obj.phylum).concat(taxa_keywords_obj.species).concat(taxa_keywords_obj.family);
 
-    tagsCondensed = taxa_keywords_obj.class.concat(taxa_keywords_obj.order).concat(taxa_keywords_obj.genus).concat(taxa_keywords_obj.phylum).concat(taxa_keywords_obj.family).concat(taxa_keywords_obj.subphylum).concat(taxa_keywords_obj.superclass).concat(taxa_keywords_obj.superorder).concat(taxa_keywords_obj.subclass).concat(taxa_keywords_obj.infraorder);
-    // tagsCondensed = _.uniq(tagsCondensed);
-    tagsCondensed = _.without(tagsCondensed, "");
+	tagsCondensed = taxa_keywords_obj.class.concat(taxa_keywords_obj.order).concat(taxa_keywords_obj.genus).concat(taxa_keywords_obj.phylum).concat(taxa_keywords_obj.family).concat(taxa_keywords_obj.subphylum).concat(taxa_keywords_obj.superclass).concat(taxa_keywords_obj.superorder).concat(taxa_keywords_obj.subclass).concat(taxa_keywords_obj.infraorder);
+	// tagsCondensed = _.uniq(tagsCondensed);
+	tagsCondensed = _.without(tagsCondensed, "");
 
-    _.forEach(tagsCondensed, function(tag) {
-        var arr = _.filter(tagsCondensed, function(o) { return o == tag })
-        var linkstr = "results.php?q=" + esc(tag);
-        tagsCount.push({ text: tag, weight: arr.length, link: linkstr });
-    });
+	_.forEach(tagsCondensed, function (tag) {
+		var arr = _.filter(tagsCondensed, function (o) {
+			return o == tag
+		})
+		var linkstr = "results.php?q=" + esc(tag);
+		tagsCount.push({
+			text: tag,
+			weight: arr.length,
+			link: linkstr
+		});
+	});
 
-    tags = _.uniqBy(tagsCount, 'text');
-    tags = _.orderBy(tags, 'weight', 'desc');
+	tags = _.uniqBy(tagsCount, 'text');
+	tags = _.orderBy(tags, 'weight', 'desc');
 
 
-    $('#tagcloud').jQCloud(tags, {
-        autoResize: true,
-        // fontSize: {
-        //     from: 0.05,
-        //     to: 0.01
-        // }
-    });
+	$('#tagcloud').jQCloud(tags, {
+		autoResize: true,
+		// fontSize: {
+		//     from: 0.05,
+		//     to: 0.01
+		// }
+	});
 }
 
 
 function clone(oldObject) {
-    var newObject = jQuery.extend(true, {}, oldObject);
-    return newObject;
+	var newObject = jQuery.extend(true, {}, oldObject);
+	return newObject;
 }
 
 
 function loadData(i, c, t) {
 
 
-    var url = "https://deliver.odai.yale.edu/info/repository/YPM/object/" + c + "/type/4";
+	var url = "https://deliver.odai.yale.edu/info/repository/YPM/object/" + c + "/type/4";
 
-    var jqxhr = $.getJSON(url, function(data) {
-            console.log("GET successful: " + url);
-        })
-        .done(function(data) {
-            console.log("Request complete.  Writing javascript variable. IRN: " + i + ", catalog number: " + c);
+	var jqxhr = $.getJSON(url, function (data) {
+			console.log("GET successful: " + url);
+		})
+		.done(function (data) {
+			console.log("Request complete.  Writing javascript variable. IRN: " + i + ", catalog number: " + c);
 
-            var repo = _.findLast(data, function(a) {
-                // console.log(data);
-                return a.metadata.repositoryID == i;
-            });
+			var repo = _.findLast(data, function (a) {
+				// console.log(data);
+				return a.metadata.repositoryID == i;
+			});
+			console.log(repo);
 
-            // var stuff = { irn: i, catalogNum: c, caption: repo.metadata.caption, thumbnail: repo.derivatives["2"].source };
-            // console.log("return: ")
-            // console.log(stuff);
-            cdsData.push({ irn: i, catalogNum: c, caption: repo.metadata.caption, thumbnail: repo.derivatives["2"].source });
+			// var stuff = { irn: i, catalogNum: c, caption: repo.metadata.caption, thumbnail: repo.derivatives["2"].source };
+			// console.log("return: ")
+			// console.log(stuff);
+			cdsData.push({
+				irn: i,
+				catalogNum: c,
+				caption: repo.metadata.caption,
+				thumbnail: repo.derivatives["2"].source
+			});
 
-            var captionString = repo.metadata.caption;
-            var caption = "";
-            var thumbnail = repo.derivatives["2"].source;
+			var captionString = repo.metadata.caption;
+			var caption = "";
+			var thumbnail = repo.derivatives["2"].source;
 
-            captionString = captionString.split(":");
-            if (captionString.length > 1) {
-                captionString = captionString[1];
-                if (captionString[0] == " ") { captionString = captionString.substr(1); }
-            } else {
-                captionString = captionString[0];
-            }
-            // console.log(captionString);
+			captionString = captionString.split(":");
+			if (captionString.length > 1) {
+				captionString = captionString[1];
+				if (captionString[0] == " ") {
+					captionString = captionString.substr(1);
+				}
+			} else {
+				captionString = captionString[0];
+			}
+			// console.log(captionString);
 
-            captionString = captionString.split(";");
-            _.forEach(captionString, function(cs) { if (cs.toString()[0] == " ") { cs = cs.substr(1); } })
-            if (captionString.length > 1) {
+			captionString = captionString.split(";");
+			_.forEach(captionString, function (cs) {
+				if (cs.toString()[0] == " ") {
+					cs = cs.substr(1);
+				}
+			})
+			if (captionString.length > 1) {
 
-                if (captionString[0].indexOf("sp.") > -1) { captionString[0] = captionString[0].replace("sp.", "<span class='noit'>sp.</span>"); }
-                if (captionString[0].indexOf("nf.") > -1) { captionString[0] = captionString[0].replace("nf.", "<span class='noit'>nf.</span>"); }
-                if (captionString[0].indexOf("cf.") > -1) { captionString[0] = captionString[0].replace("cf.", "<span class='noit'>cf.</span>"); }
-                if (captionString[0].indexOf("spp.") > -1) { captionString[0] = captionString[0].replace("spp.", "<span class='noit'>spp.</span>"); }
-                if (captionString[0].indexOf("var.") > -1) { captionString[0] = captionString[0].replace("var.", "<span class='noit'>var.</span>"); }
+				if (captionString[0].indexOf("sp.") > -1) {
+					captionString[0] = captionString[0].replace("sp.", "<span class='noit'>sp.</span>");
+				}
+				if (captionString[0].indexOf("nf.") > -1) {
+					captionString[0] = captionString[0].replace("nf.", "<span class='noit'>nf.</span>");
+				}
+				if (captionString[0].indexOf("cf.") > -1) {
+					captionString[0] = captionString[0].replace("cf.", "<span class='noit'>cf.</span>");
+				}
+				if (captionString[0].indexOf("spp.") > -1) {
+					captionString[0] = captionString[0].replace("spp.", "<span class='noit'>spp.</span>");
+				}
+				if (captionString[0].indexOf("var.") > -1) {
+					captionString[0] = captionString[0].replace("var.", "<span class='noit'>var.</span>");
+				}
 
 
-                captionString[0] = "<span class='thumbnail-title-bold it'>" + captionString[0] + "</span>";
-                caption = captionString.join("<br />");
-            } else {
-                caption = "<span class='thumbnail-title-bold it'>" + captionString[0] + "</span>";
-            }
-            // console.log(caption);
+				captionString[0] = "<span class='thumbnail-title-bold it'>" + captionString[0] + "</span>";
+				caption = captionString.join("<br />");
+			} else {
+				caption = "<span class='thumbnail-title-bold it'>" + captionString[0] + "</span>";
+			}
+			// console.log(caption);
 
-            // CREATE THUMBNAILS
-            var thumb = $("#thumbnail-template").html();
-            thumb = thumb.replace("%%IMG%%", thumbnail);
-            thumb = thumb.replace("%%GUID%%", "thumb_" + i + "_" + c);
-            thumb = thumb.replace("%%HOVERIMGTYPE%%", "img/thumbhover_" + t + ".png");
-            thumb = thumb.replace("%%ID%%", c);
-            // thumb = thumb.replace("%%ID%%", "IRN: " + i);
-            thumb = thumb.replace("%%TITLE%%", caption); // if title is blank, use common name
-            thumb = thumb.replace("%%URL%%", t + ".php?irn=" + i + "&catalogNum=" + c);
+			// CREATE THUMBNAILS
+			var thumb = $("#thumbnail-template").html();
+			thumb = thumb.replace("%%IMG%%", thumbnail);
+			thumb = thumb.replace("%%GUID%%", "thumb_" + i + "_" + c);
+			thumb = thumb.replace("%%HOVERIMGTYPE%%", "img/thumbhover_" + t + ".png");
+			thumb = thumb.replace("%%ID%%", c);
+			// thumb = thumb.replace("%%ID%%", "IRN: " + i);
+			thumb = thumb.replace("%%TITLE%%", caption); // if title is blank, use common name
+			thumb = thumb.replace("%%URL%%", t + ".php?irn=" + i + "&catalogNum=" + c);
 
-            $("#results").append(thumb);
+			$("#results").append(thumb);
 
-            $(window).trigger("resize");
+			$(window).trigger("resize");
 
-            if ($(".thumbnail").length > 0) {
+			if ($(".thumbnail").length > 0) {
 
-                $(".thumbnail").on("mouseover", function() {
-                    $(this).find("img.thumbnail-hoverimg").css("opacity", 1.0);
-                })
+				$(".thumbnail").on("mouseover", function () {
+					$(this).find("img.thumbnail-hoverimg").css("opacity", 1.0);
+				})
 
-                $(".thumbnail").on("mouseout", function() {
-                    $(this).find("img.thumbnail-hoverimg").css("opacity", 0);
-                })
-            }
+				$(".thumbnail").on("mouseout", function () {
+					$(this).find("img.thumbnail-hoverimg").css("opacity", 0);
+				})
+			}
 
-        })
-        .fail(function() {
-            console.log("Error requesting " + url);
-            // return { caption: null, thumbnail: null };
-        })
-        .always(function() {
-            console.log("jqxhr request complete.");
-            // return { caption: null, thumbnail: null };
-        });
+		})
+		.fail(function () {
+			console.log("Error requesting " + url);
+			// return { caption: null, thumbnail: null };
+		})
+		.always(function () {
+			console.log("jqxhr request complete.");
+			// return { caption: null, thumbnail: null };
+		});
 
-    // Perform other work here ...
+	// Perform other work here ...
 
 }
