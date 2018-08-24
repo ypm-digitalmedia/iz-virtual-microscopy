@@ -14,6 +14,7 @@ function db_connect() {
         
         // $connection = mysqli_connect($config['servername'],$config['username'],$config['password'],$config['dbname']);
         $connection = new mysqli($config['servername'],$config['username'],$config['password'],$config['dbname']);
+		$connection->query("SET NAMES 'utf8'"); 
     }
 
         // If connection was not successful, handle the error
