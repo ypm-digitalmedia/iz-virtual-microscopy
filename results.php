@@ -103,27 +103,40 @@ $randomthree = $_SESSION['randomthree'];
     // OLD QUERY
     
     // echo('<script type="text/javascript">console.log("qs: ' . $qs .'\nth: '. $th .'");</script>');
-
+	
+	$searchForQ = false;
+	$searchForT = false;
+		
     if (isset($qs) && $qs != null && $qs != "" ) {
-    $sql = "SELECT * FROM emu_metadata WHERE `catalog_number` LIKE '%$qs%' OR `emu_irn` = '$qs' OR `occurenceID` ='$qs' OR CONCAT_WS('|',`phylum`,`class`,`order`,`family`,`genus`,`species`,`country`,`state_province`,`county_district`,`nearest_named_place`,`precise_locality`,`media_zoomify_irns`,`media_sliders_irns`,`media-zoomify-captions`,`media-sliders-captions`,`subphylum`,`superclass`,`subclass`,`superorder`,`infraorder`,`scientific_name`,`author_string`,`ocean`,`sea_gulf`,`bay_sound`,`common_names`) LIKE '%$qs%'";
-
-    } else if (isset($th) && $th != null && $th != "") {
-
-        $sql = "SELECT * FROM emu_metadata WHERE CONCAT_WS('|',`media-zoomify-themes`,`media-sliders-themes`) LIKE '%$th%'"; 
-
-    } else if (isset($th) && isset($qs)) {
-        $sql = "SELECT * FROM emu_metadata";
-    } else {
-        $sql = "SELECT * FROM emu_metadata";
+		$searchForQ = true;
     }
-    // CATALOG NUMBER MATCH
-    // $sql = "SELECT * FROM emu_metadata WHERE `catalog_number` = '$qs'";
-
-    // GET ALL
-    // $sql = "SELECT * FROM emu_metadata";
-
+		
+	if (isset($th) && $th != null && $th != "") {
+		$searchForT = true;
+    }
     
-
+	if( $searchForQ && !$searchForT ) {
+		//query string, no theme
+		$sql = "SELECT * FROM emu_metadata WHERE `catalog_number` LIKE '%$qs%' OR `emu_irn` = '$qs' OR `occurenceID` ='$qs' OR CONCAT_WS('|',`phylum`,`class`,`order`,`family`,`genus`,`species`,`country`,`state_province`,`county_district`,`nearest_named_place`,`precise_locality`,`media_zoomify_irns`,`media_sliders_irns`,`media-zoomify-captions`,`media-sliders-captions`,`subphylum`,`superclass`,`subclass`,`superorder`,`infraorder`,`scientific_name`,`author_string`,`ocean`,`sea_gulf`,`bay_sound`,`common_names`) LIKE '%$qs%'";
+		
+		
+	} else if( !$searchForQ && $searchForT ) {
+		//theme, no query string
+        $sql = "SELECT * FROM emu_metadata WHERE CONCAT_WS('|',`media-zoomify-themes`,`media-sliders-themes`) LIKE '%$th%'"; 
+		
+	} else if( $searchForQ && $searchForT ) {
+		//theme and query string
+		$sql = "SELECT * FROM emu_metadata WHERE( `catalog_number` LIKE '%$qs%' OR `emu_irn` = '$qs' OR `occurenceID` ='$qs' OR CONCAT_WS('|',`phylum`,`class`,`order`,`family`,`genus`,`species`,`country`,`state_province`,`county_district`,`nearest_named_place`,`precise_locality`,`media_zoomify_irns`,`media_sliders_irns`,`media-zoomify-captions`,`media-sliders-captions`,`subphylum`,`superclass`,`subclass`,`superorder`,`infraorder`,`scientific_name`,`author_string`,`ocean`,`sea_gulf`,`bay_sound`,`common_names`) LIKE '%$qs%') AND CONCAT_WS('|',`media-zoomify-themes`,`media-sliders-themes`) LIKE '%$th%'";
+		
+	} else {
+		//nothing - error - show all
+		$sql = "SELECT * FROM emu_metadata LIMIT 100";
+		
+	}
+		
+		
+		
+		
 
     $result = $connection->query($sql);
 
@@ -211,39 +224,14 @@ $randomthree = $_SESSION['randomthree'];
 											<input type="text" class="form-control" placeholder="Enter search term" id="search" />
 											<div class="input-group-btn">
 												<div class="btn-group" role="group">
-													<!--<div class="dropdown dropdown-lg">
-                                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></button>
-                                                <div class="dropdown-menu dropdown-menu-right" role="menu">
-                                                    <form class="form-horizontal" role="form">
-                                                        <div class="form-group">
-                                                            <label for="filter">Filter by</label>
-                                                            <select class="form-control">
-                                                                <option value="0" selected>All Snippets</option>
-                                                                <option value="1">Featured</option>
-                                                                <option value="2">Most popular</option>
-                                                                <option value="3">Top rated</option>
-                                                                <option value="4">Most commented</option>
-                                                            </select>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="contain">Author</label>
-                                                            <input class="form-control" type="text" />
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="contain">Contains the words</label>
-                                                            <input class="form-control" type="text" />
-                                                        </div>
-                                                        <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-                                                    </form>
-                                                </div>
-                                            </div>-->
+													
 													<button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
 												</div>
 											</div>
 										</div>
 
 									</div>
-								</form>
+<!--								</form>-->
 							</div>
 							<div class="col-sm-3"></div>
 						</div>
@@ -267,15 +255,17 @@ $randomthree = $_SESSION['randomthree'];
 								<h2 class="searchlabel">Themes:</h2>
 							</div>
 							<div class="col-sm-6">
-								<form class="form-horizontal" role="form" action="javascript:document.location='index.php';">
+<!--								<form class="form-horizontal" role="form" action="javascript:document.location='index.php';">-->
 									<div class="form-group">
 										<div class="input-group" id="adv-search">
-											<select class="form-control" id="theme" onChange="javascript:goTheme()">
-                                            <option value="" disabled>Select one...</option>
+<!--											<select class="form-control" id="theme" onChange="javascript:goTheme()">-->
+											<select class="form-control" id="theme">
+                                            <option value="">None</option>
                                         </select>
 											<div class="input-group-btn">
 												<div class="btn-group" role="group">
-													<button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>&nbsp;Back</button>
+<!--													<button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>&nbsp;Back</button>-->
+                                            <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
 												</div>
 											</div>
 
@@ -291,7 +281,7 @@ $randomthree = $_SESSION['randomthree'];
 						<div class="row">
 							<div class="col-sm-3"></div>
 							<div class="col-sm-6">
-								<h6 class="input-help">Select one of many preset &quot;thematic searches&quot; to explore similar concepts and specimens. On this page, this dropdown menu will show related thematic searches to the one selected.</h6>
+								<h6 style="margin-top: 10px" class="input-help">Select one of many preset &quot;thematic searches&quot; to explore similar concepts and specimens, or specific laboratory sets.<br /><br />On this page, the only themes available are those which match other themes or the search term supplied above.</h6>
 							</div>
 							<div class="col-sm-3"></div>
 						</div>
@@ -307,7 +297,7 @@ $randomthree = $_SESSION['randomthree'];
 
 					<div class="container">
 						<div class="row">
-							<h2 class="header-and-button"><span id="queryNum"></span><span id="queryType"> Results for </span><span id="queryText"></span>
+							<h2 class="header-and-button"><span id="queryNum"></span><span id="queryType"> </span><span id="queryText"></span>
 								<!--<a href="index.php" class="pull-right"><button class="btn btn-default">Start over</button></a>-->
 							</h2>
 						</div>

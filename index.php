@@ -137,32 +137,6 @@ $randomthree = $_SESSION['randomthree'];
 											<input type="text" class="form-control" placeholder="Enter search term" id="search" />
 											<div class="input-group-btn">
 												<div class="btn-group" role="group">
-													<!-- <div class="dropdown dropdown-lg">
-                                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></button>
-                                                <div class="dropdown-menu dropdown-menu-right" role="menu">
-                                                    <form class="form-horizontal" role="form">
-                                                        <div class="form-group">
-                                                            <label for="filter">Filter by</label>
-                                                            <select class="form-control">
-                                                                <option value="0" selected>All Snippets</option>
-                                                                <option value="1">Featured</option>
-                                                                <option value="2">Most popular</option>
-                                                                <option value="3">Top rated</option>
-                                                                <option value="4">Most commented</option>
-                                                            </select>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="contain">Author</label>
-                                                            <input class="form-control" type="text" />
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="contain">Contains the words</label>
-                                                            <input class="form-control" type="text" />
-                                                        </div>
-                                                        <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-                                                    </form>
-                                                </div>
-                                            </div> -->
 													<button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
 												</div>
 											</div>
@@ -170,7 +144,7 @@ $randomthree = $_SESSION['randomthree'];
 
 
 									</div>
-								</form>
+<!--								</form>-->
 							</div>
 							<div class="col-sm-3"></div>
 						</div>
@@ -195,17 +169,18 @@ $randomthree = $_SESSION['randomthree'];
 								<h2 class="searchlabel">Themes:</h2>
 							</div>
 							<div class="col-sm-6">
-								<form class="form-horizontal" role="form" action="javascript:goTheme();">
+<!--								<form class="form-horizontal" role="form" action="javascript:goTheme();">-->
 									<div class="form-group">
 										<div class="input-group" id="adv-search">
-											<select class="form-control" id="theme" onChange="javascript:goTheme()">
-                                            <option value="" disabled selected>Select one...</option>
+<!--											<select class="form-control" id="theme" onChange="javascript:goTheme()">-->
+											<select class="form-control" id="theme">
+                                            <option value="" selected>None</option>
                                         </select>
-											<!-- <div class="input-group-btn">
+											 <div class="input-group-btn">
                                         <div class="btn-group" role="group">
                                             <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
                                         </div>
-                                    </div> -->
+                                    </div> 
 										</div>
 
 
@@ -218,7 +193,7 @@ $randomthree = $_SESSION['randomthree'];
 						<div class="row">
 							<div class="col-sm-3"></div>
 							<div class="col-sm-6">
-								<h6 class="input-help">Select one of many preset &quot;thematic searches&quot; to explore similar concepts and specimens.</h6>
+								<h6 class="input-help" style="margin-top: 10px;">Select one of many preset &quot;thematic searches&quot; to explore similar concepts and specimens, or specific laboratory sets.</h6>
 							</div>
 							<div class="col-sm-3"></div>
 						</div>

@@ -109,19 +109,21 @@ $(document).ready(function () {
 		var theQuery = qs('q');
 		var theTheme = qs('t');
 
-		if (theQuery) {
+		if (theQuery && !theTheme) {
+			//query, no theme
 
 			makeTags();
 			makeThemes();
 			sampleSlides();
 
 			$("#queryNum").html(max_parsed_sqldata);
+			$("#queryType").html(" results for ");
 			$("#queryText").html(unesc(qs("q")));
 			$("#search").val(unesc(qs("q")));
 			$("#search").focus();
 
-		} else if (theTheme) {
-
+		} else if (theTheme && !theQuery) {
+			//theme, no query
 			makeTags();
 			makeThemes();
 			sampleSlides();
@@ -131,8 +133,25 @@ $(document).ready(function () {
 			$("#queryNum").html(max_parsed_sqldata);
 			$("#queryType").html(" results for theme: ");
 			$("#queryText").html(unesc(qs("t")));
+			setSelect("theme",unesc(qs("t")));
 
+		} else if( theQuery && theTheme ) {
+			//query and theme
+			makeTags();
+			makeThemes();
+			sampleSlides();
+			
+			$("#queryNum").html(max_parsed_sqldata);
+			$("#search").val(unesc(qs("q")));
+			$("#queryType").html(" results for ");
+			$("#queryText").html(unesc(qs("q")) + " [" + unesc(qs("t")) + "]");
+			$("#search").val(unesc(qs("q")));
+			setSelect("theme",unesc(qs("t")));
+			
+		} else {
+			alert("QUERY ERROR");
 		}
+		
 	} else if (thePage == "home") {
 		makeTags();
 		makeThemes();
@@ -177,13 +196,42 @@ $(document).ready(function () {
 
 });
 
+function setSelect(theID,theVal) {
+	
+	var dd = document.getElementById(theID);
+	for (var i = 0; i < dd.options.length; i++) {
+		if (dd.options[i].text === theVal) {
+			dd.selectedIndex = i;
+			break;
+		}
+	}
+	
+}
 
 function search() {
+	var anySearch = false;
+	var anyTheme = false;
+	var searchURL = "results.php?";
+	var searchQs = [];
+	
 	var searchTerm = $("#search").val();
-	if (searchTerm == "" || searchTerm == " " || !searchTerm) {
-		alert("Please enter a search term.");
+	var themeTerm = $("#theme").find(":selected").val();
+	if ( searchTerm && searchTerm != "" && searchTerm != " " ) {
+		anySearch = true;
+		searchQs.push("q=" + esc(searchTerm));
+	}
+	if( themeTerm && themeTerm != "" ) {
+		anyTheme = true;
+		searchQs.push("t=" + esc(themeTerm));
+	}
+	
+	if( themeTerm || searchTerm ) {
+//		document.location = "results.php?q=" + esc(searchTerm);
+//		document.location = "results.php?t=" + esc(themeTerm);
+		document.location = searchURL + searchQs.join("&");
+//		alert("anySearch: " + anySearch + "\n" + "anyTheme: " + anyTheme + "\n" + "search text: " + searchTerm + "\n" + "theme: " + themeTerm + "\n" + "search URL: " + searchURL + searchQs.join("&"));
 	} else {
-		document.location = "results.php?q=" + esc(searchTerm);
+		alert("Please enter a search term, select a theme, or both.");
 	}
 }
 
