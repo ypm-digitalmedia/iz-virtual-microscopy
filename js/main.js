@@ -329,7 +329,16 @@ function makeTags() {
 	// tagsCondensed = _.union(taxa_keywords_obj.class, taxa_keywords_obj.order, taxa_keywords_obj.genus, taxa_keywords_obj.phylum, taxa_keywords_obj.species, taxa_keywords_obj.family);
 
 	// tagsCondensed = taxa_keywords_obj.class.concat(taxa_keywords_obj.order).concat(taxa_keywords_obj.genus).concat(taxa_keywords_obj.phylum).concat(taxa_keywords_obj.species).concat(taxa_keywords_obj.family);
+	
+	var themeSuffix = "";
+	if (thePage == "results") {
 
+		var theTheme = qs('t');
+		 if( theTheme && theTheme != "" && theTheme != " " ) {
+			themeSuffix = "&t=" + esc(theTheme);
+		 }
+	}
+	
 	tagsCondensed = taxa_keywords_obj.class.concat(taxa_keywords_obj.order).concat(taxa_keywords_obj.genus).concat(taxa_keywords_obj.phylum).concat(taxa_keywords_obj.family).concat(taxa_keywords_obj.subphylum).concat(taxa_keywords_obj.superclass).concat(taxa_keywords_obj.superorder).concat(taxa_keywords_obj.subclass).concat(taxa_keywords_obj.infraorder);
 	// tagsCondensed = _.uniq(tagsCondensed);
 	tagsCondensed = _.without(tagsCondensed, "");
@@ -338,12 +347,30 @@ function makeTags() {
 		var arr = _.filter(tagsCondensed, function (o) {
 			return o == tag
 		})
-		var linkstr = "results.php?q=" + esc(tag);
-		tagsCount.push({
-			text: tag,
-			weight: arr.length,
-			link: linkstr
-		});
+		var linkstr = "results.php?q=" + esc(tag) + themeSuffix;
+		if( thePage == "results" ) {
+			if( qs('q') ) {
+				if( tag.toLowerCase() != qs('q').toLowerCase() ) {
+					tagsCount.push({
+						text: tag,
+						weight: arr.length,
+						link: linkstr
+					});
+				}
+			} else {
+				tagsCount.push({
+					text: tag,
+					weight: arr.length,
+					link: linkstr
+				});
+			}
+		} else {
+			tagsCount.push({
+				text: tag,
+				weight: arr.length,
+				link: linkstr
+			});
+		}
 	});
 
 	tags = _.uniqBy(tagsCount, 'text');
