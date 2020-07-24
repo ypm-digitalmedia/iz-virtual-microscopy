@@ -78,10 +78,6 @@ footer.admin-ui {
     font-family: "Mallory MP Medium";
 }
 
-.meta-label-annoswitch {
-    transform: translateY(4px);
-}
-
 #annoButton {
     display: none;
 }

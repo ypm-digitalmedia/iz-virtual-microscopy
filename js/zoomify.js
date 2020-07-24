@@ -266,7 +266,7 @@ function toggleVisibility (individual) {
 function loadData(irn, catalogNum) {
 
 
-	var url = "http://deliver.odai.yale.edu/info/repository/YPM/object/" + catalogNum + "/type/4";
+	var url = "//deliver.odai.yale.edu/info/repository/YPM/object/" + catalogNum + "/type/4";
 
 	var jqxhr = $.getJSON(url, function (data) {
 			console.log("GET successful: " + url);
@@ -345,12 +345,12 @@ function loadData(irn, catalogNum) {
 }
 
 function catalogNumUrl(c) {
-	return "http://collections.peabody.yale.edu/search/Record/YPM-" + c.replace(".", "-");
+	return "//collections.peabody.yale.edu/search/Record/YPM-" + c.replace(".", "-");
 }
 
 function loadDataModal(i, c, t, a) {
 
-	var url = "http://deliver.odai.yale.edu/info/repository/YPM/object/" + c + "/type/4";
+	var url = "//deliver.odai.yale.edu/info/repository/YPM/object/" + c + "/type/4";
 
 	var jqxhr = $.getJSON(url, function (data) {
 			console.log("GET successful: " + url);

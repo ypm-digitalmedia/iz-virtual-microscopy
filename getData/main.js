@@ -60,7 +60,7 @@ $(document).ready(function () {
 
 
 function loadData(record) {
-	var url = "https://deliver.odai.yale.edu/info/repository/YPM/object/" + record + "/type/4";
+	var url = "//deliver.odai.yale.edu/info/repository/YPM/object/" + record + "/type/4";
 
 	var jqxhr = $.getJSON(url, function (data) {
 			console.log("GET successful: " + url);
