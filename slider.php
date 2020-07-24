@@ -4,10 +4,14 @@ if(!isset($_SESSION['random'])){
      $_SESSION['randomone'] = mt_rand(100000, 999999);  
      $_SESSION['randomtwo'] = mt_rand(100000, 999999);
      $_SESSION['randomthree'] = mt_rand(100000, 999999);
+     $_SESSION['randomfour'] = mt_rand(100000, 999999);
+     $_SESSION['randomfive'] = mt_rand(100000, 999999);
 }  
 $randomone = $_SESSION['randomone'];  
 $randomtwo = $_SESSION['randomtwo'];  
 $randomthree = $_SESSION['randomthree'];  
+$randomfour = $_SESSION['randomfour'];   
+$randomfive = $_SESSION['randomfive']; 
 ?>
 
 	<!doctype html>
@@ -49,8 +53,10 @@ $randomthree = $_SESSION['randomthree'];
 		<link rel="stylesheet" type="text/css" media="screen" href="css/jquery-ui-slider-pips.css">
 		<link rel="stylesheet" type="text/css" media="screen" href="css/roundslider.min.css">
 		<link rel="stylesheet" href="css/bootstrap.min.css">
+		<link rel="stylesheet" href="css/bootstrap-toggle.min.css">
 		<link rel="stylesheet" href="css/bootstrap-theme.min.css">
 		<link rel="stylesheet" href="css/mallory.css">
+		<link href="fonts/FontAwesome-5.2.0/css/all.min.css" rel="stylesheet" />
 
 		<?php echo '<link rel="stylesheet" type="text/css" href="css/main.css?v=' . $randomone . '" />'; ?>
 		<?php echo '<link rel="stylesheet" type="text/css" href="css/microscope.css?v=' . $randomtwo . '" />'; ?>
@@ -107,6 +113,52 @@ $randomthree = $_SESSION['randomthree'];
     }
 
     $connection->close();
+	
+
+
+
+	// Don't show annotation file if it doesn't exist
+	$file = 'Annotations/slider/IZ_anno_s_' . $vars_arr['irn'] . '.xml';
+	
+	//Use the function is_file to check if the file already exists or not.
+	//write a javascript switch to detect if annotations should be shown
+
+	if(!is_file($file)){
+		echo "<script type='text/javascript'>";
+		echo "	var showAnnotations = false;";
+		echo "</script>";
+	} else {
+		echo "<script type='text/javascript'>";
+		echo "	var showAnnotations = true;";
+		echo "</script>";
+	}
+
+	// Determine known annotation files
+	$folder_zoomify = 'Annotations/zoomify/';
+	$folder_slider = 'Annotations/slider/';
+
+	$results_zoomify = scandir($folder_zoomify);
+	$results_slider = scandir($folder_slider);
+	
+	$files_zoomify = array_filter($results_zoomify,function($o){return strpos($o,".xml")!==false;});
+	$files_slider = array_filter($results_slider,function($o){return strpos($o,".xml")!==false;});
+
+	$irns_zoomify = array();
+	$irns_slider = array();
+
+	foreach ( $files_zoomify as &$fz ) {
+		$filename = str_replace(".xml","",substr(strrchr($fz,"_"),1));
+		array_push($irns_zoomify,$filename);
+	}
+
+	foreach ( $files_slider as &$fs ) {
+		$filename = str_replace(".xml","",substr(strrchr($fs,"_"),1));
+		array_push($irns_slider,$filename);
+	}
+
+	echo "<script type='text/javascript'>";
+	echo "	var knownAnnotations = {'zoomify': \"" . implode(",",$irns_zoomify) . "\", 'slider': \"" . implode(",",$irns_slider) . "\"};";
+	echo "</script>";
 ?>
 
 
@@ -148,7 +200,8 @@ $randomthree = $_SESSION['randomthree'];
 				var loc = window.location.pathname;
 				var dir = loc.substring(0, loc.lastIndexOf('/'));
 
-				var imagefolderlocation = "https://virtualmicroscopy.peabody.yale.edu/other/izscope/microscopy/slider/" + slide;
+				var imagefolderlocation = docRoot + "/other/izscope/microscopy/slider/" + slide;
+				// var imagefolderlocation = "https://virtualmicroscopy.peabody.yale.edu/other/izscope/microscopy/slider/" + slide;
 				//				var imagefolderlocation = dir + "/other/izscope/microscopy/slider/" + slide;
 
 				// Name of the image
@@ -180,10 +233,13 @@ $randomthree = $_SESSION['randomthree'];
                         </a>
 						</div>
 						<div id="navbar" class="navbar-collapse collapse">
-							<form class="navbar-form navbar-right" role="form">
+							<!-- <form class="navbar-form navbar-right" role="form"> -->
+							<div class="navbar-right">
 
 								<a href="index.php" class="top-right"><button class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span>&nbsp;Back to Search</button></a>
-							</form>
+								<!-- <a href="index.php" id="annoButton" class="top-right" title="Annotate [Admin]"><button class="btn btn-primary"><h3><i class="fas fa-comments"></i></h3></button></a> -->
+							</div>
+							<!-- </form> -->
 						</div>
 						<!--/.navbar-collapse -->
 					</div>
@@ -224,6 +280,7 @@ $randomthree = $_SESSION['randomthree'];
 						</div>
 						<h4 style="margin-top:1em;">Invertebrate Zoology</h4>
 						<h5>Virtual Microscopy</h5>
+						<span class="pull-left"><a href="https://www.nsf.gov/awardsearch/showAward?AWD_ID=1349111&HistoricalAwards=false" target="_blank">Award #1349111</a></span>
 					</div>
 					<div class="col-xs-4">
 						<div id="knob" class="rslider"></div>
@@ -245,7 +302,7 @@ $randomthree = $_SESSION['randomthree'];
 			</div>
 
 
-			<footer>&nbsp;</footer>
+			<footer></footer>
 
 
 
@@ -421,8 +478,9 @@ $randomthree = $_SESSION['randomthree'];
 
 			<script type="text/content" id="thumbnail-template">
 				<div class="col-md-3 col-sm-6 col-xs-12">
-					<a href="%%URL%%">
-						<div class="thumbnail" id="%%GUID%%" style="background-image:url('%%IMG%%')">
+					<a class="related-records-link" href="%%URL%%" title="%%SR-TITLE%%" aria-label="%%SR-TITLE%%">
+						<div class="thumbnail %%ANNO-CLASS%%" data-irn="%%IRN%%" data-cn="%%CATALOGNUMBER%%" id="%%GUID%%" style="background-image:url('%%IMG%%')">
+							<div class="%%ANNO-BADGE-SHOWHIDE%%"><i class="fas fa-comments"></i></div>
 							<img class="thumbnail-hoverimg" src="%%HOVERIMGTYPE%%" />
 							<div class="thumbnail-label">
 								<p class="thumbnail-label-id">%%ID%%</p>
@@ -437,6 +495,7 @@ $randomthree = $_SESSION['randomthree'];
 
 		<script type="text/javascript" src="js/vendor/jquery-1.10.2.js"></script>
 		<script type="text/javascript" src="js/vendor/bootstrap.min.js"></script>
+		<script type="text/javascript" src="js/vendor/bootstrap-toggle.min.js"></script>
 		<script type="text/javascript" src="js/vendor/jquery-ui.js"></script>
 		<script type="text/javascript" src="js/vendor/jquery.cycle.js"></script>
 		<script type="text/javascript" src="js/vendor/jquery-ui-slider-pips.js"></script>
@@ -444,6 +503,8 @@ $randomthree = $_SESSION['randomthree'];
 		<script type="text/javascript" src="js/vendor/jquery.mousewheel.min.js"></script>
 		<script type="text/javascript" src="js/vendor/roundslider.min.js"></script>
 		<script type="text/javascript" src="js/vendor/lodash.min.js"></script>
+
+		<script src="fonts/FontAwesome-5.2.0/js/all.min.js"></script>
 
 		<?php echo '<script type="text/javascript" src="js/microscope.js?v=' . $randomthree . '"></script>'; ?>
 		<!-- <script type="text/javascript" src="js/microscope.js"></script> -->

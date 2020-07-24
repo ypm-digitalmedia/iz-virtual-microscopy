@@ -34,16 +34,19 @@ var parsed_sqldata = [];
 var parsed_sampled_sqldata = [];
 var cdsData = [];
 
+var known_annotations = [];
+
 var shown_slides = [];
 
 $(document).ready(function () {
 
+	// parse annotations
+	console.log("known annotations",knownAnnotations);
+	knownAnnotations.zoomify = knownAnnotations.zoomify.split(",");
+	knownAnnotations.slider = knownAnnotations.slider.split(",");
+
 	// parse SQL and create individual presentations for SQL data
 	// build array of tags from live data (taxa information)
-
-	// $('#theme').prop('selectedIndex', 0);
-
-
 	_.forEach(sqldata, function (row) {
 
 		var zoomifys = row.media_zoomify_irns.split("|");
@@ -183,6 +186,7 @@ $(document).ready(function () {
 		});
 	})
 
+
 	// $(".thumbnail").on("mouseover", function() {
 	//     $(this).find("img.thumbnail-hoverimg").css("opacity", 1.0);
 	// })
@@ -255,6 +259,7 @@ function unesc(str) {
 
 
 function sampleSlides() {
+	
 	if (max_parsed_sqldata == null) {
 		max_parsed_sqldata = parsed_sqldata.length;
 	}
@@ -395,8 +400,7 @@ function clone(oldObject) {
 
 function loadData(i, c, t) {
 
-
-	var url = "https://deliver.odai.yale.edu/info/repository/YPM/object/" + c + "/type/4";
+	var url = "http://deliver.odai.yale.edu/info/repository/YPM/object/" + c + "/type/4";
 
 	var jqxhr = $.getJSON(url, function (data) {
 			console.log("GET successful: " + url);
@@ -443,6 +447,8 @@ function loadData(i, c, t) {
 			})
 			if (captionString.length > 1) {
 
+				var captionOriginal = captionString[0];
+
 				if (captionString[0].indexOf("sp.") > -1) {
 					captionString[0] = captionString[0].replace("sp.", "<span class='noit'>sp.</span>");
 				}
@@ -464,6 +470,7 @@ function loadData(i, c, t) {
 				caption = captionString.join("<br />");
 			} else {
 				caption = "<span class='thumbnail-title-bold it'>" + captionString[0] + "</span>";
+				var captionOriginal = captionString[0];
 			}
 			// console.log(caption);
 
@@ -476,6 +483,19 @@ function loadData(i, c, t) {
 			// thumb = thumb.replace("%%ID%%", "IRN: " + i);
 			thumb = thumb.replace("%%TITLE%%", caption); // if title is blank, use common name
 			thumb = thumb.replace("%%URL%%", t + ".php?irn=" + i + "&catalogNum=" + c);
+			thumb = thumb.replace("%%IRN%%",i);
+			thumb = thumb.replace("%%CATALOGNUMBER%%",c);
+
+			// does this IRN/type combination have an annotation file?
+			if( _.includes(knownAnnotations[t],i) ) {
+				thumb = thumb.replace("%%ANNO-CLASS%%"," thumbnail-annotated");
+				thumb = thumb.replace("%%ANNO-BADGE-SHOWHIDE%%","thumbnail-annotated-badge");
+				thumb = thumb.replace("%%SR-TITLE%%",c + ": " + captionOriginal + " - Annotations available");
+			} else {
+				thumb = thumb.replace("%%ANNO-CLASS%%","");
+				thumb = thumb.replace("%%ANNO-BADGE-SHOWHIDE%%","hidden");
+				thumb = thumb.replace("%%SR-TITLE%%",c + ": " + captionOriginal);
+			}
 
 			$("#results").append(thumb);
 
@@ -504,4 +524,19 @@ function loadData(i, c, t) {
 
 	// Perform other work here ...
 
+}
+
+function isFile(filename) {
+    fetch(filename).then(function(response) {
+        if (!response.ok) { 
+		// throw Error(); 
+		}
+        return response;
+    }).then(function(response) {
+            console.log("true");
+            return true;
+    }).catch(function(error) {
+            console.log("false");
+            return false;
+    });
 }

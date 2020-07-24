@@ -9,14 +9,28 @@ var searchString = "";
 
 var theCaption = "";
 
+var record_irn;
+var record_catalogNum;
+var record_type;
+var labelVisibility = true;
+
+var lastTimeMouseMoved = "";
+
 $(window).load(function () {
 
-	var record_irn = qs("irn");
-	var record_catalogNum = qs("catalogNum");
+	record_irn = qs("irn");
+	record_catalogNum = qs("catalogNum");
+	record_type = "zoomify";
 	loadData(record_irn, record_catalogNum);
 
 	loadRelatedThumbnails();
 
+	var annoUrl = window.location.href;
+	annoUrl = annoUrl.split("zoomify.php").join("annotate.php");
+	$("#annoButton").attr("href",annoUrl);
+	if( localStorage.getItem('IZ_show_annotation_button') == "true" || localStorage.getItem("IZ_show_annotation_button") == true ) {
+		$("#annoButton").fadeIn();
+	}
 
 	// load SQL data / URL variables into text area at bottom
 
@@ -138,6 +152,42 @@ $(window).load(function () {
 	$("#specimen_location").html(mapString);
 	// $("#specimen_id").html("<strong>" + ids.catalogNum + "</strong> &ndash; IRN <strong>" + ids.irn + "</strong>");
 
+	// $('.ab').mousemove(function(e) {
+	// 	lastTimeMouseMoved = new Date().getTime();
+	// 	var tt=setTimeout(function(){
+			
+	// 		var currentTime = new Date().getTime();
+	// 		if(currentTime - lastTimeMouseMoved > 3000 ){
+	// 			$("#annoButton").fadeIn();
+	// 		}
+
+	// 	},3000);
+	// });
+
+	$('#showAnnoSwitch').bootstrapToggle();
+	$('#showAnnoSwitch').change(function() {
+		toggleVisibility(true);
+	});
+
+
+
+	$('.ab').click(function(e) {
+		$("#annoButton").fadeIn();
+	});
+
+	$("#annoButton").click(function(e) {
+		if (localStorage.getItem("IZ_show_annotation_button") === null || localStorage.getItem("IZ_show_annotation_button") === false || localStorage.getItem("IZ_show_annotation_button") == "false" ) {
+			var areYouAdmin = confirm("This operation requires administrator status.  Continue?");
+			if( areYouAdmin) {
+				localStorage.setItem("IZ_show_annotation_button",true);
+			} else {
+				e.preventDefault();
+				localStorage.setItem("IZ_show_annotation_button",false);
+				$("#annoButton").hide();
+				return false;
+			}
+		}
+	});
 
 	$(window).resize(function () {
 		var cw = $('.thumbnail').eq(0).width();
@@ -181,14 +231,20 @@ function loadRelatedThumbnails() {
 
 	_.forEach(zoomifyIrns, function (z) {
 		if (z != "") {
-			loadDataModal(z, catalogNum, "zoomify");
+			if( _.includes(knownAnnotations["zoomify"],z) ) {
+				var showAnno = true;
+			} else { var showAnno = false; }
+			loadDataModal(z, catalogNum, "zoomify", showAnno);
 			numRelated++;
 		}
 	});
 
 	_.forEach(sliderIrns, function (s) {
 		if (s != "") {
-			loadDataModal(s, catalogNum, "slider");
+			if( _.includes(knownAnnotations["slider"],s) ) {
+				var showAnno = true;
+			} else { var showAnno = false; }
+			loadDataModal(s, catalogNum, "slider", showAnno);
 			numRelated++;
 		}
 	});
@@ -196,15 +252,21 @@ function loadRelatedThumbnails() {
 
 	$("#numRelatedCounter").html(numRelated);
 	$("#numRelatedCounterMain").html(numRelated);
-	$("#catalogNumModalHeader").html(catalogNum);
+	// $("#catalogNumModalHeader").html(catalogNum);
 	// $('#relatedGallery').shuffle();
 }
 
 
+
+function toggleVisibility (individual) {
+	Z.Viewport.setLabelsVisibility(!labelVisibility, individual);
+	labelVisibility = !labelVisibility;
+}
+
 function loadData(irn, catalogNum) {
 
 
-	var url = "https://deliver.odai.yale.edu/info/repository/YPM/object/" + catalogNum + "/type/4";
+	var url = "http://deliver.odai.yale.edu/info/repository/YPM/object/" + catalogNum + "/type/4";
 
 	var jqxhr = $.getJSON(url, function (data) {
 			console.log("GET successful: " + url);
@@ -231,14 +293,14 @@ function loadData(irn, catalogNum) {
 			} else {
 				captionString = captionString[0];
 			}
-			// console.log(captionString);
-
+			// console.log(captionString)
 			captionString = captionString.split(";");
 			_.forEach(captionString, function (cs) {
 				if (cs.toString()[0] == " ") {
 					cs = cs.substr(1);
 				}
 			})
+
 			if (captionString.length > 1) {
 
 				if (captionString[0].indexOf("sp.") > -1) {
@@ -257,14 +319,16 @@ function loadData(irn, catalogNum) {
 					captionString[0] = captionString[0].replace("var.", "<span class='noit'>var.</span>");
 				}
 
-				$("#captionModalSubHeader").html("<span class='thumbnail-title it'>" + captionString[0] + "</span>");
-				captionString[0] = "<span class='thumbnail-title-bold it'>" + captionString[0] + "</span> &ndash; ";
+				// $("#captionModalSubHeader").html("<span class='thumbnail-title it'>" + captionString[0] + "</span>");
+				captionString[0] = "<span class='thumbnail-title-bold it'>" + captionString[0] + "</span>";
 				caption = captionString.join("");
 			} else {
 				caption = "<span class='thumbnail-title-bold it'>" + captionString[0] + "</span>";
+				captionString[0] = "<span class='thumbnail-title-bold it'>" + captionString[0] + "</span>";
 			}
 			$("#specimen_title").html("<strong>" + catalogNum + ": " + caption + "</strong>");
-
+			$("#catalogNumModalHeader").html(catalogNum);
+			$("#captionModalSubHeader").html(captionString[0]);
 
 			theCaption = caption;
 
@@ -284,10 +348,9 @@ function catalogNumUrl(c) {
 	return "http://collections.peabody.yale.edu/search/Record/YPM-" + c.replace(".", "-");
 }
 
-function loadDataModal(i, c, t) {
+function loadDataModal(i, c, t, a) {
 
-
-	var url = "https://deliver.odai.yale.edu/info/repository/YPM/object/" + c + "/type/4";
+	var url = "http://deliver.odai.yale.edu/info/repository/YPM/object/" + c + "/type/4";
 
 	var jqxhr = $.getJSON(url, function (data) {
 			console.log("GET successful: " + url);
@@ -428,9 +491,11 @@ function loadDataModal(i, c, t) {
 				}
 			});
 			if (captionString.length > 1) {
+				var captionOriginal = captionString[0];
 				caption = "<span class='thumbnail-title-bold it'>" + captionString[1] + "</span>";
 			} else {
 				caption = "<span class='thumbnail-title-bold it'>" + captionString[0] + "</span>";
+				var captionOriginal = captionString[0];
 			}
 
 			// CREATE THUMBNAILS
@@ -442,6 +507,17 @@ function loadDataModal(i, c, t) {
 			// thumb = thumb.replace("%%ID%%", "IRN: " + i);
 			thumb = thumb.replace("%%TITLE%%", caption); // if title is blank, use common name
 			thumb = thumb.replace("%%URL%%", t + ".php?irn=" + i + "&catalogNum=" + c);
+
+			// does this IRN/type combination have an annotation file?
+			if( a === true ) {
+				thumb = thumb.replace("%%ANNO-CLASS%%"," related-thumbnail-annotated");
+				thumb = thumb.replace("%%ANNO-BADGE-SHOWHIDE%%","related-thumbnail-annotated-badge");
+				thumb = thumb.replace("%%SR-TITLE%%",c + ": " + captionOriginal + " - Annotations available");
+			} else {
+				thumb = thumb.replace("%%ANNO-CLASS%%","");
+				thumb = thumb.replace("%%ANNO-BADGE-SHOWHIDE%%","hidden");
+				thumb = thumb.replace("%%SR-TITLE%%",c + ": " + captionOriginal);
+			}
 
 			$("#relatedGallery").append(thumb);
 

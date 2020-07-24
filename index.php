@@ -4,10 +4,14 @@ if(!isset($_SESSION['random'])){
      $_SESSION['randomone'] = mt_rand(100000, 999999);  
      $_SESSION['randomtwo'] = mt_rand(100000, 999999);
      $_SESSION['randomthree'] = mt_rand(100000, 999999);
+     $_SESSION['randomfour'] = mt_rand(100000, 999999);
+     $_SESSION['randomfive'] = mt_rand(100000, 999999);
 }  
 $randomone = $_SESSION['randomone'];  
 $randomtwo = $_SESSION['randomtwo'];  
 $randomthree = $_SESSION['randomthree'];  
+$randomfour = $_SESSION['randomfour'];   
+$randomfive = $_SESSION['randomfive']; 
 ?>
 
 	<!doctype html>
@@ -43,8 +47,10 @@ $randomthree = $_SESSION['randomthree'];
 		<link rel="stylesheet" href="css/mallory.css">
 
 		<link rel="stylesheet" href="css/bootstrap.min.css">
+		<link rel="stylesheet" href="css/bootstrap-toggle.min.css">
 		<link rel="stylesheet" href="css/bootstrap-theme.min.css">
 		<link rel="stylesheet" href="css/jqcloud.css">
+		<link href="fonts/FontAwesome-5.2.0/css/all.min.css" rel="stylesheet" />
 
 
 		<?php echo '<link rel="stylesheet" type="text/css" href="css/main.css?v=' . $randomone . '" />'; ?>
@@ -79,7 +85,38 @@ $randomthree = $_SESSION['randomthree'];
         // echo "0 results";
         echo "";
     }
-    $connection->close();
+	$connection->close();
+	
+
+
+
+	// Determine known annotation files
+	$folder_zoomify = 'Annotations/zoomify/';
+	$folder_slider = 'Annotations/slider/';
+
+	$results_zoomify = scandir($folder_zoomify);
+	$results_slider = scandir($folder_slider);
+	
+	$files_zoomify = array_filter($results_zoomify,function($o){return strpos($o,".xml")!==false;});
+	$files_slider = array_filter($results_slider,function($o){return strpos($o,".xml")!==false;});
+
+	$irns_zoomify = array();
+	$irns_slider = array();
+
+	foreach ( $files_zoomify as &$fz ) {
+		$filename = str_replace(".xml","",substr(strrchr($fz,"_"),1));
+		array_push($irns_zoomify,$filename);
+	}
+
+	foreach ( $files_slider as &$fs ) {
+		$filename = str_replace(".xml","",substr(strrchr($fs,"_"),1));
+		array_push($irns_slider,$filename);
+	}
+
+	echo "<script type='text/javascript'>";
+	echo "	var knownAnnotations = {'zoomify': \"" . implode(",",$irns_zoomify) . "\", 'slider': \"" . implode(",",$irns_slider) . "\"};";
+	echo "</script>";
+	
 ?>
 
 			<!--[if lt IE 8]>
@@ -88,15 +125,11 @@ $randomthree = $_SESSION['randomthree'];
 			<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 				<div class="container">
 					<div class="navbar-header">
-						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
+						  <!-- Collapse button -->
+							<!-- <button class="navbar-toggler toggler-example" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1" aria-controls="navbarSupportedContent1" aria-expanded="false" aria-label="Toggle navigation"><span class="dark-blue-text"><i class="fas fa-bars fa-1x"></i></span></button>	 -->
 						<a class="navbar-brand" href="http://peabody.yale.edu" target="_blank">
-                    <img src="img/ypm_wordmark_single_small_white.png" />
-                </a>
+                   			 <img src="https://virtualmicroscopy.peabody.yale.edu/img/ypm_wordmark_single_small_white.png" />
+                		</a>
 					</div>
 					<div id="navbar" class="navbar-collapse collapse">
 
@@ -235,7 +268,7 @@ $randomthree = $_SESSION['randomthree'];
 
 					<div class="row">
 						<p align="center">
-							<a href="javascript:sampleSlides();"><button class="btn btn-primary btn-lg bigcenter" id="browseMoreButton">Browse More<span id="numRemaining"></span></button></a>
+							<a href="javascript:sampleSlides();"><button class="btn btn-primary btn-lg bigcenter" id="browseMoreButton">Load More<span id="numRemaining"></span></button></a>
 
 						</p>
 					</div>
@@ -265,8 +298,9 @@ $randomthree = $_SESSION['randomthree'];
 
 			<script type="text/content" id="thumbnail-template">
 				<div class="col-md-3 col-sm-4 col-xs-6">
-					<a href="%%URL%%">
-						<div class="thumbnail" id="%%GUID%%" style="background-image:url('%%IMG%%')">
+					<a class="search-results-link" href="%%URL%%" title="%%SR-TITLE%%" aria-label="%%SR-TITLE%%">
+						<div class="thumbnail %%ANNO-CLASS%%" data-irn="%%IRN%%" data-cn="%%CATALOGNUMBER%%" id="%%GUID%%" style="background-image:url('%%IMG%%')">
+							<div class="%%ANNO-BADGE-SHOWHIDE%%"><i class="fas fa-comments"></i></div>
 							<img class="thumbnail-hoverimg" src="%%HOVERIMGTYPE%%" />
 							<div class="thumbnail-label">
 								<p class="thumbnail-label-title">%%TITLE%%</p>
@@ -295,7 +329,9 @@ $randomthree = $_SESSION['randomthree'];
 
 			<script src="js/vendor/lodash.min.js"></script>
 			<script src="js/vendor/bootstrap.min.js"></script>
-			<script src="js/vendor/jqcloud.js"></script>
+			<script type="text/javascript" src="js/vendor/bootstrap-toggle.min.js"></script>
+			<script src="js/vendor/jqcloud.js"></script>	
+			<script src="fonts/FontAwesome-5.2.0/js/all.min.js"></script>
 
 			<?php echo '<script type="text/javascript" src="js/main.js?v=' . $randomtwo . '"></script>'; ?>
 			<!-- <script src="js/main.js"></script> -->
