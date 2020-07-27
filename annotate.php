@@ -110,15 +110,25 @@ $randomfive = $_SESSION['randomfive'];
 
 
 	// Generate annotation file if it doesn't exist
-	$file = 'Annotations/zoomify/IZ_anno_z_' . $vars_arr['irn'] . '.xml';
+	$dir = 'Annotations/zoomify/';
+	$file = $dir . 'IZ_anno_z_' . $vars_arr['irn'] . '.xml';
 	
 	//Use the function is_file to check if the file already exists or not.
 	if(!is_file($file)){
 		//Some simple example content.
 		$contents = '<ANNOTATIONDATA><METADATA><CATALOGNUM>'.$vars_arr['catalogNum'].'</CATALOGNUM><IRN>'.$vars_arr['irn'].'</IRN></METADATA><SETUP/><POI ID="0" NAME="Entire Slide" EDITABLE="1" USER="Yale Peabody Museum" DATE="'.date("Ymd-His").'"/></ANNOTATIONDATA>';
+		
 		//Save our content to the file.
-		file_put_contents($file, $contents);
-
+		if( !is_writable('Annotations/zoomify/') ) {
+			echo "directory not writable.\n";
+		} else {
+			if (file_put_contents($file,$contents) !== false) {
+				echo "file " . $file . " written successfully.";
+			} else {
+				echo "file could not be written.";
+			}
+			// file_put_contents($file, $contents);
+		}
 		// write a Javascript flag variable to prompt the user when this file is brand new
 
 		echo "<script type='text/javascript'>";
