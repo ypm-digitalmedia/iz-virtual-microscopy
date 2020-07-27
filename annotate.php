@@ -119,25 +119,34 @@ $randomfive = $_SESSION['randomfive'];
 		$contents = '<ANNOTATIONDATA><METADATA><CATALOGNUM>'.$vars_arr['catalogNum'].'</CATALOGNUM><IRN>'.$vars_arr['irn'].'</IRN></METADATA><SETUP/><POI ID="0" NAME="Entire Slide" EDITABLE="1" USER="Yale Peabody Museum" DATE="'.date("Ymd-His").'"/></ANNOTATIONDATA>';
 		
 		//Save our content to the file.
-		if( !is_writable($file) ) {
-			echo "directory not writable.\n";
-		} else {
-			if (file_put_contents($file,$contents) !== false) {
-				echo "file " . $file . " written successfully.";
-			} else {
-				echo "file could not be written.";
-			}
-			// file_put_contents($file, $contents);
+
+		if (!is_dir($dir) or !is_writable($dir)) {
+			// Error if directory doesn't exist or isn't writable.
+			die('directory not writable');
+			echo "<script type='text/javascript'>";
+			echo "	var newAnnotation = false;";
+			echo "  console.warn('directory not writable.');";
+			echo "</script>";
+		} elseif (is_file($file) and !is_writable($file)) {
+			// Error if the file exists and isn't writable.
+			die('file not writable.');
+			echo "<script type='text/javascript'>";
+			echo "	var newAnnotation = false;";
+			echo "  console.warn('file not writable.');";
+			echo "</script>";
 		}
+
+		$contents = '<ANNOTATIONDATA><METADATA><CATALOGNUM>'.$vars_arr['catalogNum'].'</CATALOGNUM><IRN>'.$vars_arr['irn'].'</IRN></METADATA><SETUP/><POI ID="0" NAME="Entire Slide" EDITABLE="1" USER="Yale Peabody Museum" DATE="'.date("Ymd-His").'"/></ANNOTATIONDATA>';
+
+
+		file_put_contents($file, $contents);
 		// write a Javascript flag variable to prompt the user when this file is brand new
 
 		echo "<script type='text/javascript'>";
 		echo "	var newAnnotation = true;";
+		echo "  console.warn('XML file written successfully.');";
 		echo "</script>";
 	} else {
-		echo "<script type='text/javascript'>";
-		echo "	var newAnnotation = false;";
-		echo "</script>";
 	}
 
 	// Determine known annotation files
