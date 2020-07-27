@@ -8,7 +8,9 @@ Annotations/slider/*
 other/
 other/*
 
+
 # Numerous always-ignore extensions
+phpinfo.php
 *.diff
 *.err
 *.orig

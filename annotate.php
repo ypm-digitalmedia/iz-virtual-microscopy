@@ -110,43 +110,41 @@ $randomfive = $_SESSION['randomfive'];
 
 
 	// Generate annotation file if it doesn't exist
-	$dir = 'Annotations/zoomify/';
-	$file = $dir . 'IZ_anno_z_' . $vars_arr['irn'] . '.xml';
-	
+	$dir = 'Annotations/zoomify';
+	$filename = 'IZ_anno_z_' . $vars_arr['irn'] . '.xml';
+	$file = $dir . '/' . $filename;
+
 	//Use the function is_file to check if the file already exists or not.
 	if(!is_file($file)){
 		//Some simple example content.
 		$contents = '<ANNOTATIONDATA><METADATA><CATALOGNUM>'.$vars_arr['catalogNum'].'</CATALOGNUM><IRN>'.$vars_arr['irn'].'</IRN></METADATA><SETUP/><POI ID="0" NAME="Entire Slide" EDITABLE="1" USER="Yale Peabody Museum" DATE="'.date("Ymd-His").'"/></ANNOTATIONDATA>';
-		
 		//Save our content to the file.
-
-		if (!is_dir($dir) or !is_writable($dir)) {
-			// Error if directory doesn't exist or isn't writable.
-			die('directory not writable');
-			echo "<script type='text/javascript'>";
-			echo "	var newAnnotation = false;";
-			echo "  console.warn('directory not writable.');";
-			echo "</script>";
-		} elseif (is_file($file) and !is_writable($file)) {
-			// Error if the file exists and isn't writable.
-			die('file not writable.');
-			echo "<script type='text/javascript'>";
-			echo "	var newAnnotation = false;";
-			echo "  console.warn('file not writable.');";
-			echo "</script>";
+		
+		if( !is_writable( $dir ) ) {
+			
+				echo "<script type='text/javascript'>";
+				echo "	console.warn('Directory not writable.');";
+				echo "</script>";
+		} else {
+			if( file_put_contents($file, $contents) !== false ) {
+				echo "<script type='text/javascript'>";
+				echo "	console.log('XML file created successfully');";
+				echo "</script>";
+			} else {
+				echo "<script type='text/javascript'>";
+				echo "	console.warn('Cannot create XML file.');";
+				echo "</script>";
+			}
 		}
-
-		$contents = '<ANNOTATIONDATA><METADATA><CATALOGNUM>'.$vars_arr['catalogNum'].'</CATALOGNUM><IRN>'.$vars_arr['irn'].'</IRN></METADATA><SETUP/><POI ID="0" NAME="Entire Slide" EDITABLE="1" USER="Yale Peabody Museum" DATE="'.date("Ymd-His").'"/></ANNOTATIONDATA>';
-
-
-		file_put_contents($file, $contents);
 		// write a Javascript flag variable to prompt the user when this file is brand new
 
 		echo "<script type='text/javascript'>";
 		echo "	var newAnnotation = true;";
-		echo "  console.warn('XML file written successfully.');";
 		echo "</script>";
 	} else {
+		echo "<script type='text/javascript'>";
+		echo "	var newAnnotation = false;";
+		echo "</script>";
 	}
 
 	// Determine known annotation files
