@@ -119,7 +119,7 @@ $randomfive = $_SESSION['randomfive'];
 		$contents = '<ANNOTATIONDATA><METADATA><CATALOGNUM>'.$vars_arr['catalogNum'].'</CATALOGNUM><IRN>'.$vars_arr['irn'].'</IRN></METADATA><SETUP/><POI ID="0" NAME="Entire Slide" EDITABLE="1" USER="Yale Peabody Museum" DATE="'.date("Ymd-His").'"/></ANNOTATIONDATA>';
 		
 		//Save our content to the file.
-		if( !is_writable('Annotations/zoomify/') ) {
+		if( !is_writable($file) ) {
 			echo "directory not writable.\n";
 		} else {
 			if (file_put_contents($file,$contents) !== false) {
