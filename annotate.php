@@ -117,7 +117,7 @@ $randomfive = $_SESSION['randomfive'];
 	//Use the function is_file to check if the file already exists or not.
 	if(!is_file($file)){
 		//Some simple example content.
-		$contents = '<ANNOTATIONDATA><METADATA><CATALOGNUM>'.$vars_arr['catalogNum'].'</CATALOGNUM><IRN>'.$vars_arr['irn'].'</IRN></METADATA><SETUP/><POI ID="0" NAME="Entire Slide" EDITABLE="1" USER="Yale Peabody Museum" DATE="'.date("Ymd-His").'"/></ANNOTATIONDATA>';
+		$contents = '<ANNOTATIONDATA><METADATA><CATALOGNUM>'.$vars_arr['catalogNum'].'</CATALOGNUM><IRN>'.$vars_arr['irn'].'</IRN></METADATA><SETUP/><POI ID="0" NAME="'.$vars_arr['catalogNum'].'|'.$vars_arr['irn'].'" EDITABLE="1" USER="Yale Peabody Museum" DATE="'.date("Ymd-His").'"/></ANNOTATIONDATA>';
 		//Save our content to the file.
 		
 		if( !is_writable( $dir ) ) {
