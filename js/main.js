@@ -55,7 +55,14 @@ $(document).ready(function () {
 		}
 		_.forEach(zoomifys, function (z) {
 			var tmpdataZ = JSON.parse(JSON.stringify(row));
-			tmpdataZ.irn = z;
+			// tmpdataZ.irn = z;
+			if( z.indexOf(":") > -1){
+				tmpdataZ.irn = z.split(":")[0];
+				tmpdataZ.mm_uuid = z.split(":")[1];
+			} else {
+				tmpdataZ.irn = z;
+				tmpdataZ.mm_uuid = z;
+			}
 			tmpdataZ.type = "zoomify";
 			if (z != "") {
 				parsed_sqldata.push(tmpdataZ);
@@ -68,7 +75,14 @@ $(document).ready(function () {
 		}
 		_.forEach(sliders, function (s) {
 			var tmpdataS = JSON.parse(JSON.stringify(row));
-			tmpdataS.irn = s;
+			// tmpdataS.irn = s;
+			if( s.indexOf(":") > -1){
+				tmpdataS.irn = s.split(":")[0];
+				tmpdataS.mm_uuid = s.split(":")[1];
+			} else {
+				tmpdataS.irn = s;
+				tmpdataS.mm_uuid = s;
+			}
 			tmpdataS.type = "slider";
 			if (s != "") {
 				parsed_sqldata.push(tmpdataS);
@@ -278,8 +292,8 @@ function sampleSlides() {
 				$("#numRemaining").html(" (" + parsed_sqldata.length + ")");
 
 				parsed_sampled_sqldata.push(targetItem);
-
-				loadData(targetItem.irn, targetItem.catalog_number, targetItem.type);
+				// loadData(targetItem.irn, targetItem.catalog_number, targetItem.type);
+				loadDataIIIF(targetItem);
 			}
 		}
 	} else {
@@ -397,6 +411,119 @@ function clone(oldObject) {
 	return newObject;
 }
 
+function loadDataIIIF(item) {
+	var c = item.catalog_number;
+	var i = item.irn;
+	var t = item.type;
+
+	if( item.type == "zoomify" ) { 
+		var irn_idx = 0;
+		if( item['media-zoomify-captions'].indexOf("|") > -1 && item.media_zoomify_irns.indexOf("|") > -1 ) {
+			var irns = item.media_zoomify_irns.split("|");
+			for( var z=0; z<irns.length; z++ ) {
+				if( irns[z].indexOf(":") > -1 ) {
+					var irnUuid = irns[z].split(":");
+					if( item.irn == irnUuid[0] ) { 
+						irn_idx = z;
+					}
+				}
+			}
+			var captions = item['media-zoomify-captions'].split("|");
+			var caption = captions[irn_idx];
+		} else {
+			var caption = item['media-zoomify-captions'];
+		}
+	} else if( item.type == "slider" ) {
+		var irn_idx = 0;
+		if( item['media-sliders-captions'].indexOf("|") > -1 && item.media_sliders_irns.indexOf("|") > -1 ) {
+			var irns = item.media_sliders_irns.split("|");
+			for( var s=0; s<irns.length; s++ ) {
+				if( irns[s].indexOf(":") > -1 ) {
+					var irnUuid = irns[s].split(":");
+					if( item.irn == irnUuid[0] ) { 
+						irn_idx = s;
+					}
+				}
+			}
+			var captions = item['media-sliders-captions'].split("|");
+			var caption = captions[irn_idx];
+		} else {
+			var caption = item['media-sliders-captions'];
+		}
+	}
+	var captionString = [];
+	var thumbnail = "https://images.collections.yale.edu/iiif/2/ypm:" + item.mm_uuid + "/square/,260/0/default.jpg";
+
+	captionString[0] = item.scientific_name;
+
+	if (captionString[0].length > 1) {
+
+		var captionOriginal = captionString[0];
+
+		if (captionString[0].indexOf("sp.") > -1) {
+			captionString[0] = captionString[0].replace("sp.", "<span class='noit'>sp.</span>");
+		}
+		if (captionString[0].indexOf("nf.") > -1) {
+			captionString[0] = captionString[0].replace("nf.", "<span class='noit'>nf.</span>");
+		}
+		if (captionString[0].indexOf("cf.") > -1) {
+			captionString[0] = captionString[0].replace("cf.", "<span class='noit'>cf.</span>");
+		}
+		if (captionString[0].indexOf("spp.") > -1) {
+			captionString[0] = captionString[0].replace("spp.", "<span class='noit'>spp.</span>");
+		}
+		if (captionString[0].indexOf("var.") > -1) {
+			captionString[0] = captionString[0].replace("var.", "<span class='noit'>var.</span>");
+		}
+
+
+		captionString[0] = "<span class='thumbnail-title-bold it'>" + captionString[0] + "</span>";
+		caption = captionString.join("<br />") + "<br />" + caption;
+	} else {
+		caption = "<span class='thumbnail-title-bold it'>" + captionString[0] + "</span>";
+		var captionOriginal = captionString[0];
+	}
+	// console.log(caption);
+
+	// CREATE THUMBNAILS
+	var thumb = $("#thumbnail-template").html();
+	thumb = thumb.replace("%%IMG%%", thumbnail);
+	thumb = thumb.replace("%%GUID%%", "thumb_" + i + "_" + c);
+	thumb = thumb.replace("%%HOVERIMGTYPE%%", "img/thumbhover_" + t + ".png");
+	thumb = thumb.replace("%%ID%%", c);
+	// thumb = thumb.replace("%%ID%%", "IRN: " + i);
+	thumb = thumb.replace("%%TITLE%%", caption); // if title is blank, use common name
+	thumb = thumb.replace("%%URL%%", t + ".php?irn=" + i + "&catalogNum=" + c);
+	thumb = thumb.replace("%%IRN%%",i);
+	thumb = thumb.replace("%%CATALOGNUMBER%%",c);
+
+	// does this IRN/type combination have an annotation file?
+	if( _.includes(knownAnnotations[t],i) ) {
+		thumb = thumb.replace("%%ANNO-CLASS%%"," thumbnail-annotated");
+		thumb = thumb.replace("%%ANNO-BADGE-SHOWHIDE%%","thumbnail-annotated-badge");
+		thumb = thumb.replace("%%SR-TITLE%%",c + ": " + captionOriginal + " - Annotations available");
+	} else {
+		thumb = thumb.replace("%%ANNO-CLASS%%","");
+		thumb = thumb.replace("%%ANNO-BADGE-SHOWHIDE%%","hidden");
+		thumb = thumb.replace("%%SR-TITLE%%",c + ": " + captionOriginal);
+	}
+
+	$("#results").append(thumb);
+
+	$(window).trigger("resize");
+
+	if ($(".thumbnail").length > 0) {
+
+		$(".thumbnail").on("mouseover", function () {
+			$(this).find("img.thumbnail-hoverimg").css("opacity", 1.0);
+		})
+
+		$(".thumbnail").on("mouseout", function () {
+			$(this).find("img.thumbnail-hoverimg").css("opacity", 0);
+		})
+	}
+
+}
 
 function loadData(i, c, t) {
 

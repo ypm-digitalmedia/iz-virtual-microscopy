@@ -498,8 +498,8 @@ $randomfive = $_SESSION['randomfive'];
 
 			<script type="text/content" id="thumbnail-template">
 				<div class="col-md-3 col-sm-6 col-xs-12">
-					<a class="related-records-link" href="%%URL%%" title="%%SR-TITLE%%" aria-label="%%SR-TITLE%%">
-						<div class="thumbnail %%ANNO-CLASS%%" data-irn="%%IRN%%" data-cn="%%CATALOGNUMBER%%" id="%%GUID%%" style="background-image:url('%%IMG%%')">
+					<a class="related-records-link" href="%%URL%%" title="%%HTMLTITLE%%" aria-label="%%SRTITLE%%">
+						<div class="thumbnail-sm %%ANNO-CLASS%%" data-irn="%%IRN%%" data-cn="%%CATALOGNUMBER%%" id="%%GUID%%" style="background-image:url('%%IMG%%')">
 							<div class="%%ANNO-BADGE-SHOWHIDE%%"><i class="fas fa-comments"></i></div>
 							<img class="thumbnail-hoverimg" src="%%HOVERIMGTYPE%%" />
 							<div class="thumbnail-label">

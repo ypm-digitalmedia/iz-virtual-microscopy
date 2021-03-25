@@ -23,6 +23,7 @@ phpinfo.php
 *.sass-cache
 node_modules/
 .tmp/
+.htaccess
 
 # OS or Editor folders
 .DS_Store
