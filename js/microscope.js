@@ -495,12 +495,39 @@ function loadDataIIIF(irn, catalogNum) {
 	// FILL IN PAGE ELEMENTS
 
 	// Main title
+
+	var prettySciName = sqldata[0].scientific_name;
+	if (prettySciName.length > 1) {
+
+		var sciNameOriginal = prettySciName;
+
+		if (prettySciName.indexOf("sp.") > -1) {
+			prettySciName = prettySciName.replace("sp.", "<span class='noit'>sp.</span>");
+		}
+		if (prettySciName.indexOf("nf.") > -1) {
+			prettySciName = prettySciName.replace("nf.", "<span class='noit'>nf.</span>");
+		}
+		if (prettySciName.indexOf("cf.") > -1) {
+			prettySciName = prettySciName.replace("cf.", "<span class='noit'>cf.</span>");
+		}
+		if (prettySciName.indexOf("spp.") > -1) {
+			prettySciName = prettySciName.replace("spp.", "<span class='noit'>spp.</span>");
+		}
+		if (prettySciName.indexOf("var.") > -1) {
+			prettySciName = prettySciName.replace("var.", "<span class='noit'>var.</span>");
+		}
+		prettySciName = "<span class='thumbnail-title-bold it'>" + prettySciName + "</span>";
+	} else {
+		prettySciName = "<span class='thumbnail-title-bold it'>" + prettySciName + "</span>";
+		var captionOriginal = prettySciName;
+	}
+
 	var sIdx = sqldata[0]["media-sliders-index"];
 	var captions = sqldata[0]["media-sliders-captions"].split("|");
 	var theCaption = captions[sIdx];
 
 	// $("#specimen_title").html("<strong>" + catalogNum + ": " + captionsList[0] + "</strong>");
-	$("#specimen_title").html("<strong>" + catalogNum + ": " + theCaption + "</strong>");
+	$("#specimen_title").html("<strong>" + catalogNum + ": " + prettySciName + "<br />" + theCaption + "</strong>");
 	$("#catalogNumModalHeader").html(catalogNum);
 	$("#captionModalSubHeader").html(sciNamesList[0]);
 
