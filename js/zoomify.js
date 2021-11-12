@@ -19,6 +19,8 @@ var labelVisibility = true;
 
 var lastTimeMouseMoved = "";
 
+var irnIndexZ, irnIndexS;
+
 $(window).load(function () {
 
 	record_irn = qs("irn");
@@ -38,6 +40,8 @@ $(window).load(function () {
 
 	// load SQL data / URL variables into text area at bottom
 
+	irnIndexZ = sqldata[0]["media-zoomify-index"];
+	irnIndexS = -1;
 
 	var place = sqldata[0].nearest_named_place;
 	var country = sqldata[0].country;
@@ -225,60 +229,7 @@ function esc(str) {
 }
 
 
-function loadRelatedThumbnails() {
-	var sliderIrns = sqldata[0].media_sliders_irns.split("|");
-	var zoomifyIrns = sqldata[0].media_zoomify_irns.split("|");
-	var catalogNum = sqldata[0].catalog_number;
 
-	// console.warn(sliderIrns);
-	// console.warn(zoomifyIrns);
-
-	_.forEach(zoomifyIrns, function (zi) {
-		if (zi != "") {
-			if( zi.indexOf(":") > -1){
-				var i = zi.split(":")[0];
-				var u = zi.split(":")[1];
-			} else {
-				var i = zi;
-				var u = zi;
-			}
-			if( _.includes(knownAnnotations["zoomify"],i) ) {
-				var showAnno = true;
-			} else { var showAnno = false; }
-			// loadDataModal(z, catalogNum, "zoomify", showAnno);
-			// loadDataModal(i, catalogNum, "zoomify", showAnno);
-			// loadDataModalIIIF(i, u, catalogNum, "zoomify", showAnno);
-			numRelated++;
-			// console.log(zi);
-		}
-	});
-
-	_.forEach(sliderIrns, function (si) {
-		if (si != "") {
-			if( si.indexOf(":") > -1){
-				var i = si.split(":")[0];
-				var u = si.split(":")[1];
-			} else {
-				var i = si;
-				var u = si;
-			}
-			if( _.includes(knownAnnotations["slider"],i) ) {
-				var showAnno = true;
-			} else { var showAnno = false; }
-			// loadDataModal(s, catalogNum, "slider", showAnno);
-			// loadDataModal(i, catalogNum, "slider", showAnno);
-			// loadDataModalIIIF(i, u, catalogNum, "slider", showAnno);
-			numRelated++;
-			// console.log(si);
-		}
-	});
-
-
-	$("#numRelatedCounter").html(numRelated);
-	$("#numRelatedCounterMain").html(numRelated);
-	// $("#catalogNumModalHeader").html(catalogNum);
-	// $('#relatedGallery').shuffle();
-}
 
 
 
@@ -290,13 +241,17 @@ function toggleVisibility (individual) {
 
 
 
-
+// MAIN FUNCTION
 function loadDataIIIF(irn, catalogNum) {
-
+	
 	_.forEach(sqldata, function (row) {
 		var zoomifys = row.media_zoomify_irns.split("|");
 		if (zoomifys.length == 1 && zoomifys[0] == "") {
 			zoomifys = [];
+		}
+		var sliders = row.media_sliders_irns.split("|");
+		if (sliders.length == 1 && sliders[0] == "") {
+			sliders = [];
 		}
 		_.forEach(zoomifys, function (z) {
 			var tmpdataZ = JSON.parse(JSON.stringify(row));
@@ -310,7 +265,25 @@ function loadDataIIIF(irn, catalogNum) {
 			}
 			tmpdataZ.type = "zoomify";
 			if (z != "") {
-				parsed_sqldata.push(tmpdataZ);
+				if( record_irn != tmpdataZ.irn) {
+					parsed_sqldata.push(tmpdataZ);
+				}
+			}
+		});
+
+		_.forEach(sliders, function (s) {
+			var tmpdataS = JSON.parse(JSON.stringify(row));
+			// tmpdataS.irn = s;
+			if( s.indexOf(":") > -1){
+				tmpdataS.irn = s.split(":")[0];
+				tmpdataS.mm_uuid = s.split(":")[1];
+			} else {
+				tmpdataS.irn = s;
+				tmpdataS.mm_uuid = s;
+			}
+			tmpdataS.type = "slider";
+			if (s != "") {
+				parsed_sqldata.push(tmpdataS);
 			}
 		});
 	});
@@ -333,8 +306,7 @@ function loadDataIIIF(irn, catalogNum) {
 		if( _.includes(knownAnnotations["slider"],i) ) {
 			showAnno = true;
 		}
-
-
+		
 		if( item.type == "zoomify" ) { 
 			var irn_idx = 0;
 			if( item['media-zoomify-captions'].indexOf("|") > -1 && item.media_zoomify_irns.indexOf("|") > -1 ) {
@@ -349,6 +321,8 @@ function loadDataIIIF(irn, catalogNum) {
 				}
 				var captions = item['media-zoomify-captions'].split("|");
 				var caption = captions[irn_idx];
+				// var captions = item['media-zoomify-captions'].split("|");
+				// var caption = captions[irnIndexZ];
 			} else {
 				var caption = item['media-zoomify-captions'];
 			}
@@ -367,6 +341,8 @@ function loadDataIIIF(irn, catalogNum) {
 				}
 				var captions = item['media-sliders-captions'].split("|");
 				var caption = captions[irn_idx];
+				// var captions = item['media-sliders-captions'].split("|");
+				// var caption = captions[irnIndexS];
 				
 			} else {
 				var caption = item['media-sliders-captions'];
@@ -377,7 +353,7 @@ function loadDataIIIF(irn, catalogNum) {
 		var thumbnail = "https://images.collections.yale.edu/iiif/2/ypm:" + item.mm_uuid + "/square/,120/0/default.jpg";
 	
 		captionString[0] = item.scientific_name;
-	
+		
 		if (captionString[0].length > 1) {
 	
 			var captionOriginal = captionString[0];
@@ -407,10 +383,6 @@ function loadDataIIIF(irn, catalogNum) {
 		}
 		sciNamesList.push(captionString[0]);
 		captionsList.push(caption);
-		// console.log(caption);
-
-
-
 
 
 
@@ -429,7 +401,7 @@ function loadDataIIIF(irn, catalogNum) {
 		thumb = thumb.replace("%%HOVERIMGTYPE%%", "img/thumbhover_" + t + ".png");
 		thumb = thumb.replace("%%ID%%", i);
 		// thumb = thumb.replace("%%ID%%", "IRN: " + i);
-		thumb = thumb.replace("%%TITLE%%", subCaptionsList[0]); // if title is blank, use common name
+		thumb = thumb.replace("%%TITLE%%", caption); // if title is blank, use common name
 		thumb = thumb.replace("%%HTMLTITLE%%", sqldata[0].scientific_name); 
 		thumb = thumb.replace("%%SRTITLE%%", sqldata[0].scientific_name); 
 		thumb = thumb.replace("%%URL%%", t + ".php?irn=" + i + "&catalogNum=" + c);
@@ -461,14 +433,25 @@ function loadDataIIIF(irn, catalogNum) {
 		}
 
 	});
-	// console.log(captionsList)
+
+
+
+
+
+
 	// FILL IN PAGE ELEMENTS
 
-	$("#specimen_title").html("<strong>" + catalogNum + ": " + captionsList[0] + "</strong>");
+	// Main title
+	var zIdx = sqldata[0]["media-zoomify-index"];
+	var captions = sqldata[0]["media-zoomify-captions"].split("|");
+	var theCaption = captions[zIdx];
+
+	// $("#specimen_title").html("<strong>" + catalogNum + ": " + captionsList[0] + "</strong>");
+	$("#specimen_title").html("<strong>" + catalogNum + ": " + theCaption + "</strong>");
 	$("#catalogNumModalHeader").html(catalogNum);
 	$("#captionModalSubHeader").html(sciNamesList[0]);
 
-	theCaption = captionsList[0];
+	// theCaption = captionsList[0];
 
 	$("#modal_taxa_phylum").html(sqldata[0].phylum);
 	$("#modal_taxa_subphylum").html(sqldata[0].subphylum);
@@ -620,205 +603,7 @@ function catalogNumUrl(c) {
 
 
 
-function loadDataModal(i, c, t, a) {
 
-	var url = "//deliver.odai.yale.edu/info/repository/YPM/object/" + c + "/type/4";
-
-	var jqxhr = $.getJSON(url, function (data) {
-			console.log("GET successful: " + url);
-		})
-		.done(function (data) {
-			console.log("Request complete.  Writing javascript variable. IRN: " + i + ", catalog number: " + c);
-
-			var repo = _.findLast(data, function (a) {
-				// console.log(data);
-				return a.metadata.repositoryID == i;
-			});
-
-			// fill in taxa table
-
-			var captionString = repo.metadata.caption;
-			var caption = "";
-
-			captionString = captionString.split(":");
-			if (captionString.length > 1) {
-				captionString = captionString[1];
-				if (captionString[0] == " ") {
-					captionString = captionString.substr(1);
-				}
-			} else {
-				captionString = captionString[0];
-			}
-			// console.log(captionString);
-
-			captionString = captionString.split(";");
-			_.forEach(captionString, function (cs) {
-				if (cs.toString()[0] == " ") {
-					cs = cs.substr(1);
-				}
-			})
-			if (captionString.length > 1) {
-
-				if (captionString[0].indexOf("sp.") > -1) {
-					captionString[0] = captionString[0].replace("sp.", "<span class='noit'>sp.</span>");
-				}
-				if (captionString[0].indexOf("nf.") > -1) {
-					captionString[0] = captionString[0].replace("nf.", "<span class='noit'>nf.</span>");
-				}
-				if (captionString[0].indexOf("cf.") > -1) {
-					captionString[0] = captionString[0].replace("cf.", "<span class='noit'>cf.</span>");
-				}
-				if (captionString[0].indexOf("spp.") > -1) {
-					captionString[0] = captionString[0].replace("spp.", "<span class='noit'>spp.</span>");
-				}
-				if (captionString[0].indexOf("var.") > -1) {
-					captionString[0] = captionString[0].replace("var.", "<span class='noit'>var.</span>");
-				}
-
-
-				captionString[0] = "<span class='thumbnail-title it'>" + captionString[0] + "</span>";
-				captionString[1] = "";
-				caption = captionString.join("");
-
-			} else {
-				caption = "<span class='thumbnail-title it'>" + captionString[0] + "</span>";
-			}
-
-			$("#modal_taxa_phylum").html(sqldata[0].phylum);
-			$("#modal_taxa_subphylum").html(sqldata[0].subphylum);
-			$("#modal_taxa_superclass").html(sqldata[0].superclass);
-			$("#modal_taxa_class").html(sqldata[0].class);
-			$("#modal_taxa_subclass").html(sqldata[0].subclass);
-			$("#modal_taxa_superorder").html(sqldata[0].superorder);
-			$("#modal_taxa_order").html(sqldata[0].order);
-			$("#modal_taxa_infraorder").html(sqldata[0].infraorder);
-			$("#modal_taxa_family").html(sqldata[0].family);
-			$("#modal_taxa_genus").html(sqldata[0].genus);
-			$("#modal_taxa_species").html(sqldata[0].species);
-			$("#modal_taxa_scientificName").html(caption);
-
-			// fill in locality table
-
-			$("#modal_locality_country").html(sqldata[0].country);
-			$("#modal_locality_stateProvince").html(sqldata[0].state_province);
-			$("#modal_locality_countyDistrict").html(sqldata[0].county_district);
-			$("#modal_locality_preciseLocality").html(sqldata[0].precise_locality);
-			$("#modal_locality_nearestNamedPlace").html(sqldata[0].nearest_named_place);
-			$("#modal_locality_ocean").html(sqldata[0].ocean);
-			$("#modal_locality_seaGulf").html(sqldata[0].sea_gulf);
-			$("#modal_locality_baySound").html(sqldata[0].bay_sound);
-			$("#modal_locality_AuthorString").html(sqldata[0].author_string);
-			$("#modal_locality_occurrenceID").html(sqldata[0].occurenceID);
-			$("#modal_locality_mapString").html(mapString);
-
-			// load Collections Portal URL
-
-			$("#collectionsPortalLink").attr("href", catalogNumUrl(c));
-			$("#collectionsPortalLink").attr("title", "Collections Portal - " + c + " - " + $("#modal_taxa_scientificName").text());
-
-			// build common names
-
-			var cns = sqldata[0].common_names;
-
-			if (cns && typeof (cns) != "undefined" && cns != "") {
-				cns = cns.split("|");
-				cns = _.without(cns, "Animals");
-				cns = _.without(cns, "animals");
-				var cnsObj = [];
-
-				_.forEach(cns, function (cn) {
-					var cnObj = '<a href="results.php?q=' + esc(cn) + '" title="Search for &quot;' + cn + '&quot;" class="btn btn-sm btn-primary common-name-link"><span class="glyphicon glyphicon-search"></span>&nbsp;' + cn + '</a>';
-					cnsObj.push(cnObj);
-				})
-
-				cnsObj = _.uniq(cnsObj);
-				$("#commonNames").html(cnsObj.join(""));
-
-			}
-
-			// var stuff = { irn: i, catalogNum: c, caption: repo.metadata.caption, thumbnail: repo.derivatives["2"].source };
-			// console.log("return: ")
-			// console.log(stuff);
-			// cdsData.push({ irn: i, catalogNum: c, caption: repo.metadata.caption, thumbnail: repo.derivatives["2"].source });
-
-			var captionString = repo.metadata.caption;
-			var caption = "";
-			var thumbnail = repo.derivatives["2"].source;
-
-			captionString = captionString.split(":");
-			if (captionString.length > 1) {
-				captionString = captionString[1];
-				if (captionString[0] == " ") {
-					captionString = captionString.substr(1);
-				}
-			} else {
-				captionString = captionString[0];
-			}
-			// console.log(captionString);
-
-			captionString = captionString.split(";");
-			_.forEach(captionString, function (cs) {
-				if (cs.toString()[0] == " ") {
-					cs = cs.substr(1);
-				}
-			});
-			if (captionString.length > 1) {
-				var captionOriginal = captionString[0];
-				caption = "<span class='thumbnail-title-bold it'>" + captionString[1] + "</span>";
-			} else {
-				caption = "<span class='thumbnail-title-bold it'>" + captionString[0] + "</span>";
-				var captionOriginal = captionString[0];
-			}
-
-			// CREATE THUMBNAILS
-			var thumb = $("#thumbnail-template").html();
-			thumb = thumb.replace("%%IMG%%", thumbnail);
-			thumb = thumb.replace("%%GUID%%", "thumb_" + i + "_" + c);
-			thumb = thumb.replace("%%HOVERIMGTYPE%%", "img/thumbhover_" + t + ".png");
-			thumb = thumb.replace("%%ID%%", i);
-			// thumb = thumb.replace("%%ID%%", "IRN: " + i);
-			thumb = thumb.replace("%%TITLE%%", caption); // if title is blank, use common name
-			thumb = thumb.replace("%%URL%%", t + ".php?irn=" + i + "&catalogNum=" + c);
-
-			// does this IRN/type combination have an annotation file?
-			if( a === true ) {
-				thumb = thumb.replace("%%ANNO-CLASS%%"," related-thumbnail-annotated");
-				thumb = thumb.replace("%%ANNO-BADGE-SHOWHIDE%%","related-thumbnail-annotated-badge");
-				thumb = thumb.replace("%%SR-TITLE%%",c + ": " + captionOriginal + " - Annotations available");
-			} else {
-				thumb = thumb.replace("%%ANNO-CLASS%%","");
-				thumb = thumb.replace("%%ANNO-BADGE-SHOWHIDE%%","hidden");
-				thumb = thumb.replace("%%SR-TITLE%%",c + ": " + captionOriginal);
-			}
-
-			$("#relatedGallery").append(thumb);
-
-			$(window).trigger("resize");
-
-			if ($(".thumbnail").length > 0) {
-
-				$(".thumbnail").on("mouseover", function () {
-					$(this).find("img.thumbnail-hoverimg").css("opacity", 1.0);
-				})
-
-				$(".thumbnail").on("mouseout", function () {
-					$(this).find("img.thumbnail-hoverimg").css("opacity", 0);
-				})
-			}
-
-		})
-		.fail(function () {
-			console.log("Error requesting " + url);
-			// return { caption: null, thumbnail: null };
-		})
-		.always(function () {
-			console.log("jqxhr request complete.");
-			// return { caption: null, thumbnail: null };
-		});
-
-	// Perform other work here ...
-
-}
 
 (function ($) {
 
