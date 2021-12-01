@@ -217,6 +217,18 @@ $randomfive = $_SESSION['randomfive'];
 				var dir = loc.substring(0, loc.lastIndexOf('/'));
 
 				var imagefolderlocation = docRoot + "/other/izscope/microscopy/slider/" + slide;
+
+		<?php 
+				// S@Y Performance testing
+				if( file_exists("./other/vmtest/microscopy/slider/" . $theIrn) ) {
+					// use server-side (non-S@Y version) instead
+					echo("\n");
+					echo("console.log(\"Local files found. Bypassing S@Y.\");");
+					echo("imagefolderlocation = docRoot + '/other/vmtest/microscopy/slider/' + slide;");
+					echo("\n");
+				}
+		?>
+
 				// var imagefolderlocation = "https://virtualmicroscopy.peabody.yale.edu/other/izscope/microscopy/slider/" + slide;
 				//				var imagefolderlocation = dir + "/other/izscope/microscopy/slider/" + slide;
 

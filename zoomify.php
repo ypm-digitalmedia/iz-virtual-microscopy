@@ -221,6 +221,19 @@ $randomfive = $_SESSION['randomfive'];
 
 				// var imagefolderlocation = "https://virtualmicroscopy.peabody.yale.edu/other/izscope/microscopy/zoomify/" + slide;
 				var imagefolderlocation = docRoot + "/other/izscope/microscopy/zoomify/" + slide;
+
+
+				<?php 
+				// S@Y Performance testing
+				if( file_exists("./other/vmtest/microscopy/zoomify/" . $theIrn) ) {
+					// use server-side (non-S@Y version) instead
+					echo("\n");
+					echo("console.log(\"Local files found. Bypassing S@Y.\");");
+					echo("imagefolderlocation = docRoot + '/other/vmtest/microscopy/zoomify/' + slide;");
+					echo("\n");
+				}
+		?>
+
 				//				var imagefolderlocation = dir + "/other/izscope/microscopy/zoomify/" + slide;
 
 
