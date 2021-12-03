@@ -220,11 +220,13 @@ $randomfive = $_SESSION['randomfive'];
 
 		<?php 
 				// S@Y Performance testing
-				if( file_exists("./other/vmtest/microscopy/slider/" . $theIrn) ) {
+				// if( file_exists("./other/vmtest/microscopy/slider/" . $theIrn) ) {
+				// Look for local files - PROD
+				if( file_exists("./other/vmprod/microscopy/slider/" . $theIrn) ) {
 					// use server-side (non-S@Y version) instead
 					echo("\n");
 					echo("console.log(\"Local files found. Bypassing S@Y.\");");
-					echo("imagefolderlocation = docRoot + '/other/vmtest/microscopy/slider/' + slide;");
+					echo("imagefolderlocation = docRoot + '/other/vmprod/microscopy/slider/' + slide;");
 					echo("\n");
 				}
 		?>

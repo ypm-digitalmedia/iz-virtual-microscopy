@@ -225,11 +225,14 @@ $randomfive = $_SESSION['randomfive'];
 
 				<?php 
 				// S@Y Performance testing
-				if( file_exists("./other/vmtest/microscopy/zoomify/" . $theIrn) ) {
+				// if( file_exists("./other/vmtest/microscopy/zoomify/" . $theIrn) ) {
+				// Look for local files - PROD
+				if( file_exists("./other/vmprod/microscopy/zoomify/" . $theIrn) ) {
+
 					// use server-side (non-S@Y version) instead
 					echo("\n");
 					echo("console.log(\"Local files found. Bypassing S@Y.\");");
-					echo("imagefolderlocation = docRoot + '/other/vmtest/microscopy/zoomify/' + slide;");
+					echo("imagefolderlocation = docRoot + '/other/vmprod/microscopy/zoomify/' + slide;");
 					echo("\n");
 				}
 		?>
